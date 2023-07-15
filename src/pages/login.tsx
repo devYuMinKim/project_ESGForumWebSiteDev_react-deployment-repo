@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import FormInput from "../components/layout/login/FormInput";
 import logo from "../assets/odego_logo.png";
@@ -14,22 +15,15 @@ const Login: React.FC = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:8000/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userId: email,
-          password: password,
-        }),
+      const response = await axios.post("http://localhost:8000/api/login", {
+        userId: email,
+        password: password,
       });
 
       if (response.status === 200) {
         navigate("/");
       } else {
-        const data = await response.json();
-        setError(data.error);
+        setError("An error occurred. Please try again.");
       }
     } catch (error) {
       setError("An error occurred. Please try again.");

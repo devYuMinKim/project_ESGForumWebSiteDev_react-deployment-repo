@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import FormInput from "../components/layout/login/FormInput";
 import logo from "../assets/odego_logo.png";
@@ -22,24 +23,17 @@ const Signup: React.FC = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:8000/api/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userId: email,
-          password: password,
-          name: name,
-          affiliation: affiliation,
-        }),
+      const response = await axios.post("http://localhost:8000/api/register", {
+        userId: email,
+        password: password,
+        name: name,
+        affiliation: affiliation,
       });
 
       if (response.status === 201) {
         navigate("/login");
       } else {
-        const data = await response.json();
-        setError(data.error);
+        setError(response.data.error);
       }
     } catch (error) {
       setError("An error occurred. Please try again.");
