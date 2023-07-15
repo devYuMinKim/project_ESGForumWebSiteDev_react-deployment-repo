@@ -1,12 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import FormInput from "../components/layout/login/FormInput";
 import logo from "../assets/odego_logo.png";
-import { Link } from "react-router-dom";
 
 const Login: React.FC = () => {
-  const handleSubmit = (e: React.FormEvent) => {
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // 로그인 로직 구현
+
+    try {
+      const response = await fetch("http://localhost:8000/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: email,
+          password: password,
+        }),
+      });
+
+      if (response.status === 200) {
+        navigate("/");
+      } else {
+        const data = await response.json();
+        setError(data.error);
+      }
+    } catch (error) {
+      setError("An error occurred. Please try again.");
+    }
   };
 
   return (
@@ -27,6 +54,8 @@ const Login: React.FC = () => {
                 type="email"
                 autoComplete="email"
                 placeholder="@email.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
 
               <FormInput
@@ -35,6 +64,8 @@ const Login: React.FC = () => {
                 type="password"
                 autoComplete="current-password"
                 placeholder="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
 
               <div>
@@ -56,6 +87,9 @@ const Login: React.FC = () => {
                 회원가입하기
               </Link>
             </p>
+            {error && (
+              <p className="mt-2 text-center text-sm text-red-500">{error}</p>
+            )}
           </div>
         </div>
       </div>
