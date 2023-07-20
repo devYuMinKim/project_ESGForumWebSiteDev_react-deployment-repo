@@ -1,8 +1,9 @@
-import React from "react";
-import logo from "../assets/odego_logo.png";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
+import logo from "../assets/odego_logo.png";
 
-const Home: React.FC = () => {
+const MainPage: React.FC = () => {
   return (
     <>
       <div className="flex min-h-screen items-center justify-center">
@@ -14,14 +15,7 @@ const Home: React.FC = () => {
             </h2>
           </div>
           <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-            <div>
-              <Link
-                to="/login"
-                className="flex w-96 justify-center rounded-md bg-lime-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-lime-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lime-600"
-              >
-                Sign in
-              </Link>
-            </div>
+            메인페이지
           </div>
         </div>
       </div>
@@ -29,4 +23,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default MainPage;
