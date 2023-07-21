@@ -29,7 +29,10 @@ const Header: React.FC = () => {
           <NavLink to="/" className="mr-10 font-medium hover:text-gray-900">
             자료실
           </NavLink>
-          <NavLink to="/" className="mr-10 font-medium hover:text-gray-900">
+          <NavLink
+            to="/committee"
+            className="mr-10 font-medium hover:text-gray-900"
+          >
             회원안내
           </NavLink>
           <NavLink to="/" className="mr-10 font-medium hover:text-gray-900">
