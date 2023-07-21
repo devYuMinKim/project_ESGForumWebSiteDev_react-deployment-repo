@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 import FormInput from "../components/layout/login/FormInput";
 import logo from "../assets/odego_logo.png";
 
 const Login: React.FC = () => {
+  const apiUrl = "http://127.0.0.1:8000/api";
+
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -15,18 +17,26 @@ const Login: React.FC = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:8000/api/login", {
-        userId: email,
+      const response = await axios.post(`${apiUrl}/auth/login`, {
+        email: email,
         password: password,
       });
 
       if (response.status === 200) {
-        navigate("/");
+        localStorage.setItem("token", response.data.token);
+
+        setTimeout(() => {
+          const event = new CustomEvent("auth-changed");
+          window.dispatchEvent(event);
+          navigate("/");
+        }, 100);
       } else {
-        setError("An error occurred. Please try again.");
+        setError(
+          "로그인에 실패했습니다. 이메일과 비밀번호를 다시 확인해주세요."
+        );
       }
     } catch (error) {
-      setError("An error occurred. Please try again.");
+      setError("로그인 중 오류가 발생했습니다. 나중에 다시 시도해주세요.");
     }
   };
 
@@ -67,7 +77,7 @@ const Login: React.FC = () => {
                   type="submit"
                   className="flex w-96 justify-center rounded-md bg-lime-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-lime-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lime-600"
                 >
-                  Sign in
+                  로그인
                 </button>
               </div>
             </form>

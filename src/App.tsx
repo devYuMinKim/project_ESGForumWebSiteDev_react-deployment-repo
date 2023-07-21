@@ -1,11 +1,11 @@
-import React from "react";
 import Router from "./Router";
+import Layout from "./components/layout";
 
-function App() {
+function App(): JSX.Element {
   return (
-    <div className="App">
+    <Layout>
       <Router />
-    </div>
+    </Layout>
   );
 }
 

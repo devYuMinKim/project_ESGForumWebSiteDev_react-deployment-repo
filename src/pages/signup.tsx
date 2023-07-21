@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import FormInput from "../components/layout/login/FormInput";
 import logo from "../assets/odego_logo.png";
 
 const Signup: React.FC = () => {
+  const apiUrl = "http://127.0.0.1:8000/api";
+
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -23,8 +25,8 @@ const Signup: React.FC = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:8000/api/register", {
-        userId: email,
+      const response = await axios.post(`${apiUrl}/auth/register`, {
+        email: email,
         password: password,
         name: name,
         affiliation: affiliation,
