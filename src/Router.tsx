@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import MainPage from "./pages";
 import Login from "./pages/login";
-import Signup from "./pages/signup";
+import Register from "./pages/register";
 import Committee from "./pages/committee";
 import Business from "./pages/business";
 
@@ -11,7 +11,7 @@ const Router: React.FC = () => {
     <Routes>
       <Route path="/" element={<MainPage />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<Signup />} />
+      <Route path="/register" element={<Register />} />
       <Route path="/committee" element={<Committee />} />
       <Route path="/business" element={<Business />} />
     </Routes>
