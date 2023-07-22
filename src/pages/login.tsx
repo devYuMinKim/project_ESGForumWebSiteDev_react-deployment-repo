@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import FormInput from "../components/layout/login";
-import logo from "../assets/odego_logo.png";
+// import logo from "../assets/odego_logo.png";
 
 const Login: React.FC = () => {
   const apiUrl = "http://127.0.0.1:8000/api";
@@ -45,7 +45,8 @@ const Login: React.FC = () => {
       <div className="flex min-h-screen items-center justify-center">
         <div className="flex min-h-full items-center flex-1 flex-col justify-center px-6 py-12 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-            <img className="mx-auto h-10 w-auto" src={logo} alt="로고" />
+            {/* FIXME: 로고 추가 후 제거 요함 <img className="mx-auto h-10 w-auto" src={logo} alt="로고" /> */}
+            {/* TODO: 로고 추가 예정 */}
             <h2 className="mt-10 text-center text-1xl font-bold leading-9 tracking-tight text-gray-900">
               ESG 실천을 위해, 이제 대학이 나서겠습니다
             </h2>
