@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import useCheckLogin from "../../../hooks/useCheckLogin";
-import logo from "../../../assets/odego_logo.png";
+// import logo from "../../../assets/odego_logo.png";
 
 const Header: React.FC = () => {
   const { loggedIn, handleLogout } = useCheckLogin();
@@ -13,7 +13,8 @@ const Header: React.FC = () => {
           to="/"
           className="flex items-center mb-4 font-medium text-gray-900 title-font md:mb-0"
         >
-          <img className="mx-auto h-10 w-auto" src={logo} alt="로고" />
+          {/* FIXME: 로고 추가 후 제거 요함 <img className="mx-auto h-10 w-auto" src={logo} alt="로고" /> */}
+          {/* TODO: 로고 추가 예정 */}
         </NavLink>
 
         <nav className="flex flex-wrap items-center justify-center pl-24 text-base md:ml-auto md:mr-auto">
