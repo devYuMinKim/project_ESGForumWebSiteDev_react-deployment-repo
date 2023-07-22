@@ -1,10 +1,37 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
-import useCheckLogin from "../../../hooks/useCheckLogin";
-// import logo from "../../../assets/odego_logo.png";
+import React, { useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import useValidateToken from "../../../hooks/useValidateToken";
+import useRefreshAccessToken from "../../../hooks/useRefreshToken";
 
 const Header: React.FC = () => {
-  const { loggedIn, handleLogout } = useCheckLogin();
+  const { loggedIn } = useValidateToken();
+  const { loading } = useRefreshAccessToken();
+  const navigate = useNavigate();
+  const [authChanged, setAuthChanged] = useState(false);
+
+  useEffect(() => {
+    const handleAuthChanged = () => {
+      setAuthChanged(!authChanged);
+    };
+
+    window.addEventListener("auth-changed", handleAuthChanged);
+
+    return () => {
+      window.removeEventListener("auth-changed", handleAuthChanged);
+    };
+  }, [authChanged]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("refreshToken");
+    const event = new CustomEvent("auth-changed");
+    window.dispatchEvent(event);
+    navigate("/");
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <header className="w-full mt-5 text-gray-700 bg-white border-t border-gray-100 shadow-sm body-font">
