@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import FormInput from "../components/layout/login/FormInput";
+import FormInput from "../components/layout/login";
 import logo from "../assets/odego_logo.png";
 
 const Signup: React.FC = () => {
