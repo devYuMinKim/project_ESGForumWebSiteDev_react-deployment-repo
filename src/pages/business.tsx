@@ -20,7 +20,6 @@ const Business: React.FC = () => {
     fetchData();
   }, []);
 
-  // TODO: 컨셉에 맞게 아이콘 변경
   const icons = [
     // 1. ESG 연구
     <svg
@@ -115,12 +114,12 @@ const Business: React.FC = () => {
   ];
 
   const bgColors = [
-    "bg-red-500",
-    "bg-orange-500",
-    "bg-yellow-500",
-    "bg-lime-500",
-    "bg-blue-500",
-    "bg-indigo-500",
+    "bg-red-500", // 1. ESG 연구
+    "bg-orange-500", // 2. ESG 교육
+    "bg-yellow-500", // 3. ESG 실천
+    "bg-lime-500", // 4. ESG 대학경영 사례
+    "bg-blue-500", // 5. ESG 활동 지원
+    "bg-indigo-500", // 6. ESG 대외협력
   ];
 
   return (
