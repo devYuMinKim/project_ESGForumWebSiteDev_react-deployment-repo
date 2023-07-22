@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import FormInput from "../components/layout/login";
-// import logo from "../assets/odego_logo.png";
 
 const Login: React.FC = () => {
   const apiUrl = "http://127.0.0.1:8000/api";
@@ -24,12 +23,20 @@ const Login: React.FC = () => {
 
       if (response.status === 200) {
         localStorage.setItem("token", response.data.token);
+        localStorage.setItem("refreshToken", response.data.refreshToken);
 
-        setTimeout(() => {
-          const event = new CustomEvent("auth-changed");
-          window.dispatchEvent(event);
-          navigate("/");
-        }, 100);
+        const eventPromise = new Promise<void>((resolve) => {
+          const listener = () => {
+            window.removeEventListener("auth-changed", listener);
+            resolve();
+          };
+          window.addEventListener("auth-changed", listener);
+        });
+
+        window.dispatchEvent(new CustomEvent("auth-changed"));
+        await eventPromise;
+
+        navigate("/");
       } else {
         setError(
           "로그인에 실패했습니다. 이메일과 비밀번호를 다시 확인해주세요."
@@ -86,7 +93,7 @@ const Login: React.FC = () => {
             <p className="mt-10 text-center text-sm text-gray-500">
               회원이 아니신가요?{" "}
               <Link
-                to="/signup"
+                to="/register"
                 className="font-semibold leading-6 text-lime-600 hover:text-lime-500"
               >
                 회원가입하기
