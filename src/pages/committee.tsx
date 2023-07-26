@@ -35,7 +35,7 @@ const Committee: React.FC = () => {
   }, []);
 
   return (
-    <section className="antialiased bg-gray-100 text-gray-600 h-screen px-4">
+    <section className="antialiased mt-10	text-gray-600 h-screen px-4">
       <div className="flex flex-col justify-center">
         {committees.map((committee) => (
           <div
