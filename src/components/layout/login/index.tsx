@@ -7,6 +7,7 @@ interface FormInputProps {
   autoComplete: string;
   placeholder: string;
   value: string;
+  width?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -17,6 +18,7 @@ const FormInput: React.FC<FormInputProps> = ({
   autoComplete,
   placeholder,
   value,
+  width,
   onChange,
 }) => {
   return (
@@ -34,7 +36,7 @@ const FormInput: React.FC<FormInputProps> = ({
           type={type}
           autoComplete={autoComplete}
           required
-          className="block w-96 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+          className={`block ${width ? width : "w-96"} rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6`}
           placeholder={placeholder}
           value={value}
           onChange={onChange}
