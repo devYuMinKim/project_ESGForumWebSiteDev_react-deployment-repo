@@ -14,7 +14,7 @@ const TextTruncate = (text: string) => {
     return text;
   }
 
-  const truncatedText = text.substring(0, MAX_LENGTH) + '...';
+  const truncatedText = text.substring(0, MAX_LENGTH) + "...";
 
   return truncatedText;
 };
@@ -26,7 +26,6 @@ const TBodyCommittee: React.FC<TBodyCommitteeProps> = ({
 
   const handleRowClick = (id: number) => {
     navigate(`committee/${id}`);
-    // navigate(`/`);
   };
 
   return (
