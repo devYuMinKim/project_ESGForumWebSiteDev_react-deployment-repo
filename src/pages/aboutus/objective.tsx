@@ -1,12 +1,7 @@
 import PageTitle from '../../components/aboutus/PageTitle';
 import UFESGI from '../../components/aboutus/UFESGI';
 import SubNav from '../../components/layout/subnav';
-import {
-  ActionList,
-  ActionListItem,
-  Content,
-  DesContent,
-} from '../../components/aboutus/DesContent';
+import { ActionList, ActionListItem, DesContent } from '../../components/aboutus/DesContent';
 import { Body, ContentContainer } from '../../components/aboutus/Layout';
 
 import { ReactComponent as ResearchIcon } from '../../assets/icons/aboutus-research.svg';
