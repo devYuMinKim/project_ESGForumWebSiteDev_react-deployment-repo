@@ -1,5 +1,5 @@
-import React from 'react';
-import FormInput from '../../layout/login';
+import React from "react";
+import FormInput from "../../layout/login";
 
 interface AddMemberModalProps {
   showModal: boolean;
@@ -68,7 +68,7 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({
                       autoComplete="affiliation"
                       placeholder="회원의 소속처를 적어주세요."
                       value={affiliation}
-                      onChange={(e) => setName(e.target.value)}
+                      onChange={(e) => setAffiliation(e.target.value)}
                     />
                     <button
                       className="absolute top-30 right-0 bg-green-500 text-white font-bold uppercase text-sm px-3 py-1 rounded shadow hover:shadow-lg mb-5"

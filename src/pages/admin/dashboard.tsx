@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from "react"
+import axios from "axios";
 import {
   Typography,
   Card,
@@ -6,17 +7,20 @@ import {
   CardBody,
 } from "@material-tailwind/react";
 import {
-  GetCommitteeData,
-  subscriberData,
+  statisticsCardsData,
   CommitteeData,
-  statisticsCardsData
+  User,
+  Member,
+  GetCommitteeData,
+  getUserData,
+  getMemberData,
 } from "../../data";
-import TableHead from '../../components/layout/table/tableHead';
-import SubscribersData from '../../components/widget/cards/tableBodySubscribers';
-import axios from 'axios';
-import StatisticsCardsSection from '../../components/layout/dashboard/statisticsCard';
-import AddCommitteeModal from '../../components/widget/cards/addCommitteeModal';
-import CommitteeTableSection from '../../components/layout/dashboard/committeeTable';
+import TableHead from "../../components/layout/table/tableHead";
+import StatisticsCardsSection from "../../components/layout/dashboard/statisticsCard";
+import AddCommitteeModal from "../../components/widget/cards/addCommitteeModal";
+import CommitteeTableSection from "../../components/layout/dashboard/committeeTable";
+import Spinner from "../../components/layout/dashboard/spinner";
+import TBodyApplicants from "../../components/widget/cards/tableBodyApplicants";
 
 const apiUrl = "http://127.0.0.1:8000/api";
 
@@ -25,18 +29,30 @@ const Dashboard: React.FC = () => {
   const [committe, setCommitte] = useState("");
   const [explanation, setExplanation] = useState("");
   const [error, setError] = useState("");
+  const [ready, setReady] = useState(false);
   const [assetCommittee, setAssetCommittee] = useState<CommitteeData[]>([]);
+  const [assetApplicants, setAssetApplicants] = useState<User[]>([]);
+  const [assetUsers, setAssetUsers] = useState<User[]>([]);
+  const [assetMember, setAssetMember] = useState<Member[]>([]);
 
   const assetData = {
-    committees: assetCommittee
+    committees: assetCommittee,
+    users: assetUsers,
+    members: assetMember
   }
 
   useEffect(() => {
     const fetchData = async () => {
       const committeeData = await GetCommitteeData();
+      const userdata = await getUserData();
+      const memberData = await getMemberData();
       if (Array.isArray(committeeData)) {
         setAssetCommittee(committeeData);
       }
+      setAssetUsers(userdata.users);
+      setAssetApplicants(userdata.applicants);
+      setAssetMember(memberData);
+      setReady(true);
     };
 
     fetchData();
@@ -56,12 +72,13 @@ const Dashboard: React.FC = () => {
       });
 
       if (response.status === 201) {
-        const newCommittee = response.data;
-        assetCommittee.push(newCommittee);
+        const newCommittee: CommitteeData = response.data;
+        const newAssetCommittee = [...assetCommittee, newCommittee];
+        window.alert("위원회 생성 완료")
         setCommitte("");
         setExplanation("");
         setShowModal(false);
-        setAssetCommittee(assetCommittee)
+        setAssetCommittee(newAssetCommittee);
       }
     }
     catch (err) {
@@ -70,51 +87,57 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <div className="m-12">
-      <StatisticsCardsSection
-        statisticsCardsData={statisticsCardsData}
-        assetData={assetData}
-      />
-      <div className="mb-4 grid grid-cols-1 gap-6 xl:grid-cols-3">
-        {/* 위원회 데이터 */}
-        <CommitteeTableSection
-          committees={assetCommittee}
-          setShowModal={setShowModal}
+    <div>
+      <Spinner flag={ready}></Spinner>
+      <div className={`${ready ? "m-12" : "hidden"}`}>
+        <StatisticsCardsSection
+          statisticsCardsData={statisticsCardsData}
+          assetData={assetData}
         />
-        <Card
-          className="border-2 border-slate-100 rounded-lg">
-          <CardHeader
-            floated={false}
-            shadow={false}
-            color="transparent"
-            className="m-0 p-6"
-          >
-            <Typography variant="h6" color="blue-gray" className="mb-1">
-              가입 신청자
-            </Typography>
-          </CardHeader>
-          {/* 가입 신청자 데이터 */}
-          <CardBody className="p-0 overflow-y-scroll h-60">
-            <table className="w-full min-w-[300px] table-auto">
-              <TableHead topics={["이름", "소속", "허가"]} px="px-5"></TableHead>
-              <SubscribersData subscribers={subscriberData}></SubscribersData>
-            </table>
-          </CardBody>
-        </Card>
+        <div className="mb-4 grid grid-cols-1 gap-6 xl:grid-cols-3">
+          {/* 위원회 데이터 */}
+          <CommitteeTableSection
+            committees={assetCommittee}
+            setShowModal={setShowModal}
+          />
+          <Card
+            className="border-2 border-slate-100 rounded-lg">
+            <CardHeader
+              floated={false}
+              shadow={false}
+              color="transparent"
+              className="m-0 p-6"
+            >
+              <Typography variant="h6" color="blue-gray" className="mb-1">
+                가입 신청자
+              </Typography>
+            </CardHeader>
+            {/* 가입 신청자 데이터 */}
+            <CardBody className="p-0 overflow-y-scroll h-60">
+              <table className="w-full min-w-[300px] table-auto">
+                <TableHead topics={["이름", "소속", "허가"]} px="px-5" />
+                <TBodyApplicants
+                  applicants={assetApplicants}
+                  setAssetApplicants={setAssetApplicants}
+                />
+              </table>
+            </CardBody>
+          </Card>
 
-        <AddCommitteeModal
-          showModal={showModal}
-          committe={committe}
-          explanation={explanation}
-          error={error}
-          setShowModal={setShowModal}
-          setError={setError}
-          handleSubmit={handleSubmit}
-          setCommitte={setCommitte}
-          setExplanation={setExplanation}
-        ></AddCommitteeModal>
-      </div>
-    </div >
+          <AddCommitteeModal
+            showModal={showModal}
+            committe={committe}
+            explanation={explanation}
+            error={error}
+            setShowModal={setShowModal}
+            setError={setError}
+            handleSubmit={handleSubmit}
+            setCommitte={setCommitte}
+            setExplanation={setExplanation}
+          ></AddCommitteeModal>
+        </div>
+      </div >
+    </div>
   );
 }
 
