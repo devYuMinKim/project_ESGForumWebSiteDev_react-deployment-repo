@@ -15,7 +15,7 @@ import RulesPage from './pages/aboutus/rules';
 import ContactPage from './pages/aboutus/contact';
 import SeminarPage from './pages/seminars';
 import DashBoard from './pages/admin/dashboard';
-// import CommitteeInfo from './pages/admin/committee';
+import CommitteeInfo from './pages/admin/committee';
 
 const Router: React.FC = () => (
   <Routes>
@@ -25,7 +25,7 @@ const Router: React.FC = () => (
     <Route path="/committee" element={<Committee />} />
     <Route path="/business" element={<Business />} />
     <Route path="/admin" element={<DashBoard />} />
-    {/* <Route path="/admin/committee/:id" element={<CommitteeInfo />} /> */}
+    <Route path="/admin/committee/:id" element={<CommitteeInfo />} />
     <Route path="/seminars" element={<SeminarPage />} />
     <Route path="/aboutus" element={<AboutUsPage />} />
     <Route path="/aboutus/objective" element={<ObjectivePage />} />
