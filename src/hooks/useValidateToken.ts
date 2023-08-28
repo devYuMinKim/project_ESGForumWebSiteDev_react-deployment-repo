@@ -4,6 +4,10 @@ import jwt_decode from "jwt-decode";
 const useValidateToken = () => {
   const [loggedIn, setLoggedIn] = useState<boolean | null>(null);
 
+  const getToken = useCallback(() => {
+    return localStorage.getItem("token");
+  }, []);
+
   const validateToken = useCallback(() => {
     const token = localStorage.getItem("token");
 
@@ -28,7 +32,7 @@ const useValidateToken = () => {
 
   useEffect(() => {
     setLoggedIn(validateToken());
-  }, [validateToken, localStorage.getItem("token")]);
+  }, [validateToken, getToken()]);
 
   return { loggedIn };
 };
