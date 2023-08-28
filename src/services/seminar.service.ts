@@ -1,5 +1,9 @@
-import axios from 'axios';
-import { Seminar, SendSeminar } from '../types/seminars.interface';
+import axios from "axios";
+import {
+  PaginatedResponse,
+  Seminar,
+  SendSeminar,
+} from "../types/seminars.interface";
 
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -8,8 +12,23 @@ const API_URL = process.env.REACT_APP_API_URL;
  * Get all seminars
  * @returns Seminar[]
  */
-export async function getAllSeminars(): Promise<Seminar[]> {
-  const res = await axios.get<Seminar[]>(`${API_URL}/seminars`);
+// export async function getAllSeminars(): Promise<PaginatedResponse<Seminar>> {
+//   const res = await axios.get<Seminar[]>(`${API_URL}/seminars`);
+//   return res.data;
+// }
+export async function getAllSeminars(): Promise<PaginatedResponse<Seminar>> {
+  const res = await axios.get<PaginatedResponse<Seminar>>(
+    `${API_URL}/seminars`
+  );
+  return res.data;
+}
+
+export async function getSeminars(
+  page: number
+): Promise<PaginatedResponse<Seminar>> {
+  const res = await axios.get<PaginatedResponse<Seminar>>(
+    `${API_URL}/seminars?page=${page}`
+  );
   return res.data;
 }
 
@@ -42,7 +61,10 @@ export async function createSeminar(seminar: SendSeminar): Promise<Seminar> {
  * @param seminar
  * @returns Seminar
  */
-export async function updateSeminar(id: string | number, seminar: SendSeminar): Promise<Seminar> {
+export async function updateSeminar(
+  id: string | number,
+  seminar: SendSeminar
+): Promise<Seminar> {
   const res = await axios.put<Seminar>(`${API_URL}/seminars/${id}`, seminar);
   return res.data;
 }

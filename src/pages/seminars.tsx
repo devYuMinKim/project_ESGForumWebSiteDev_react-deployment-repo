@@ -1,38 +1,15 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   createSeminar,
   getAllSeminars,
+  getSeminars,
   getSeminarById,
   updateSeminar,
-} from '../services/seminar.service';
-import { Seminar, SendSeminar } from '../types/seminars.interface';
-// TODO: 아직 작성 중 (written on 2023/08/28 2:37 AM) - pagination
-import Pagination from 'rc-pagination';
+} from "../services/seminar.service";
+import { Seminar, SendSeminar } from "../types/seminars.interface";
+import Pagination from "rc-pagination";
 
-import { ReactComponent as SearchIcon } from '../assets/icons/seminars-search.svg';
-
-const testData: SendSeminar[] = [
-  {
-    date_start: '2021-01-01',
-    date_end: '2021-01-03',
-    location: 'Seoul',
-    subject: 'Seminar 1',
-    host: 'Host 1',
-    supervision: 'Supervision 1',
-    participation: 'Participation 1',
-    content: 'Content 1',
-  },
-  {
-    date_start: '2021-01-11',
-    date_end: '2021-01-14',
-    location: 'Daegu',
-    subject: 'Seminar 2',
-    host: 'Host 2',
-    supervision: 'Supervision 2',
-    participation: 'Participation 2',
-    content: 'Content 2',
-  },
-];
+import { ReactComponent as SearchIcon } from "../assets/icons/seminars-search.svg";
 
 const SeminarCard = (props: { seminar: Seminar }) => {
   const { seminar } = props;
@@ -55,61 +32,27 @@ const SeminarCard = (props: { seminar: Seminar }) => {
 // TODO: 아직 작성 중 (written on 2023/08/24 3:28 PM)
 const SeminarPage = () => {
   const [seminars, setSeminars] = useState<Seminar[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
 
   useEffect(() => {
     (async () => {
-      const seminars = await getAllSeminars();
-      setSeminars(seminars);
-      console.log(seminars);
+      const response = await getAllSeminars();
+      setSeminars(response.data);
+      setTotalItems(response.total);
     })();
   }, []);
 
-  // TEST: test seminar service
+  useEffect(() => {
+    (async () => {
+      const response = await getSeminars(currentPage);
+      setSeminars(response.data);
+      setTotalItems(response.total);
+    })();
+  }, [currentPage]);
+
   return (
     <>
-      <div className="flex gap-2">
-        <button
-          onClick={() => {
-            (async () => {
-              const a = await getAllSeminars();
-              console.log(a);
-            })();
-          }}
-        >
-          index
-        </button>
-        <button
-          onClick={() => {
-            (async () => {
-              const a = await getSeminarById(1);
-              console.log(a);
-            })();
-          }}
-        >
-          show
-        </button>
-        <button
-          onClick={() => {
-            (async () => {
-              const a = await createSeminar(testData[0]);
-              // const a = await createSeminar({content: '1'} as SendSeminar);
-              console.log(a);
-            })();
-          }}
-        >
-          store
-        </button>
-        <button
-          onClick={() => {
-            (async () => {
-              const a = await updateSeminar(2, testData[0]);
-              console.log(a);
-            })();
-          }}
-        >
-          update
-        </button>
-      </div>
       <div>
         <div className="items-center w-full px-4 py-4 mx-auto my-10 bg-white rounded-lg shadow-md sm:w-11/12">
           <div className="container mx-auto">
@@ -135,7 +78,7 @@ const SeminarPage = () => {
             {/* 필터 기능 */}
             <div className="flex flex-col sm:flex-row space-y-2 gap-4 sm:space-y-0 w-full px-4 mb-2 mt-4 items-center">
               <div className="flex bg-gray-100 w-full sm:w-2/5 items-center rounded-lg">
-                <SearchIcon />
+                {/* FIXME: <SearchIcon /> */}
                 {/* _input 검색 */}
                 <input
                   className="w-full bg-gray-100 outline-none border-transparent focus:border-transparent focus:ring-0 rounded-lg text-sm"
@@ -156,7 +99,7 @@ const SeminarPage = () => {
                   <option></option>
                 </select>
                 <button className="border border-gray-300 rounded-md text-gray-600 px-3 py-[9px] bg-white hover:border-gray-400 focus:outline-none text-xs focus:ring-0">
-                  <SearchIcon />
+                  {/* FIXME: <SearchIcon /> */}
                 </button>
               </div>
             </div>
@@ -180,23 +123,30 @@ const SeminarPage = () => {
               </table>
             </div>
             <div className="flex flex-col items-center w-full px-4 py-4 text-sm text-gray-500 justify-center mx-auto">
-              {/* <div className="flex items-center justify-between space-x-2">
-                <a href="#" className="hover:text-gray-600">
-                  Previous
-                </a>
-                <div className="flex flex-row space-x-1">
-                  <div className="flex px-2 py-px text-white bg-blue-400 border border-blue-400">
-                    1
-                  </div>
-                  <div className="flex px-2 py-px border border-blue-400 hover:bg-blue-400 hover:text-white">
-                    2
-                  </div>
-                </div>
-                <a href="#" className="hover:text-gray-600">
-                  Next
-                </a>
-              </div> */}
-              <Pagination />
+              <Pagination
+                current={currentPage}
+                total={totalItems}
+                pageSize={10}
+                onChange={(page) => setCurrentPage(page)}
+                style={{ display: "flex", justifyContent: "center" }}
+                itemRender={(current, type, element) => {
+                  if (type === "page") {
+                    return (
+                      <div
+                        onClick={() => setCurrentPage(current)}
+                        className={`inline-block px-3 py-1 border border-blue-500 cursor-pointer rounded-full text-sm ${
+                          currentPage === current
+                            ? "text-white bg-blue-500"
+                            : "text-blue-500 hover:bg-blue-500 hover:text-white"
+                        }`}
+                      >
+                        {current}
+                      </div>
+                    );
+                  }
+                  return element;
+                }}
+              />
             </div>
           </div>
         </div>

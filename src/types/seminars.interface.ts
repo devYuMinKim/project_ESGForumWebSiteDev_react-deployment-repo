@@ -12,4 +12,10 @@ export interface Seminar {
   updated_at: string;
 }
 
-export interface SendSeminar extends Omit<Seminar, 'id' | 'created_at' | 'updated_at'> {}
+export interface PaginatedResponse<T> {
+  data: T[];
+  total: number;
+}
+
+export interface SendSeminar
+  extends Omit<Seminar, "id" | "created_at" | "updated_at"> {}
