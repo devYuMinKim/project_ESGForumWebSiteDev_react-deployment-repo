@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from "react";
 import {
-  createSeminar,
-  getAllSeminars,
   getSeminars,
   getSeminarById,
-  updateSeminar,
+  getOngoingSeminars,
+  getPastSeminars,
+  searchSeminars,
 } from "../services/seminar.service";
-import { Seminar, SendSeminar } from "../types/seminars.interface";
+import { Seminar } from "../types/seminars.interface";
 import Pagination from "rc-pagination";
+import Select from "react-select";
 
-import { ReactComponent as SearchIcon } from "../assets/icons/seminars-search.svg";
+// import { ReactComponent as SearchIcon } from "../assets/icons/seminars-search.svg";
+
+const options = [
+  { value: "subject", label: "주제" },
+  { value: "host", label: "주관" },
+];
 
 const SeminarCard = (props: { seminar: Seminar }) => {
   const { seminar } = props;
@@ -29,27 +35,46 @@ const SeminarCard = (props: { seminar: Seminar }) => {
   );
 };
 
-// TODO: 아직 작성 중 (written on 2023/08/24 3:28 PM)
 const SeminarPage = () => {
   const [seminars, setSeminars] = useState<Seminar[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
+  const [type, setType] = useState("all");
+  const [searchKeyword, setSearchKeyword] = useState("");
+  const [searchType, setSearchType] = useState("subject");
 
   useEffect(() => {
     (async () => {
-      const response = await getAllSeminars();
-      setSeminars(response.data);
-      setTotalItems(response.total);
-    })();
-  }, []);
+      let response;
+      if (type === "all") {
+        if (searchKeyword) {
+          response =
+            searchType === "subject"
+              ? await searchSeminars(searchKeyword)
+              : await searchSeminars(undefined, searchKeyword);
+        } else {
+          response = await getSeminars(currentPage);
+        }
+      } else if (type === "ongoing") {
+        response = await getOngoingSeminars(
+          currentPage,
+          searchType === "subject" ? searchKeyword : undefined,
+          searchType === "host" ? searchKeyword : undefined
+        );
+      } else if (type === "past") {
+        response = await getPastSeminars(
+          currentPage,
+          searchType === "subject" ? searchKeyword : undefined,
+          searchType === "host" ? searchKeyword : undefined
+        );
+      }
 
-  useEffect(() => {
-    (async () => {
-      const response = await getSeminars(currentPage);
+      if (!response) return;
+
       setSeminars(response.data);
       setTotalItems(response.total);
     })();
-  }, [currentPage]);
+  }, [currentPage, type, searchKeyword, searchType]);
 
   return (
     <>
@@ -62,45 +87,48 @@ const SeminarPage = () => {
             </div>
             {/* 종류 */}
             <ul className="flex flex-row space-x-2 sm:space-x-6 md:space-x-12 mt-4 mx-4 items-center border-b border-gray-300 overflow-auto text-sm">
-              <li className=" text-blue-500 group">
-                <a href="#">전체</a>
+              <li className={type === "all" ? "text-blue-500 font-bold" : ""}>
+                <button onClick={() => setType("all")}>전체</button>
                 <div className="h-1 bg-blue-500 scale-x-0 group-hover:scale-100 transition-transform origin-left rounded-full duration-300 ease-out"></div>
               </li>
-              <li className="group">
-                <a href="#">진행중인 세미나</a>
+              <li
+                className={type === "ongoing" ? "text-blue-500 font-bold" : ""}
+              >
+                <button onClick={() => setType("ongoing")}>
+                  진행중인 세미나
+                </button>
                 <div className="h-1 bg-blue-500 scale-x-0 group-hover:scale-100 transition-transform origin-left rounded-full duration-300 ease-out"></div>
               </li>
-              <li className="group">
-                <a href="#">지난 세미나</a>
+              <li className={type === "past" ? "text-blue-500 font-bold" : ""}>
+                <button onClick={() => setType("past")}>지난 세미나</button>
                 <div className="h-1 bg-blue-500 scale-x-0 group-hover:scale-100 transition-transform origin-left rounded-full duration-300 ease-out"></div>
               </li>
             </ul>
             {/* 필터 기능 */}
             <div className="flex flex-col sm:flex-row space-y-2 gap-4 sm:space-y-0 w-full px-4 mb-2 mt-4 items-center">
-              <div className="flex bg-gray-100 w-full sm:w-2/5 items-center rounded-lg">
-                {/* FIXME: <SearchIcon /> */}
-                {/* _input 검색 */}
-                <input
-                  className="w-full bg-gray-100 outline-none border-transparent focus:border-transparent focus:ring-0 rounded-lg text-sm"
-                  type="text"
-                  placeholder="Search a product..."
-                />
-              </div>
-              {/* 필터기능 */}
-              <div className="flex-row space-x-2 items-center ">
-                <select className="border border-gray-300 rounded-md text-gray-600 px-2 pl-2 pr-8 bg-white hover:border-gray-400 focus:outline-none text-xs focus:ring-0">
-                  <option>Filter by</option>
-                  <option></option>
-                  <option></option>
-                </select>
-                <select className="border border-gray-300 rounded-md text-gray-600 px-2 pl-2 pr-8 bg-white hover:border-gray-400 focus:outline-none text-xs focus:ring-0">
-                  <option>Short by</option>
-                  <option></option>
-                  <option></option>
-                </select>
-                <button className="border border-gray-300 rounded-md text-gray-600 px-3 py-[9px] bg-white hover:border-gray-400 focus:outline-none text-xs focus:ring-0">
+              <div className="flex w-full sm:w-2/5 items-center rounded-lg">
+                <div className="flex w-1/6">
                   {/* FIXME: <SearchIcon /> */}
-                </button>
+                  <Select
+                    value={options.find(
+                      (option) => option.value === searchType
+                    )}
+                    onChange={(selectedOption) => {
+                      if (selectedOption !== null)
+                        setSearchType(selectedOption.value);
+                    }}
+                    options={options}
+                  />
+                </div>
+                <div className="flex w-5/6">
+                  <input
+                    className="w-full bg-gray-100 outline-none border-transparent focus:border-transparent focus:ring-0 rounded-lg text-sm"
+                    type="text"
+                    placeholder="Search a seminar..."
+                    onChange={(e) => setSearchKeyword(e.target.value)}
+                    value={searchKeyword}
+                  />
+                </div>
               </div>
             </div>
             <div className="mt-6 overflow-x-auto">
@@ -116,9 +144,10 @@ const SeminarPage = () => {
                 </thead>
                 {/* 테이블 바디 (데이터) */}
                 <tbody className="text-sm font-normal text-gray-700 text-center">
-                  {seminars.map((seminar) => (
-                    <SeminarCard seminar={seminar} />
-                  ))}
+                  {seminars &&
+                    seminars.map((seminar) => (
+                      <SeminarCard key={seminar.id} seminar={seminar} />
+                    ))}
                 </tbody>
               </table>
             </div>
@@ -131,6 +160,25 @@ const SeminarPage = () => {
                 style={{ display: "flex", justifyContent: "center" }}
                 itemRender={(current, type, element) => {
                   if (type === "page") {
+                    if (currentPage <= 3 && current > Math.min(5, totalItems)) {
+                      return null;
+                    }
+
+                    if (
+                      currentPage > 3 &&
+                      currentPage <= totalItems - 3 &&
+                      (current < currentPage - 2 || current > currentPage + 2)
+                    ) {
+                      return null;
+                    }
+
+                    if (
+                      currentPage > totalItems - 3 &&
+                      current < Math.max(totalItems - 4, 1)
+                    ) {
+                      return null;
+                    }
+
                     return (
                       <div
                         onClick={() => setCurrentPage(current)}

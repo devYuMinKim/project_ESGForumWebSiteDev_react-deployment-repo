@@ -12,10 +12,6 @@ const API_URL = process.env.REACT_APP_API_URL;
  * Get all seminars
  * @returns Seminar[]
  */
-// export async function getAllSeminars(): Promise<PaginatedResponse<Seminar>> {
-//   const res = await axios.get<Seminar[]>(`${API_URL}/seminars`);
-//   return res.data;
-// }
 export async function getAllSeminars(): Promise<PaginatedResponse<Seminar>> {
   const res = await axios.get<PaginatedResponse<Seminar>>(
     `${API_URL}/seminars`
@@ -24,7 +20,9 @@ export async function getAllSeminars(): Promise<PaginatedResponse<Seminar>> {
 }
 
 export async function getSeminars(
-  page: number
+  page: number,
+  subject?: string,
+  host?: string
 ): Promise<PaginatedResponse<Seminar>> {
   const res = await axios.get<PaginatedResponse<Seminar>>(
     `${API_URL}/seminars?page=${page}`
@@ -77,5 +75,88 @@ export async function updateSeminar(
  */
 export async function deleteSeminar(id: string | number) {
   const res = await axios.delete(`${API_URL}/seminars/${id}`);
+  return res.data;
+}
+
+/**
+ * /seminars/ongoing
+ * Get ongoing seminars
+ * @returns Seminar[]
+ */
+export async function getOngoingSeminars(
+  page: number,
+  subject?: string,
+  host?: string
+): Promise<PaginatedResponse<Seminar>> {
+  const params = new URLSearchParams();
+  params.append("page", String(page));
+
+  if (subject) {
+    params.append("subject", subject);
+  }
+
+  if (host) {
+    params.append("host", host);
+  }
+
+  const res = await axios.get<PaginatedResponse<Seminar>>(
+    `${API_URL}/seminars/ongoing`,
+    { params }
+  );
+  return res.data;
+}
+
+/**
+ * /seminars/past
+ * Get past seminars
+ * @returns Seminar[]
+ */
+export async function getPastSeminars(
+  page: number,
+  subject?: string,
+  host?: string
+): Promise<PaginatedResponse<Seminar>> {
+  const params = new URLSearchParams();
+  params.append("page", String(page));
+
+  if (subject) {
+    params.append("subject", subject);
+  }
+
+  if (host) {
+    params.append("host", host);
+  }
+
+  const res = await axios.get<PaginatedResponse<Seminar>>(
+    `${API_URL}/seminars/past`,
+    { params }
+  );
+  return res.data;
+}
+
+/**
+ * /seminars/search
+ * Search seminars
+ * @param subject
+ * @param host
+ * @returns Seminar[]
+ */
+export async function searchSeminars(
+  subject?: string,
+  host?: string
+): Promise<PaginatedResponse<Seminar>> {
+  const params = new URLSearchParams();
+
+  if (subject) {
+    params.append("subject", subject);
+  }
+  if (host) {
+    params.append("host", host);
+  }
+
+  const res = await axios.get<PaginatedResponse<Seminar>>(
+    `${API_URL}/seminars/search`,
+    { params }
+  );
   return res.data;
 }
