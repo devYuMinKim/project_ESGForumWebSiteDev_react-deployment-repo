@@ -1,14 +1,14 @@
 import axios from "axios";
 
 export interface Member {
-  id: number;
+  id: number
   name: string;
   affiliation: string;
-  note?: number | null; // esg 포럼에서의 직위
+  note?: number | null | string; // esg 포럼에서의 직위
 }
 
 export const getMemberData = async (): Promise<Member[]> => {
-  const apiUrl = "http://127.0.0.1:8000/api";
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   try {
     const response = await axios.get(`${apiUrl}/members`, {
