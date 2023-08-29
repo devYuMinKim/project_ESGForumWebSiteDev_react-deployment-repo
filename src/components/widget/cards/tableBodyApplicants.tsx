@@ -1,10 +1,10 @@
 import { Typography } from "@material-tailwind/react";
 import { User } from "../../../data";
-import { PlusCircleIcon } from "@heroicons/react/24/outline";
+import { PlusCircleIcon } from "@heroicons/react/24/solid";
 import axios from "axios";
 
 const tdTextContent = "font-medium text-blue-gray-600 text-center";
-const apiUrl = "http://127.0.0.1:8000/api";
+const apiUrl = process.env.REACT_APP_API_URL;
 
 const approvalHandler = async (name: string, affiliation: string) => {
   try {
@@ -30,10 +30,12 @@ const approvalHandler = async (name: string, affiliation: string) => {
 
 interface TBodyApplicantsProps {
   applicants: User[],
+  assetUsers: User[],
   setAssetApplicants: React.Dispatch<React.SetStateAction<User[]>>,
+  setAssetUsers: React.Dispatch<React.SetStateAction<User[]>>,
 }
 
-const TBodyApplicants: React.FC<TBodyApplicantsProps> = ({ applicants, setAssetApplicants }) => (
+const TBodyApplicants: React.FC<TBodyApplicantsProps> = ({ applicants, assetUsers, setAssetUsers, setAssetApplicants }) => (
   <tbody>
     {applicants.map(
       ({ email, affiliation, name }, key) => {
@@ -67,7 +69,8 @@ const TBodyApplicants: React.FC<TBodyApplicantsProps> = ({ applicants, setAssetA
                 onClick={async () => {
                   const isApprovaled = await approvalHandler(name, affiliation);
                   if (isApprovaled) {
-                    setAssetApplicants(applicants.filter((applicant) => applicant.name !== name && applicant.email !== email))
+                    setAssetUsers([...assetUsers, applicants[key]]);
+                    setAssetApplicants(applicants.filter((applicant) => applicant.name !== name && applicant.affiliation !== affiliation));
                   }
                 }}
               >
