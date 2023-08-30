@@ -40,7 +40,7 @@ const SeminarDetailPage: React.FC = () => {
             <p className="text-lg p-3 h-4/6">{seminar.content}</p>
             <hr />
 
-            <p className="block text-base text-blue-500 px-e3 py-f2 flex items-center space-x-g1">
+            <p className="block text-base text-blue-500 px-e3 py-f2 flex items-center space-x-g1 mt-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
