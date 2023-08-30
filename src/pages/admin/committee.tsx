@@ -7,23 +7,17 @@ import FormTextarea from "../../components/layout/dashboard/textarea";
 import StatisticsCardsSection from "../../components/layout/dashboard/statisticsCard";
 import {
   CommitteeData,
+  GetCommitteeMemberData,
+  MemberData,
   committeeStatisticsCardsData,
 } from "../../data";
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
 import AddMemberModal from "../../components/widget/cards/addMemberModal";
-import { GetMemberData, MemberData } from "../../data";
 import TableHead from "../../components/layout/table/tableHead";
 import TBodyMembers, { findChairMan } from "../../components/widget/cards/tableBodyMembers";
 import Spinner from "../../components/layout/dashboard/spinner";
 
 const apiUrl = "http://127.0.0.1:8000/api";
-
-const notFount = (id: unknown, navigate: NavigateFunction) => {
-  if (typeof id !== "number" || isNaN(id)) {
-    window.alert("존재하지 않는 위원회 입니다.");
-    navigate("/admin");
-  }
-}
 
 const CommitteeInfo: React.FC = ({
 }) => {
@@ -61,7 +55,7 @@ const CommitteeInfo: React.FC = ({
           }
         });
 
-        const members = await GetMemberData(id);
+        const members = await GetCommitteeMemberData(id);
         setMembers(members);
         setChairman(findChairMan(members));
 
@@ -173,7 +167,7 @@ const CommitteeInfo: React.FC = ({
         setAffiliation("");
         return;
       }
-      setError("오류가 발생했습니다. 다시 시도하세요.")
+      window.alert("오류가 발생했습니다. 다시 시도하세요.");
     }
   }
 
@@ -206,7 +200,7 @@ const CommitteeInfo: React.FC = ({
                     type="text"
                     autoComplete="name"
                     placeholder={"변경하고 싶은 이름을 입력하세요."}
-                    value={cName ? cName : "로드중..."}
+                    value={cName}
                     width={"w-full"}
                     onChange={(e) => setCommitteeName(e.target.value)}
                   />
@@ -215,7 +209,7 @@ const CommitteeInfo: React.FC = ({
                     label="설명"
                     autoComplete="explanation"
                     placeholder="위원회에 대한 설명을 적어주세요."
-                    value={explanation ? explanation : "로드중..."}
+                    value={explanation}
                     onChange={(e) => setExplanation(e.target.value)}
                   />
                   <button
@@ -261,7 +255,7 @@ const CommitteeInfo: React.FC = ({
             <CardBody className="overflow-y-scroll px-0 pt-0 pb-2 h-96">
 
               <table className="w-full min-w-[640px] table-auto">
-                <TableHead topics={["이름", "소속", "직위", "작업하기"]} px="px-1" />
+                <TableHead topics={["이름", "소속", "위원회 직위", "작업하기"]} px="px-1" />
                 <TBodyMembers c_id={id} members={members} setMembers={setMembers} setChairman={setChairman}></TBodyMembers>
               </table>
             </CardBody>
@@ -271,9 +265,9 @@ const CommitteeInfo: React.FC = ({
             showModal={showModal}
             name={mName}
             affiliation={affiliation}
-            error={error}
+            // error={error}
             setShowModal={setShowModal}
-            setError={setError}
+            // setError={setError}
             handleSubmit={handleMemberSubmit}
             setName={setMemberName}
             setAffiliation={setAffiliation}
