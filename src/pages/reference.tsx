@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import {
-  getSeminars,
-  getSeminarById,
-  getOngoingSeminars,
-  getPastSeminars,
-  searchSeminars,
-} from "../services/seminar.service";
+  getReferences,
+  getReferenceById,
+  getOngoingReferences,
+  getPastReferences,
+  searchReferences,
+} from "../services/reference.service";
 import { Reference } from "../types/reference.interface";
 import Pagination from "rc-pagination";
 import Select from "react-select";
@@ -51,19 +51,19 @@ const ReferencePage = () => {
         if (searchKeyword) {
           response =
             searchType === "subject"
-              ? await searchSeminars(searchKeyword)
-              : await searchSeminars(undefined, searchKeyword);
+              ? await searchReferences(searchKeyword)
+              : await searchReferences(undefined, searchKeyword);
         } else {
-          response = await getSeminars(currentPage);
+          response = await getReferences(currentPage);
         }
       } else if (type === "ongoing") {
-        response = await getOngoingSeminars(
+        response = await getOngoingReferences(
           currentPage,
           searchType === "subject" ? searchKeyword : undefined,
           searchType === "host" ? searchKeyword : undefined
         );
       } else if (type === "past") {
-        response = await getPastSeminars(
+        response = await getPastReferences(
           currentPage,
           searchType === "subject" ? searchKeyword : undefined,
           searchType === "host" ? searchKeyword : undefined
