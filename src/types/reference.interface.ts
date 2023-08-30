@@ -1,7 +1,5 @@
-export interface Seminar {
+export interface Reference {
   id: string;
-  date_start: string;
-  date_end: string;
   location: string;
   subject: string;
   host: string;
@@ -17,5 +15,5 @@ export interface PaginatedResponse<T> {
   total: number;
 }
 
-export interface SendSeminar
-  extends Omit<Seminar, "id" | "created_at" | "updated_at"> {}
+export interface SendReference
+  extends Omit<Reference, "id" | "created_at" | "updated_at"> {}

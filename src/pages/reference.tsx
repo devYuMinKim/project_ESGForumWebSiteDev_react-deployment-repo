@@ -7,7 +7,7 @@ import {
   getPastSeminars,
   searchSeminars,
 } from "../services/seminar.service";
-import { Reference } from "../types/seminars.interface";
+import { Reference } from "../types/reference.interface";
 import Pagination from "rc-pagination";
 import Select from "react-select";
 

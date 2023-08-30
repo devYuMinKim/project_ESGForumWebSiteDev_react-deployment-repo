@@ -31,6 +31,7 @@ const Router: React.FC = () => (
     <Route path="/seminars" element={<SeminarPage />} />
     <Route path="/seminars/:id" element={<SeminarDetailPage />} />
     <Route path="/reference" element={<ReferencePage />} />
+    {/* <Route path="/seminars/:id" element={<SeminarDetailPage />} /> */}
     <Route path="/aboutus" element={<AboutUsPage />} />
     <Route path="/aboutus/objective" element={<ObjectivePage />} />
     <Route path="/aboutus/boe" element={<BoEPage />} />
