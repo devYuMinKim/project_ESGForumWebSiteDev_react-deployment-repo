@@ -12,7 +12,7 @@ const TableHead: React.FC<Topics> = ({ topics, px }) => (
         (el) => (
           <th
             key={el}
-            className={`border-b border-blue-gray-50 py-3 ${px} text-center`}
+            className={`border-b border-blue-gray-50 py-3 ${el ? px : ""} text-center`}
           >
             <Typography
               variant="small"

@@ -5,24 +5,20 @@ interface AddMemberModalProps {
   showModal: boolean;
   name: string;
   affiliation: string;
-  error: string;
   setShowModal: (show: boolean) => void;
   setName: React.Dispatch<React.SetStateAction<string>>;
   setAffiliation: React.Dispatch<React.SetStateAction<string>>;
   handleSubmit: (e: React.FormEvent) => Promise<void>;
-  setError: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const AddMemberModal: React.FC<AddMemberModalProps> = ({
   showModal,
   name,
   affiliation,
-  error,
   setShowModal,
   setName,
   setAffiliation,
   handleSubmit,
-  setError,
 }) => {
   return (
     <>
@@ -43,7 +39,6 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({
                       setName("");
                       setAffiliation("");
                       setShowModal(false);
-                      setError("");
                     }
                     }
                   >
@@ -76,9 +71,7 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({
                     >
                       추가
                     </button>
-                    <p>
-                      {error}
-                    </p>
+                    <p></p>
                   </form>
                 </div>
               </div>
