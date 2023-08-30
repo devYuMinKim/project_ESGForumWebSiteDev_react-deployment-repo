@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import {
   getSeminars,
-  getSeminarById,
   getOngoingSeminars,
   getPastSeminars,
   searchSeminars,
