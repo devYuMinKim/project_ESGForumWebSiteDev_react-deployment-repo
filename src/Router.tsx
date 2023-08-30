@@ -18,6 +18,7 @@ import DashBoard from "./pages/admin/dashboard";
 import CommitteeInfo from "./pages/admin/committee";
 import SeminarDetailPage from "./pages/seminar_detail";
 import ReferencePage from "./pages/reference";
+import NotificationPage from "./pages/notification";
 
 const Router: React.FC = () => (
   <Routes>
@@ -32,6 +33,7 @@ const Router: React.FC = () => (
     <Route path="/seminars/:id" element={<SeminarDetailPage />} />
     <Route path="/reference" element={<ReferencePage />} />
     {/* <Route path="/seminars/:id" element={<SeminarDetailPage />} /> */}
+    <Route path="/notification" element={<NotificationPage />} />
     <Route path="/aboutus" element={<AboutUsPage />} />
     <Route path="/aboutus/objective" element={<ObjectivePage />} />
     <Route path="/aboutus/boe" element={<BoEPage />} />

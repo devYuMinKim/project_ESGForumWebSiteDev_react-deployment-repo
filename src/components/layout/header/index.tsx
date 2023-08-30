@@ -75,7 +75,10 @@ const Header: React.FC = () => {
           >
             회원안내
           </NavLink>
-          <NavLink to="/" className="mr-10 font-medium hover:text-gray-900">
+          <NavLink
+            to="/notification"
+            className="mr-10 font-medium hover:text-gray-900"
+          >
             알림마당
           </NavLink>
         </nav>
