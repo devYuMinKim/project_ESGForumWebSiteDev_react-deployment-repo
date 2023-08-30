@@ -11,6 +11,7 @@ import Pagination from "rc-pagination";
 import Select from "react-select";
 import Body from "../components/layout/body";
 
+
 // import { ReactComponent as SearchIcon } from "../assets/icons/seminars-search.svg";
 
 const options = [
