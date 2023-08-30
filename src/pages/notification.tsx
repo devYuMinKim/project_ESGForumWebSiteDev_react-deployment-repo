@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import {
   getPosts,
-  getPostById,
   getOngoingPosts,
   getPastPosts,
   searchPosts,
@@ -10,6 +9,7 @@ import {
 import { Post } from "../types/post.interface";
 import Pagination from "rc-pagination";
 import Select from "react-select";
+import Body from "../components/layout/body";
 
 // import { ReactComponent as SearchIcon } from "../assets/icons/seminars-search.svg";
 
@@ -24,13 +24,13 @@ const PostCard = (props: { post: Post }) => {
   return (
     <tr className="py-10 text-m bg-gray-100 hover:bg-gray-200 font-medium">
       <td className="px-4 py-4">
-        <Link to={`/seminars/${post.id}`}>{post.title}</Link>
+        <Link to={`/notifications/${post.id}`}>{post.title}</Link>
       </td>
       <td className="px-4 py-4">
-        <Link to={`/posts/${post.id}`}>{post.author}</Link>
+        <Link to={`/notifications/${post.id}`}>{post.author}</Link>
       </td>
       <td className="px-4 py-4">
-        <Link to={`/posts/${post.id}`}>{post.created_at}</Link>
+        <Link to={`/notifications/${post.id}`}>{post.created_at}</Link>
       </td>
     </tr>
   );
@@ -78,9 +78,9 @@ const NotificationPage = () => {
   }, [currentPage, type, searchKeyword, searchType]);
 
   return (
-    <>
+    <Body>
       <div>
-        <div className="items-center w-full px-4 py-4 mx-auto my-10 bg-white rounded-lg shadow-md sm:w-11/12">
+        <div className="items-center w-8/12 px-4 py-4 mx-auto my-10 bg-white rounded-lg shadow-md sm:w-8/12">
           <div className="container mx-auto">
             {/* 주제 */}
             <div className="flex justify-between w-full px-4 py-2 items-center">
@@ -95,7 +95,7 @@ const NotificationPage = () => {
             </ul>
             {/* 필터 기능 */}
             <div className="flex flex-col sm:flex-row space-y-2 gap-4 sm:space-y-0 w-full px-4 mb-2 mt-4 items-center">
-              <div className="flex w-full sm:w-2/5 items-center rounded-lg">
+              <div className="flex w-full sm:w-3/5 items-center rounded-lg">
                 <div className="flex w-1/6">
                   {/* FIXME: <SearchIcon /> */}
                   <Select
@@ -107,6 +107,12 @@ const NotificationPage = () => {
                         setSearchType(selectedOption.value);
                     }}
                     options={options}
+                    styles={{
+                      control: (provided) => ({
+                        ...provided,
+                        width: "100px",
+                      }),
+                    }}
                   />
                 </div>
                 <div className="flex w-5/6">
@@ -125,9 +131,9 @@ const NotificationPage = () => {
                 {/* 테이블 헤더 (attributes) */}
                 <thead className="">
                   <tr className="text-m font-semibold text-center border-b-2 border-blue-500 uppercase">
-                    <th className="px-4 py-3 w-5/12">주제</th>
-                    <th className="px-4 py-3 w-3/12">주관</th>
-                    <th className="px-4 py-3">생성일</th>
+                    <th className="px-4 py-3 w-7/12">주제</th>
+                    <th className="px-4 py-3 w-2/12">작성자</th>
+                    <th className="px-4 py-3 w-2/12">생성일</th>
                   </tr>
                 </thead>
                 {/* 테이블 바디 (데이터) */}
@@ -191,7 +197,7 @@ const NotificationPage = () => {
           </div>
         </div>
       </div>
-    </>
+    </Body>
   );
 };
 
