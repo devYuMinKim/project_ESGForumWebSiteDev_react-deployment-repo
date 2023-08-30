@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import {
   getSeminars,
   getSeminarById,
@@ -22,15 +23,26 @@ const SeminarCard = (props: { seminar: Seminar }) => {
 
   return (
     <tr className="py-10 text-m bg-gray-100 hover:bg-gray-200 font-medium">
-      <td className="px-4 py-4">{seminar.subject}</td>
-      <td className="px-4 py-4">{seminar.host}</td>
+      <td className="px-4 py-4">
+        <Link to={`/seminars/${seminar.id}`}>{seminar.subject}</Link>
+      </td>
+      <td className="px-4 py-4">
+        <Link to={`/seminars/${seminar.id}`}>{seminar.host}</Link>
+      </td>
       <td className="items-center px-4 py-4">
         <div className="flex flex-col">
-          <div className="font-medium text-red-500">{seminar.date_start}</div>~
-          <div className="text-xs text-gray-500">{seminar.date_end}</div>
+          <div className="font-medium text-red-500">
+            <Link to={`/seminars/${seminar.id}`}>{seminar.date_start}</Link>
+          </div>
+          <Link to={`/seminars/${seminar.id}`}>~</Link>
+          <div className="text-xs text-gray-500">
+            <Link to={`/seminars/${seminar.id}`}>{seminar.date_end}</Link>
+          </div>
         </div>
       </td>
-      <td className="px-4 py-4">{seminar.created_at}</td>
+      <td className="px-4 py-4">
+        <Link to={`/seminars/${seminar.id}`}>{seminar.created_at}</Link>
+      </td>
     </tr>
   );
 };
