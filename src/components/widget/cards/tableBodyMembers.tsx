@@ -3,7 +3,7 @@ import { MemberData, MemberData as Members } from "../../../data";
 import axios from "axios";
 
 const tdTextContent = "font-medium text-blue-gray-600 text-center";
-const apiUrl = "http://127.0.0.1:8000/api";
+const apiUrl = process.env.REACT_APP_API_URL;
 
 export const findChairMan = (members: MemberData[]) => {
   for (const member of members) {
