@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import {
-  getReferences,
-  getReferenceById,
-  getOngoingReferences,
-  getPastReferences,
-  searchReferences,
-} from "../services/reference.service";
-import { Reference } from "../types/reference.interface";
+  getPosts,
+  getOngoingPosts,
+  getPastPosts,
+  searchPosts,
+} from "../services/post.service";
+import { Post } from "../types/post.interface";
 import Pagination from "rc-pagination";
 import Select from "react-select";
 
@@ -18,26 +17,26 @@ const options = [
   { value: "host", label: "주관" },
 ];
 
-const ReferenceCard = (props: { reference: Reference }) => {
-  const { reference } = props;
+const PostCard = (props: { post: Post }) => {
+  const { post } = props;
 
   return (
     <tr className="py-10 text-m bg-gray-100 hover:bg-gray-200 font-medium">
       <td className="px-4 py-4">
-        <Link to={`/seminars/${reference.id}`}>{reference.subject}</Link>
+        <Link to={`/seminars/${post.id}`}>{post.title}</Link>
       </td>
       <td className="px-4 py-4">
-        <Link to={`/references/${reference.id}`}>{reference.host}</Link>
+        <Link to={`/posts/${post.id}`}>{post.author}</Link>
       </td>
       <td className="px-4 py-4">
-        <Link to={`/references/${reference.id}`}>{reference.created_at}</Link>
+        <Link to={`/posts/${post.id}`}>{post.created_at}</Link>
       </td>
     </tr>
   );
 };
 
 const ReferencePage = () => {
-  const [reference, setReference] = useState<Reference[]>([]);
+  const [post, setPost] = useState<Post[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
   const [type, setType] = useState("all");
@@ -51,19 +50,19 @@ const ReferencePage = () => {
         if (searchKeyword) {
           response =
             searchType === "subject"
-              ? await searchReferences(searchKeyword)
-              : await searchReferences(undefined, searchKeyword);
+              ? await searchPosts(searchKeyword)
+              : await searchPosts(undefined, searchKeyword);
         } else {
-          response = await getReferences(currentPage);
+          response = await getPosts(currentPage);
         }
       } else if (type === "ongoing") {
-        response = await getOngoingReferences(
+        response = await getOngoingPosts(
           currentPage,
           searchType === "subject" ? searchKeyword : undefined,
           searchType === "host" ? searchKeyword : undefined
         );
       } else if (type === "past") {
-        response = await getPastReferences(
+        response = await getPastPosts(
           currentPage,
           searchType === "subject" ? searchKeyword : undefined,
           searchType === "host" ? searchKeyword : undefined
@@ -72,7 +71,7 @@ const ReferencePage = () => {
 
       if (!response) return;
 
-      setReference(response.data);
+      setPost(response.data);
       setTotalItems(response.total);
     })();
   }, [currentPage, type, searchKeyword, searchType]);
@@ -132,10 +131,14 @@ const ReferencePage = () => {
                 </thead>
                 {/* 테이블 바디 (데이터) */}
                 <tbody className="text-sm font-normal text-gray-700 text-center">
-                  {reference &&
-                    reference.map((reference) => (
-                      <ReferenceCard key={reference.id} reference={reference} />
-                    ))}
+                  {post &&
+                    post.map((post) => {
+                      if (post.type === "reference") {
+                        return <PostCard key={post.id} post={post} />;
+                      } else {
+                        return null;
+                      }
+                    })}
                 </tbody>
               </table>
             </div>
