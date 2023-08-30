@@ -12,8 +12,8 @@ export interface MemberData {
   note?: number | null; // 특정 위원회의 직위 | 회원 만의 직위
 }
 
-export const GetMemberData = async (id: number): Promise<MemberData[]> => {
-  const apiUrl = "http://127.0.0.1:8000/api";
+export const GetCommitteeMemberData = async (id: number): Promise<MemberData[]> => {
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   try {
     const response = await axios.get(`${apiUrl}/committees/${id}/members`, {
@@ -34,4 +34,4 @@ export const GetMemberData = async (id: number): Promise<MemberData[]> => {
   }
 };
 
-export default GetMemberData;
+export default GetCommitteeMemberData;

@@ -7,7 +7,7 @@ export interface CommitteeData {
 }
 
 export const GetCommitteeData = async (): Promise<string | CommitteeData[]> => {
-  const apiUrl = "http://127.0.0.1:8000/api";
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   try {
     const response = await axios.get(`${apiUrl}/committees`, {

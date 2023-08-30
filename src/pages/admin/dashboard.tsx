@@ -11,6 +11,7 @@ import {
   CommitteeData,
   User,
   Member,
+  MemberData,
   GetCommitteeData,
   getUserData,
   getMemberData,
@@ -21,6 +22,7 @@ import AddCommitteeModal from "../../components/widget/cards/addCommitteeModal";
 import CommitteeTableSection from "../../components/layout/dashboard/committeeTable";
 import Spinner from "../../components/layout/dashboard/spinner";
 import TBodyApplicants from "../../components/widget/cards/tableBodyApplicants";
+import { onClick } from "../../components/widget/cards/statisticsCard";
 
 const apiUrl = "http://127.0.0.1:8000/api";
 
@@ -34,6 +36,8 @@ const Dashboard: React.FC = () => {
   const [assetApplicants, setAssetApplicants] = useState<User[]>([]);
   const [assetUsers, setAssetUsers] = useState<User[]>([]);
   const [assetMember, setAssetMember] = useState<Member[]>([]);
+
+  const link: onClick[] = [{name: "members", to: "members"}];
 
   const assetData = {
     committees: assetCommittee,
@@ -74,7 +78,7 @@ const Dashboard: React.FC = () => {
       if (response.status === 201) {
         const newCommittee: CommitteeData = response.data;
         const newAssetCommittee = [...assetCommittee, newCommittee];
-        window.alert("위원회 생성 완료")
+        window.alert("위원회 생성 완료");
         setCommitte("");
         setExplanation("");
         setShowModal(false);
@@ -82,7 +86,7 @@ const Dashboard: React.FC = () => {
       }
     }
     catch (err) {
-      setError("오류가 발생했습니다. 다시 시도하세요.")
+      setError("오류가 발생했습니다. 다시 시도하세요.");
     }
   };
 
@@ -93,6 +97,7 @@ const Dashboard: React.FC = () => {
         <StatisticsCardsSection
           statisticsCardsData={statisticsCardsData}
           assetData={assetData}
+          onClick={link}
         />
         <div className="mb-4 grid grid-cols-1 gap-6 xl:grid-cols-3">
           {/* 위원회 데이터 */}
@@ -118,7 +123,9 @@ const Dashboard: React.FC = () => {
                 <TableHead topics={["이름", "소속", "허가"]} px="px-5" />
                 <TBodyApplicants
                   applicants={assetApplicants}
+                  assetUsers={assetUsers}
                   setAssetApplicants={setAssetApplicants}
+                  setAssetUsers={setAssetUsers}
                 />
               </table>
             </CardBody>
