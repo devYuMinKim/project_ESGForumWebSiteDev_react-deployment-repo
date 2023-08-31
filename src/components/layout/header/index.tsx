@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
-import useValidateToken from '../../../hooks/useValidateToken';
-import useRefreshAccessToken from '../../../hooks/useRefreshToken';
+import React, { useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import useValidateToken from "../../../hooks/useValidateToken";
+import useRefreshAccessToken from "../../../hooks/useRefreshToken";
 
 const Header: React.FC = () => {
   const { loggedIn } = useValidateToken();
@@ -14,19 +14,19 @@ const Header: React.FC = () => {
       setAuthChanged(!authChanged);
     };
 
-    window.addEventListener('auth-changed', handleAuthChanged);
+    window.addEventListener("auth-changed", handleAuthChanged);
 
     return () => {
-      window.removeEventListener('auth-changed', handleAuthChanged);
+      window.removeEventListener("auth-changed", handleAuthChanged);
     };
   }, [authChanged]);
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('refreshToken');
-    const event = new CustomEvent('auth-changed');
+    localStorage.removeItem("token");
+    localStorage.removeItem("refreshToken");
+    const event = new CustomEvent("auth-changed");
     window.dispatchEvent(event);
-    navigate('/');
+    navigate("/");
   };
 
   if (loading) {
@@ -45,22 +45,40 @@ const Header: React.FC = () => {
         </NavLink>
 
         <nav className="flex flex-wrap items-center justify-center pl-24 text-base md:ml-auto md:mr-auto">
-          <NavLink to="/aboutus" className="mr-10 font-medium hover:text-gray-900">
+          <NavLink
+            to="/aboutus"
+            className="mr-10 font-medium hover:text-gray-900"
+          >
             포럼소개
           </NavLink>
-          <NavLink to="/business" className="mr-10 font-medium hover:text-gray-900">
+          <NavLink
+            to="/business"
+            className="mr-10 font-medium hover:text-gray-900"
+          >
             주요사업
           </NavLink>
-          <NavLink to="/seminars" className="mr-10 font-medium hover:text-gray-900">
+          <NavLink
+            to="/seminars"
+            className="mr-10 font-medium hover:text-gray-900"
+          >
             세미나
           </NavLink>
-          <NavLink to="/" className="mr-10 font-medium hover:text-gray-900">
+          <NavLink
+            to="/reference"
+            className="mr-10 font-medium hover:text-gray-900"
+          >
             자료실
           </NavLink>
-          <NavLink to="/committee" className="mr-10 font-medium hover:text-gray-900">
+          <NavLink
+            to="/committee"
+            className="mr-10 font-medium hover:text-gray-900"
+          >
             회원안내
           </NavLink>
-          <NavLink to="/" className="mr-10 font-medium hover:text-gray-900">
+          <NavLink
+            to="/notification"
+            className="mr-10 font-medium hover:text-gray-900"
+          >
             알림마당
           </NavLink>
         </nav>
