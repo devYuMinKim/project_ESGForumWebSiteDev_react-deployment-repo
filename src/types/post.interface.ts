@@ -1,3 +1,7 @@
+export interface PostFile {
+  url: string;
+}
+
 export interface Post {
   id: string;
   type: string;
@@ -5,6 +9,7 @@ export interface Post {
   content: string;
   author: string;
   view: Number;
+  files: Array<PostFile>;
   created_at: string;
   updated_at: string;
 }

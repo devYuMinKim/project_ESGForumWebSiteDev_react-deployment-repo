@@ -1,43 +1,35 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Seminar } from "../types/seminars.interface";
-import { getSeminarById } from "../services/seminar.service";
+import { Post } from "../types/post.interface";
+import { getPostById } from "../services/post.service";
 
-const SeminarDetailPage: React.FC = () => {
-  const [seminar, setSeminar] = useState<Seminar | null>(null);
+const NotificationDetailPage: React.FC = () => {
+  const [post, setPost] = useState<Post | null>(null);
   const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
     (async () => {
       if (!id) return;
 
-      const response = await getSeminarById(id);
+      const response = await getPostById(id);
 
       if (!response) return;
 
-      setSeminar(response);
+      setPost(response);
     })();
   }, [id]);
 
-  if (!seminar) return <div>Loading...</div>;
+  if (!post) return <div>Loading...</div>;
 
   return (
     <>
       <div className="flex justify-center min-h-screen mt-5">
         <div className="rounded flex justify-center overflow-hidden border w-full lg:w-6/12 md:w-6/12 bg-white mx-3 md:mx-0 lg:mx-0">
           <div className="rounded overflow-hidden w-full bg-white mx-3 md:mx-0 lg:mx-0 p-4">
-            <h2 className="text-4xl font-bold p-3">{seminar.subject}</h2>
-            <div className="w-full flex justify-end items-center p-3 space-x-4">
-              <p className="text-xs text-gray-600">
-                {seminar.date_start} ~ {seminar.date_end}
-              </p>
-            </div>
-            <div className="w-full flex justify-end items-center pr-3 space-x-4">
-              <p className="text-base text-gray-600">{seminar.location}</p>
-            </div>
+            <h2 className="text-4xl font-bold p-3">{post.title}</h2>
 
             <hr />
-            <p className="text-lg p-3 h-4/6">{seminar.content}</p>
+            <p className="text-lg p-3 h-4/6">{post.content}</p>
             <hr />
 
             <p className="block text-base text-blue-500 px-e3 py-f2 flex items-center space-x-g1 mt-2">
@@ -59,8 +51,8 @@ const SeminarDetailPage: React.FC = () => {
             </p>
             {/* TODO: 첨부파일 기능 정상 동작하는지 확인 요함 */}
             <div className="w-full flex items-center pl-3 space-x-4">
-              {seminar.files &&
-                seminar.files.map((file, index) => (
+              {post.files &&
+                post.files.map((file, index) => (
                   <a key={index} href={file.url} download>{`File ${
                     index + 1
                   }`}</a>
@@ -73,4 +65,4 @@ const SeminarDetailPage: React.FC = () => {
   );
 };
 
-export default SeminarDetailPage;
+export default NotificationDetailPage;
