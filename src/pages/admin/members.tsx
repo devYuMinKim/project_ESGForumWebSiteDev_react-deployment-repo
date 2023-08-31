@@ -56,6 +56,10 @@ const positionChange = async (id: number, note: any, setMembers: React.Dispatch<
 // 회원 삭제
 const deleteMember = async (id: number, members: Member[], setMembers: React.Dispatch<React.SetStateAction<Member[]>>, setNote: React.Dispatch<React.SetStateAction<(number | null | undefined | string)[]>>) => {
   try {
+    const flag = window.confirm("삭제 하시겠습니까?");
+
+    if (!flag) return;
+
     const response = await axios.delete(`${apiUrl}/members/${id}`, {
       headers: {
         Authorization: localStorage.getItem("token")
