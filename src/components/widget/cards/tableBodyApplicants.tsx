@@ -70,7 +70,7 @@ const TBodyApplicants: React.FC<TBodyApplicantsProps> = ({ applicants, assetUser
                   const isApprovaled = await approvalHandler(name, affiliation);
                   if (isApprovaled) {
                     setAssetUsers([...assetUsers, applicants[key]]);
-                    setAssetApplicants(applicants.filter((applicant) => applicant.name !== name && applicant.affiliation !== affiliation));
+                    setAssetApplicants(applicants.filter((applicant) => (applicant.name !== name && applicant.affiliation !== affiliation)));
                   }
                 }}
               >
