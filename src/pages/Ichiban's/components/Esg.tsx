@@ -14,7 +14,7 @@ const Esg: FC = () => {
         <div className='w-9/12'>
           <div className="grid grid-cols-2 gap-0 text-left text-white">
 
-            {/* css 이상하게 먹음 */}
+            {/* css 이상하게 먹음 수정중 */}
 
           {/* 1 */}
           <div className="relative bg-cover h-80 wrap-ufesgi hover:grayscale" style={{backgroundImage:`url('${p1}')`}}>
