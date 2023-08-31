@@ -37,7 +37,16 @@ const Dashboard: React.FC = () => {
   const [assetUsers, setAssetUsers] = useState<User[]>([]);
   const [assetMember, setAssetMember] = useState<Member[]>([]);
 
-  const link: onClick[] = [{name: "members", to: "members"}];
+  const link: onClick[] = [
+    {
+      name: "members",
+      to: "members"
+    },
+    {
+      name: "users",
+      to: "users"
+    },
+  ];
 
   const assetData = {
     committees: assetCommittee,
