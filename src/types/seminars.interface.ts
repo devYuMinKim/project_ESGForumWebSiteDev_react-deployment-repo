@@ -1,3 +1,7 @@
+export interface SeminarFile {
+  url: string;
+}
+
 export interface Seminar {
   id: string;
   date_start: string;
@@ -8,6 +12,7 @@ export interface Seminar {
   supervision: string;
   participation: string;
   content: string;
+  files?: Array<SeminarFile>;
   created_at: string;
   updated_at: string;
 }

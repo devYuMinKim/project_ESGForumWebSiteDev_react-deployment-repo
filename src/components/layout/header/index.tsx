@@ -64,7 +64,7 @@ const Header: React.FC = () => {
             세미나
           </NavLink>
           <NavLink
-            to="/reference"
+            to="/references"
             className="mr-10 font-medium hover:text-gray-900"
           >
             자료실
@@ -76,7 +76,7 @@ const Header: React.FC = () => {
             회원안내
           </NavLink>
           <NavLink
-            to="/notification"
+            to="/notifications"
             className="mr-10 font-medium hover:text-gray-900"
           >
             알림마당

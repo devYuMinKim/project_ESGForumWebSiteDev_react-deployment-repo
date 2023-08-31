@@ -54,7 +54,7 @@ const Committee: React.FC = () => {
                       <th className="p-2 whitespace-nowrap">
                         <div className="font-semibold text-left">이름</div>
                       </th>
-                      <th className="p-2 whitespace-nowrap">
+                      <th className="p-2 whitespace-nowrap w-7/12">
                         <div className="font-semibold text-left">소속</div>
                       </th>
                       <th className="p-2 whitespace-nowrap">
