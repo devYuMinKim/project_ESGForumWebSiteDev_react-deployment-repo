@@ -31,14 +31,6 @@
       /* hover:bg-transparent hover:text-mainColor-200 border-mainColor-200  */;
   }
 
-  span.prefix_ufesgi {
-    @apply text-xl font-bold text-mainColor-200;
-  }
-
-  .wrap-ufesgi {
-    @apply flex items-center justify-center h-14;
-  }
-
   svg {
     @apply text-lg;
   }

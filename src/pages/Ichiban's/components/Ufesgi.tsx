@@ -7,12 +7,41 @@ const Ufesgi = () => {
     <div className="mb-12 -mt-4">
       <div className="mb-10 text-3xl text-center" >UFESGI 란?</div>
       <div className="grid grid-cols-3 gap-0 text-center">
-        <div className="wrap-ufesgi bg-[#41483c15]"><FaUserGraduate/><span className="pl-4 prefix_ufesgi">U</span>niversity</div>
-        <div className="wrap-ufesgi bg-[#25a95136]"><FaPeopleGroup/><span className="pl-4 prefix_ufesgi">F</span>orum</div>
-        <div className="wrap-ufesgi bg-[#41483c15]"><FaEarthAsia/><span className="pl-4 prefix_ufesgi">E</span>nvironmental</div>
-        <div className="wrap-ufesgi bg-[#25a95136]"><FaRegHandshake/><span className="pl-4 prefix_ufesgi">S</span>ocial</div>
-        <div className="wrap-ufesgi bg-[#41483c15]"><FaUniversity/><span className="pl-4 prefix_ufesgi">G</span>overnance</div>
-        <div className="wrap-ufesgi bg-[#25a95136]"><FaPersonCircleCheck/><span className="pl-4 prefix_ufesgi">I</span>mplementation</div>
+        {/* 1. University */}
+        <div className="wrap-ufesgi bg-[#41483c15] flex items-center justify-center h-14">
+          <FaUserGraduate/> 
+          <span className="pl-4 prefix_ufesgi">U</span>niversity
+        </div>
+
+        {/* 2. Forum */}
+        <div className="wrap-ufesgi bg-[#25a95136]  flex items-center justify-center h-14">
+          <FaPeopleGroup/>
+          <span className="pl-4 prefix_ufesgi">F</span>orum
+        </div>
+
+        {/* 3. Environmental */}
+        <div className="wrap-ufesgi bg-[#41483c15]  flex items-center justify-center h-14">
+          <FaEarthAsia/>
+          <span className="pl-4 prefix_ufesgi">E</span>nvironmental
+        </div>
+
+        {/* 4. Social */}
+        <div className="wrap-ufesgi bg-[#25a95136]  flex items-center justify-center h-14">
+          <FaRegHandshake/>
+          <span className="pl-4 prefix_ufesgi">S</span>ocial
+        </div>
+
+        {/* 5. Governance */}
+        <div className="wrap-ufesgi bg-[#41483c15]  flex items-center justify-center h-14">
+          <FaUniversity/>
+          <span className="pl-4 prefix_ufesgi">G</span>overnance
+        </div>
+
+        {/* 6. Implementation */}
+        <div className="wrap-ufesgi bg-[#25a95136]  flex items-center justify-center h-14">
+          <FaPersonCircleCheck/>
+          <span className="pl-4 prefix_ufesgi">I</span>mplementation
+        </div>
       </div>
     </div>
   )
