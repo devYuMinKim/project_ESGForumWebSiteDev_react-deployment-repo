@@ -6,11 +6,16 @@ import axios from "axios";
 const tdTextContent = "font-medium text-blue-gray-600 text-center";
 const apiUrl = process.env.REACT_APP_API_URL;
 
-const approvalHandler = async (name: string, affiliation: string) => {
+const approvalHandler = async (email: string) => {
+  const flag = window.confirm("허가 하시겠습니까?");
+
+  if (!flag) {
+    return false;
+  }
+
   try {
     const response = await axios.put(`${apiUrl}/users/approval`, {
-      name,
-      affiliation
+      email
     }, {
       headers: {
         Authorization: localStorage.getItem("token")
@@ -67,10 +72,10 @@ const TBodyApplicants: React.FC<TBodyApplicantsProps> = ({ applicants, assetUser
             <td className={`${className} flex justify-center`}>
               <div
                 onClick={async () => {
-                  const isApprovaled = await approvalHandler(name, affiliation);
+                  const isApprovaled = await approvalHandler(email);
                   if (isApprovaled) {
                     setAssetUsers([...assetUsers, applicants[key]]);
-                    setAssetApplicants(applicants.filter((applicant) => (applicant.name !== name && applicant.affiliation !== affiliation)));
+                    setAssetApplicants(applicants.filter((applicant) => applicant.email !== email));
                   }
                 }}
               >
