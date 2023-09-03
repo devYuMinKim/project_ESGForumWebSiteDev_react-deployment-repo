@@ -1,24 +1,26 @@
-import React from 'react';
-import { Route, Routes } from 'react-router-dom';
-import MainPage from './pages';
-import Login from './pages/login';
-import Register from './pages/register';
-import Committee from './pages/committee';
-import Business from './pages/business';
+import React from "react";
+import { Route, Routes } from "react-router-dom";
+import MainPage from "./pages";
+import Login from "./pages/login";
+import Register from "./pages/register";
+import Committee from "./pages/committee";
+import Business from "./pages/business";
 
-import AboutUsPage from './pages/aboutus';
-import ObjectivePage from './pages/aboutus/objective';
-import BoEPage from './pages/aboutus/boe';
-import MeetingsPage from './pages/aboutus/meetings';
-import HistoryPage from './pages/aboutus/history';
-import RulesPage from './pages/aboutus/rules';
-import ContactPage from './pages/aboutus/contact';
-import SeminarPage from './pages/seminars';
-import DashBoard from './pages/admin/dashboard';
-import CommitteeInfo from './pages/admin/committee';
-import QuillEditor from './components/editor/quill-editor';
-import Editor from './pages/admin/post';
-import Members from './pages/admin/members';
+import AboutUsPage from "./pages/aboutus";
+import ObjectivePage from "./pages/aboutus/objective";
+import BoEPage from "./pages/aboutus/boe";
+import MeetingsPage from "./pages/aboutus/meetings";
+import HistoryPage from "./pages/aboutus/history";
+import RulesPage from "./pages/aboutus/rules";
+import ContactPage from "./pages/aboutus/contact";
+import SeminarPage from "./pages/seminars";
+import ReferencePage from "./pages/reference";
+import NotificationPage from "./pages/notification";
+import DashBoard from "./pages/admin/dashboard";
+import CommitteeInfo from "./pages/admin/committee";
+import SeminarDetailPage from "./pages/seminar_detail";
+import ReferenceDetailPage from "./pages/reference_detail";
+import NotificationDetailPage from "./pages/notification_detail";
 
 const Router: React.FC = () => (
   <Routes>
@@ -29,8 +31,14 @@ const Router: React.FC = () => (
     <Route path="/business" element={<Business />} />
     <Route path="/admin" element={<DashBoard />} />
     <Route path="/admin/committee/:id" element={<CommitteeInfo />} />
-    <Route path="/admin/members" element={<Members />} />
     <Route path="/seminars" element={<SeminarPage />} />
+    <Route path="/seminars/:id" element={<SeminarDetailPage />} />
+    <Route path="/references" element={<ReferencePage />} />
+    <Route path="/references/:id" element={<ReferenceDetailPage />} />
+    <Route path="/notifications" element={<NotificationPage />} />
+    <Route path="/notifications/:id" element={<NotificationDetailPage />} />
+    <Route path="/reference" element={<ReferencePage />} />
+    <Route path="/notification" element={<NotificationPage />} />
     <Route path="/aboutus" element={<AboutUsPage />} />
     <Route path="/aboutus/objective" element={<ObjectivePage />} />
     <Route path="/aboutus/boe" element={<BoEPage />} />
@@ -38,7 +46,6 @@ const Router: React.FC = () => (
     <Route path="/aboutus/history" element={<HistoryPage />} />
     <Route path="/aboutus/rules" element={<RulesPage />} />
     <Route path="/aboutus/contact" element={<ContactPage />} />
-    <Route path="/quill" element={<Editor />} />
   </Routes>
 );
 
