@@ -4,7 +4,7 @@ export interface User {
   email: string,
   affiliation: string,
   name: string,
-  autortity: null | number
+  authority: null | number
 }
 
 export interface getUserDataResponse {
@@ -16,7 +16,7 @@ const failedData: User = {
   email: "",
   affiliation: "",
   name: "",
-  autortity: -1
+  authority: -1
 }
 
 const failedReturn = {
