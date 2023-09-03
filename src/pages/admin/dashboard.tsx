@@ -11,7 +11,6 @@ import {
   CommitteeData,
   User,
   Member,
-  MemberData,
   GetCommitteeData,
   getUserData,
   getMemberData,
@@ -27,11 +26,12 @@ import { onClick } from "../../components/widget/cards/statisticsCard";
 const apiUrl = "http://127.0.0.1:8000/api";
 
 const Dashboard: React.FC = () => {
-  const [showModal, setShowModal] = useState(false);
-  const [committe, setCommitte] = useState("");
-  const [explanation, setExplanation] = useState("");
-  const [error, setError] = useState("");
-  const [ready, setReady] = useState(false);
+
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [committe, setCommitte] = useState<string>("");
+  const [explanation, setExplanation] = useState<string>("");
+  const [error, setError] = useState<string>("");
+  const [ready, setReady] = useState<boolean>(false);
   const [assetCommittee, setAssetCommittee] = useState<CommitteeData[]>([]);
   const [assetApplicants, setAssetApplicants] = useState<User[]>([]);
   const [assetUsers, setAssetUsers] = useState<User[]>([]);
