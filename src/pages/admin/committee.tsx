@@ -24,21 +24,21 @@ const CommitteeInfo: React.FC = ({
 
   const navigate = useNavigate();
   const id = Number(useLocation().pathname.split("/")[3]);
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
   const [committee, setCommittee] = useState<CommitteeData>({
     id,
     name: "",
     explanation: ""
   });
   const [members, setMembers] = useState<MemberData[]>([]);
-  const [cName, setCommitteeName] = useState("");
-  const [explanation, setExplanation] = useState("");
-  const [mName, setMemberName] = useState("");
-  const [affiliation, setAffiliation] = useState("");
-  const [error, setError] = useState("");
-  const [isDelete, setIsDelete] = useState(false);
-  const [ready, setReady] = useState(false);
-  const [chairman, setChairman] = useState("");
+  const [cName, setCommitteeName] = useState<string>("");
+  const [explanation, setExplanation] = useState<string>("");
+  const [mName, setMemberName] = useState<string>("");
+  const [affiliation, setAffiliation] = useState<string>("");
+  const [error, setError] = useState<string>("");
+  const [isDelete, setIsDelete] = useState<boolean>(false);
+  const [ready, setReady] = useState<boolean>(false);
+  const [chairman, setChairman] = useState<string>("");
 
   const assetData = {
     committee: [committee],
