@@ -16,16 +16,16 @@ export interface StatisticsCardData {
 
 export const statisticsCardsData: StatisticsCardData[] = [
   {
-    name: "members",
-    color: "bg-pink-500",
-    icon: UserGroupIcon,
-    title: "회원 수",
-  },
-  {
     name: "committees",
     color: "bg-green-500",
     icon: BookmarkSquareIcon,
     title: "위원회 수",
+  },
+  {
+    name: "members",
+    color: "bg-pink-500",
+    icon: UserGroupIcon,
+    title: "회원 수",
   },
   {
     name: "users",
