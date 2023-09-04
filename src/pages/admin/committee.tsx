@@ -1,21 +1,17 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useLocation, useNavigate, NavigateFunction } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Card, CardBody, CardHeader, Typography } from "@material-tailwind/react";
 import FormInput from "../../components/layout/login";
 import FormTextarea from "../../components/layout/dashboard/textarea";
 import StatisticsCardsSection from "../../components/layout/dashboard/statisticsCard";
-import {
-  CommitteeData,
-  GetCommitteeMemberData,
-  MemberData,
-  committeeStatisticsCardsData,
-} from "../../data";
-import { PlusCircleIcon } from "@heroicons/react/24/solid";
+import { CommitteeData, committeeMember, StatisticsCardData } from "../../types/admin.interface";
+import { BookmarkSquareIcon, PlusCircleIcon, UserGroupIcon, UserIcon } from "@heroicons/react/24/solid";
 import AddMemberModal from "../../components/widget/cards/addMemberModal";
 import TableHead from "../../components/layout/table/tableHead";
 import TBodyMembers, { findChairMan } from "../../components/widget/cards/tableBodyMembers";
 import Spinner from "../../components/layout/dashboard/spinner";
+import authenticatedAxios from "../../services/request.service";
 
 const apiUrl = "http://127.0.0.1:8000/api";
 
@@ -30,7 +26,7 @@ const CommitteeInfo: React.FC = ({
     name: "",
     explanation: ""
   });
-  const [members, setMembers] = useState<MemberData[]>([]);
+  const [members, setMembers] = useState<committeeMember[]>([]);
   const [cName, setCommitteeName] = useState<string>("");
   const [explanation, setExplanation] = useState<string>("");
   const [mName, setMemberName] = useState<string>("");
@@ -48,40 +44,58 @@ const CommitteeInfo: React.FC = ({
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await axios.get(`${apiUrl}/committee/${id}`, {
-          headers: {
-            Authorization: localStorage.getItem("token")
-          }
+      axios
+        .all([
+          authenticatedAxios.get(`/committee/${id}`),
+          authenticatedAxios.get(`/committee/${id}/members`),
+        ])
+        .then(
+          axios.spread((committeeDataResponse, committeeMemberDataResponse) => {
+            setReady(true);
+            const committeeData: CommitteeData = committeeDataResponse.data;
+            const committeeMemberData: committeeMember[] = committeeMemberDataResponse.data;
+            setMembers(committeeMemberData);
+            setChairman(findChairMan(committeeMemberData));
+            setCommittee(committeeData);
+            setCommitteeName(committeeData.name);
+            setExplanation(committeeData.explanation);
+          }))
+        .catch(() => {
+          window.alert("데이터를 불러올 수 없습니다");
+          navigate("/admin");
         });
-
-        const members = await GetCommitteeMemberData(id);
-        setMembers(members);
-        setChairman(findChairMan(members));
-
-        if (response.status === 200) {
-          const committeeData: CommitteeData = response.data;
-          setCommittee(committeeData);
-          setCommitteeName(committeeData.name);
-          setExplanation(committeeData.explanation);
-          setReady(true);
-        }
-
-        return [];
-      } catch (error) {
-        if (axios.isAxiosError(error)) {
-          if (error.response?.status === 404) {
-            window.alert("존재하지 않는 위원회 입니다.");
-            navigate("/admin");
-          }
-        }
-        setReady(true);
-        return [];
-      }
     };
 
     fetchData();
   }, []);
+
+  const committeeStatisticsCardsData = (name: string, members: committeeMember[], chairMan: string): StatisticsCardData[] => {
+    return (
+      [
+        {
+          name: "committee",
+          color: "bg-slate-700",
+          icon: BookmarkSquareIcon,
+          title: "위원회 이름",
+          value: name
+        },
+        {
+          name: "user",
+          color: "bg-slate-700",
+          icon: UserIcon,
+          title: "위원장",
+          value: chairMan
+        },
+        {
+          name: "members",
+          color: "bg-slate-700",
+          icon: UserGroupIcon,
+          title: "회원 수",
+          value: members.length
+        },
+      ]
+    );
+  }
 
   // 위원회 작업
   const handleSubmit = async (e: React.FormEvent) => {
@@ -96,11 +110,7 @@ const CommitteeInfo: React.FC = ({
           return;
         }
 
-        const response = await axios.delete(`${apiUrl}/committee/${id}`, {
-          headers: {
-            Authorization: localStorage.getItem("token")
-          }
-        });
+        const response = await authenticatedAxios.delete(`${apiUrl}/committees/${id}`);
 
         if (response.status === 204) {
           window.alert("삭제 완료");
@@ -112,21 +122,18 @@ const CommitteeInfo: React.FC = ({
         return;
       }
 
-      const response = await axios.put(`${apiUrl}/committees/${id}`, {
+      const response = await authenticatedAxios.put(`${apiUrl}/committees/${id}`, {
         id,
         name: cName,
         explanation,
-      }, {
-        headers: {
-          Authorization: localStorage.getItem("token")
-        }
       });
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         committee.name = cName;
         committee.explanation = explanation;
         setCommittee({ ...committee });
         window.alert("수정 완료");
+        setError("");
       }
     }
     catch (err) {
@@ -140,14 +147,10 @@ const CommitteeInfo: React.FC = ({
     e.preventDefault();
 
     try {
-      // 회원 추가 /committees/{committee}/members
-      const response = await axios.post(`${apiUrl}/committees/${id}/members`, {
+      // 회원 추가 /committee/{committee}/members
+      const response = await authenticatedAxios.post(`${apiUrl}/committee/${id}/members`, {
         name: mName,
         affiliation,
-      }, {
-        headers: {
-          Authorization: localStorage.getItem("token")
-        }
       });
 
       if (response.status === 201) {
@@ -173,7 +176,7 @@ const CommitteeInfo: React.FC = ({
 
   return (
     <div>
-      <Spinner flag={ready}></Spinner>
+      <Spinner flag={ready} />
       <div className={`${ready ? "m-12" : "hidden"}`}>
         <StatisticsCardsSection
           statisticsCardsData={committeeStatisticsCardsData(committee.name, members, chairman)}
@@ -271,7 +274,7 @@ const CommitteeInfo: React.FC = ({
             handleSubmit={handleMemberSubmit}
             setName={setMemberName}
             setAffiliation={setAffiliation}
-          ></AddMemberModal>
+          />
         </div>
       </div>
     </div>
