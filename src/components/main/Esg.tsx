@@ -1,8 +1,8 @@
 import { FC } from 'react';
-import p1 from '../imgs/p-1.jpg'
-import p2 from '../imgs/p-2.jpg'
-import p3 from '../imgs/p-3.jpg'
-import p4 from '../imgs/p-4.jpg'
+import p1 from '../../assets/main/p-1.jpg'
+import p2 from '../../assets/main/p-2.jpg'
+import p3 from '../../assets/main/p-3.jpg'
+import p4 from '../../assets/main/p-4.jpg'
 
 const Esg: FC = () => {
   return (

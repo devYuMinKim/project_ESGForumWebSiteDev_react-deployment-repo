@@ -1,11 +1,11 @@
 import React from "react";
-import IchibanApp from "./Ichiban's/IchibanApp";
+import Main from "./main/index";
 // import logo from "../assets/odego_logo.png";
 
 const MainPage: React.FC = () => {
   return (
     <>
-      <IchibanApp/>
+      <Main/>
     </>
   );
 };

@@ -3,14 +3,14 @@ import { FC } from 'react';
 import { Routes, Route } from "react-router-dom";
 
 // import Navbar from './components/Navbar'; 유민이 것으로 교체
-import Ufesgi from './components/Ufesgi';
-import Esg from './components/Esg';
-import Footer from './components/Footer';
-import Singlepage from './components/Singlepage';
+import Ufesgi from '../../components/main/Ufesgi';
+import Esg from '../../components/main/Esg';
+import Footer from '../../components/layout/footer/Footer';
+import Singlepage from '../../components/main/Singlepage';
 
-import mainImg from './imgs/main-bg.png';
+import mainImg from '../../assets/main/main-bg.png';
 
-const App: FC = () => {
+const Main: FC = () => {
   return (
     <>
       {/* 🟢 1. Navbar */}
@@ -39,4 +39,4 @@ const App: FC = () => {
   );
 }
 
-export default App;
+export default Main;
