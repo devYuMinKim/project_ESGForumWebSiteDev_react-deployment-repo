@@ -1,5 +1,5 @@
 import { Typography } from "@material-tailwind/react";
-import { committeeMember } from "../../../data";
+import { committeeMember } from "../../../types/admin.interface";
 import axios from "axios";
 
 export const findChairMan = (members: committeeMember[]) => {
