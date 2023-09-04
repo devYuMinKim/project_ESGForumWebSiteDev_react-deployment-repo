@@ -1,16 +1,14 @@
 import { Card, CardBody, CardHeader, Typography } from "@material-tailwind/react"
 import TableHead from "../../components/layout/table/tableHead"
-import { Member, getMemberData } from "../../data";
+import { Member } from "../../types/admin.interface";
 import { useEffect, useState } from "react";
 import FormInput from "../../components/layout/login";
-import axios from "axios";
 import Spinner from "../../components/layout/dashboard/spinner";
+import authenticatedAxios from "../../services/request.service";
 
 const Members: React.FC = () => {
 
   const tdTextContent = "font-medium text-blue-gray-600 text-center";
-
-  const apiUrl = process.env.REACT_APP_API_URL;
 
   const shadow = (notes: (string | number | null | undefined)[]) => {
     const shadow = [...notes].map((note) => {
@@ -30,31 +28,28 @@ const Members: React.FC = () => {
   // 직위 변경
   const positionChange = async (id: number, note: any, setMembers: React.Dispatch<React.SetStateAction<Member[]>>) => {
     try {
-      const response = await axios.put(`${apiUrl}/members`, {
+      const response = await authenticatedAxios.put("/members", {
         id,
         note
-      }, {
-        headers: {
-          Authorization: localStorage.getItem("token")
-        }
       });
-
+      
       if (response.status === 201) {
         const newMembersInfo: Member[] = response.data;
         setMembers(newMembersInfo);
         window.alert("수정 완료");
+        setReady(true);
         return;
       }
-
+      
       window.alert("문제가 발생했습니다. 다시 시도하세요.");
       return;
-
+      
     } catch (error) {
       window.alert("문제가 발생했습니다. 다시 시도하세요.");
       return;
     }
   }
-
+  
   // 회원 삭제
   const deleteMember = async (id: number, members: Member[], setMembers: React.Dispatch<React.SetStateAction<Member[]>>, setNote: React.Dispatch<React.SetStateAction<(number | null | undefined | string)[]>>) => {
     try {
@@ -62,11 +57,7 @@ const Members: React.FC = () => {
 
       if (!flag) return;
 
-      const response = await axios.delete(`${apiUrl}/members/${id}`, {
-        headers: {
-          Authorization: localStorage.getItem("token")
-        }
-      });
+      const response = await authenticatedAxios.delete(`/members/${id}`);
 
       if (response.status === 204) {
         const newMembers = getNewMembers(members, id);
@@ -94,15 +85,23 @@ const Members: React.FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const memberData = await getMemberData();
+      try {
+        const response = await authenticatedAxios.get<Member[]>("/members");
 
-      const notes = memberData.map((member) => {
-        return member.note;
-      });
+        if (response.status === 200) {
+          const memberData = response.data; // 데이터를 MemberData 타입 배열로 변환
 
-      setMembers(memberData);
-      setNote(notes);
-      setReady(true);
+          const notes = memberData.map((member) => {
+            return member.note;
+          });
+
+          setReady(true);
+          setMembers(memberData);
+          setNote(notes);
+        }
+      } catch (error) {
+
+      }
     };
 
     fetchData();
@@ -110,7 +109,7 @@ const Members: React.FC = () => {
 
   return (
     <div>
-      <Spinner flag={ready}></Spinner>
+      <Spinner flag={ready} />
       <div className={`${ready ? "m-12" : "hidden"}`}>
         <Card
           className="border-2 border-slate-100 rounded-lg">
