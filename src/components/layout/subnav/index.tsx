@@ -18,7 +18,7 @@ const menuList: PageProp[] = [
   },
   {
     title: '인사말',
-    url: '/aboutus/meetings',
+    url: '/aboutus/greetings',
   },
   {
     title: '연혁',
@@ -76,6 +76,11 @@ const SubNavContainer = styled.div`
   align-self: stretch;
 
   background: #41578a;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 0.625rem;
+  }
 `;
 
 const SubNavItem = styled.a<{ $current: boolean }>`
@@ -97,6 +102,18 @@ const SubNavItem = styled.a<{ $current: boolean }>`
     color: rgba(255, 255, 255, 1);
     background: #F7901E;
   `}
+
+  @media (max-width: 1150px) {
+    font-size: 1rem;
+    ${(props) =>
+      props.$current &&
+      `
+      font-size: 1rem;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 1);
+      background: #F7901E;
+    `}
+  }
 `;
 
 export default SubNav;

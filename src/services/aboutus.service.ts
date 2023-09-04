@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { History } from '../types/aboutus.interface';
+import { Greetings, History } from '../types/aboutus.interface';
 
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -17,8 +17,8 @@ export async function getHistories(): Promise<History[]> {
   return data;
 }
 
-export async function getGreetings(): Promise<string> {
-  const res = await axios.get<{ greetings: string }>(`${API_URL}/aboutus/greetings`);
+export async function getGreetings(): Promise<Greetings> {
+  const res = await axios.get<Greetings>(`${API_URL}/aboutus/greetings`);
 
-  return res.data['greetings'];
+  return res.data;
 }
