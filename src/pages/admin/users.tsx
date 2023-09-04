@@ -1,9 +1,9 @@
 import { Card, CardBody, CardHeader, Typography } from "@material-tailwind/react"
 import TableHead from "../../components/layout/table/tableHead"
-import { User, getUserData, getUserDataResponse } from "../../data";
+import { User, UserDataResponse } from "../../types/admin.interface";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import Spinner from "../../components/layout/dashboard/spinner";
+import authenticatedAxios from "../../services/request.service";
 
 const tdTextContent = "font-medium text-blue-gray-600 text-center";
 const apiUrl = process.env.REACT_APP_API_URL;
@@ -12,7 +12,7 @@ const Users: React.FC = () => {
   const [ready, setReady] = useState<boolean>(false);
   const [users, setUsers] = useState<User[]>([]);
 
-  const combineUsers = (usersData: getUserDataResponse) => {
+  const combineUsers = (usersData: UserDataResponse) => {
     const combinedUsersData = [...usersData.applicants, ...usersData.users];
     console.log(combinedUsersData);
     return combinedUsersData;
@@ -38,11 +38,7 @@ const Users: React.FC = () => {
 
       if (!flag) return;
 
-      const response = await axios.delete(`${apiUrl}/users/${email}`, {
-        headers: {
-          Authorization: localStorage.getItem("token")
-        }
-      });
+      const response = await authenticatedAxios.delete(`${apiUrl}/users/${email}`);
 
       if (response.status === 204) {
         const newUsers = getNewUSers(users, email);
@@ -62,16 +58,18 @@ const Users: React.FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const usersData = combineUsers(await getUserData());
-      setUsers(usersData);
+      const response: UserDataResponse = (await authenticatedAxios.get(`users`)).data;
+
+      const usersData = combineUsers(response);
       setReady(true);
+      setUsers(usersData);
     }
     fetchData();
   }, []);
 
   return (
     <div>
-      <Spinner flag={ready}></Spinner>
+      <Spinner flag={ready} />
       <div className={`${ready ? "m-12" : "hidden"}`}>
         <Card
           className="border-2 border-slate-100 rounded-lg">
