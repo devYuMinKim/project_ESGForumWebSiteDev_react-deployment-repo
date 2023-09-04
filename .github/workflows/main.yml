@@ -42,4 +42,5 @@ jobs:
           # 도커 작업
           script: |
             docker stop esg-web-react
+            cd ~/app
             docker compose-up -d
