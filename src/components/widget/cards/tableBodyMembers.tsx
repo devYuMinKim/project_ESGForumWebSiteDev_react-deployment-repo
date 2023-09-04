@@ -1,88 +1,87 @@
 import { Typography } from "@material-tailwind/react";
-import { MemberData, MemberData as Members } from "../../../data";
+import { committeeMember } from "../../../data";
 import axios from "axios";
 
-const tdTextContent = "font-medium text-blue-gray-600 text-center";
-const apiUrl = process.env.REACT_APP_API_URL;
-
-export const findChairMan = (members: MemberData[]) => {
+export const findChairMan = (members: committeeMember[]) => {
   for (const member of members) {
     if (member.pivot.note === "1") {
       return member.name;
     }
   }
-
   return "공석";
 }
 
-const deleteMember = (members: MemberData[], id2: number) => {
-  const newMember = members.filter((member) => member.pivot.id2 !== id2);
-  return newMember;
+interface TBodyMembersProps {
+  c_id: number
+  members: committeeMember[],
+  setMembers: React.Dispatch<React.SetStateAction<committeeMember[]>>,
+  setChairman: React.Dispatch<React.SetStateAction<string>>
 }
 
-const appointmentHandler = async (
-  id: number,
-  m_id: number,
-  setMembers: React.Dispatch<React.SetStateAction<Members[]>>,
-  setChairman: React.Dispatch<React.SetStateAction<string>>,) => {
-  try {
-    // 수정 - 위원장 임명
-    const response = await axios.put(`${apiUrl}/committees/${id}/members/${m_id}`, {
-      headers: {
-        Authorization: localStorage.getItem("token")
-      }
-    });
+const TBodyMembers: React.FC<TBodyMembersProps> = ({ c_id, members, setMembers, setChairman }) => {
+  const tdTextContent = "font-medium text-blue-gray-600 text-center";
+  const apiUrl = process.env.REACT_APP_API_URL;
 
-    if (response.status === 201) {
-      const newMembersInfo = response.data;
-      setMembers(newMembersInfo);
-      setChairman(findChairMan(newMembersInfo));
-      window.alert("위원장 임명 완료");
-    }
+  const deleteMember = (members: committeeMember[], id2: number) => {
+    const newMember = members.filter((member) => member.pivot.id2 !== id2);
+    return newMember;
   }
-  catch (error) {
-    window.alert("오류가 발생했습니다. 다시 시도하세요.");
-  }
-}
 
-const deleteHandler = async (
-  id: number,
-  m_id: number,
-  members: MemberData[],
-  setMembers: React.Dispatch<React.SetStateAction<Members[]>>,
-  setChairman: React.Dispatch<React.SetStateAction<string>>,) => {
-  try {
-
-    const flag = window.confirm("삭제 하시겠습니까?");
-    // 삭제
-    if (flag) {
-      const response = await axios.delete(`${apiUrl}/committees/${id}/members/${m_id}`, {
+  const appointmentHandler = async (
+    id: number,
+    m_id: number,
+    setMembers: React.Dispatch<React.SetStateAction<committeeMember[]>>,
+    setChairman: React.Dispatch<React.SetStateAction<string>>,) => {
+    try {
+      // 수정 - 위원장 임명
+      const response = await axios.put(`${apiUrl}/committee/${id}/members/${m_id}`, {
         headers: {
           Authorization: localStorage.getItem("token")
         }
       });
 
-      if (response.status === 204) {
-        const newMember = deleteMember(members, m_id);
-        setMembers(newMember);
-        setChairman(findChairMan(newMember));
-        window.alert("삭제 완료");
+      if (response.status === 201) {
+        const newMembersInfo = response.data;
+        setMembers(newMembersInfo);
+        setChairman(findChairMan(newMembersInfo));
+        window.alert("위원장 임명 완료");
       }
     }
+    catch (error) {
+      window.alert("오류가 발생했습니다. 다시 시도하세요.");
+    }
   }
-  catch (err) {
-    window.alert("오류가 발생했습니다. 다시 시도하세요.");
+
+  const deleteHandler = async (
+    id: number,
+    m_id: number,
+    members: committeeMember[],
+    setMembers: React.Dispatch<React.SetStateAction<committeeMember[]>>,
+    setChairman: React.Dispatch<React.SetStateAction<string>>,) => {
+    try {
+
+      const flag = window.confirm("삭제 하시겠습니까?");
+      // 삭제
+      if (flag) {
+        const response = await axios.delete(`${apiUrl}/committee/${id}/members/${m_id}`, {
+          headers: {
+            Authorization: localStorage.getItem("token")
+          }
+        });
+
+        if (response.status === 204) {
+          const newMember = deleteMember(members, m_id);
+          setMembers(newMember);
+          setChairman(findChairMan(newMember));
+          window.alert("삭제 완료");
+        }
+      }
+    }
+    catch (err) {
+      window.alert("오류가 발생했습니다. 다시 시도하세요.");
+    }
   }
-}
 
-interface TBodyMembersProps {
-  c_id: number
-  members: Members[],
-  setMembers: React.Dispatch<React.SetStateAction<Members[]>>,
-  setChairman: React.Dispatch<React.SetStateAction<string>>
-}
-
-const TBodyMembers: React.FC<TBodyMembersProps> = ({ c_id, members, setMembers, setChairman }) => {
   return (
     <tbody>
       {members.map(
