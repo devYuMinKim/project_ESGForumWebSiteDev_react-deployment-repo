@@ -12,12 +12,6 @@ export interface onClick {
   to: "members" | "users"
 }
 
-const getLink = (onClicks: onClick[] | undefined, name: string) => {
-  const isLinked = onClicks?.filter((onClick) => onClick.name == name);
-
-  return isLinked?.length ? isLinked[0].to : "";
-}
-
 interface StatisticsCardProps {
   color: string,
   name: string,
@@ -28,8 +22,14 @@ interface StatisticsCardProps {
   onClick?: onClick[]
 }
 
-const StatisticsCard =
+const StatisticsCard: React.FC<StatisticsCardProps> =
   ({ color, name, icon, title, value, footer, onClick }: StatisticsCardProps) => {
+    const getLink = (onClicks: onClick[] | undefined, name: string) => {
+      const isLinked = onClicks?.filter((onClick) => onClick.name == name);
+
+      return isLinked?.length ? isLinked[0].to : "";
+    }
+
     const navigate = useNavigate();
 
     const handleRowClick = (to: string) => {
