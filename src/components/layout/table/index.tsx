@@ -1,16 +1,5 @@
 import React from "react";
-
-interface CommitteeMember {
-  id: number;
-  name: string;
-  affiliation: string;
-  note: string;
-  pivot: {
-    cId: number;
-    id2: number;
-    note: string;
-  };
-}
+import { CommitteeMember } from "../../../types/committee.interface";
 
 const CommitteeTableRow: React.FC<{ member: CommitteeMember }> = ({
   member,
@@ -21,6 +10,9 @@ const CommitteeTableRow: React.FC<{ member: CommitteeMember }> = ({
     </td>
     <td className="p-2 whitespace-nowrap">
       <div className="text-left">{member.affiliation}</div>
+    </td>
+    <td className="p-2 whitespace-nowrap">
+      <div className="text-left">{member.email}</div>
     </td>
     <td className="p-2 whitespace-nowrap">
       {member.pivot.note === "위원장" ? (

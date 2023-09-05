@@ -1,12 +1,12 @@
-import React, { createElement } from 'react';
-import StatisticsCard, { onClick } from '../../widget/cards/statisticsCard';
-import { Member, MemberData, StatisticsCardData } from '../../../data';
-import { CommitteeData } from '../../../data';
+import React, { createElement } from "react";
+import StatisticsCard, { onClick } from "../../widget/cards/statisticsCard";
+import { Member, committeeMember, StatisticsCardData } from "../../../types/admin.interface";
+import { CommitteeData } from "../../../types/admin.interface";
 
 interface AssetData {
   committees?: CommitteeData[]
   committee?: CommitteeData[]
-  members?: Member[] | MemberData[]
+  members?: Member[] | committeeMember[]
 }
 
 export interface StatisticsCardsSectionProps {

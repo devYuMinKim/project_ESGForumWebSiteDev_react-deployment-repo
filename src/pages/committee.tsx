@@ -1,25 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import CommitteeTableRow from "../components/layout/table";
-
-interface CommitteeMember {
-  id: number;
-  name: string;
-  affiliation: string;
-  note: string;
-  pivot: {
-    cId: number;
-    id2: number;
-    note: string;
-  };
-}
-
-interface CommitteeData {
-  id: number;
-  name: string;
-  explanation: string;
-  members: CommitteeMember[];
-}
+import { CommitteeMember, CommitteeData } from "../types/committee.interface";
 
 const Committee: React.FC = () => {
   const apiUrl = "http://127.0.0.1:8000/api";
@@ -54,8 +36,11 @@ const Committee: React.FC = () => {
                       <th className="p-2 whitespace-nowrap">
                         <div className="font-semibold text-left">이름</div>
                       </th>
-                      <th className="p-2 whitespace-nowrap">
+                      <th className="p-2 whitespace-nowrap w-6/12">
                         <div className="font-semibold text-left">소속</div>
+                      </th>
+                      <th className="p-2 whitespace-nowrap w-4/12">
+                        <div className="font-semibold text-left">이메일</div>
                       </th>
                       <th className="p-2 whitespace-nowrap">
                         <div className="font-semibold text-left">비고</div>
