@@ -21,8 +21,6 @@ import CommitteeInfo from "./pages/admin/committee";
 import SeminarDetailPage from "./pages/seminar_detail";
 import ReferenceDetailPage from "./pages/reference_detail";
 import NotificationDetailPage from "./pages/notification_detail";
-import Members from "./pages/admin/members";
-import Users from "./pages/admin/users";
 
 const Router: React.FC = () => (
   <Routes>
@@ -33,8 +31,6 @@ const Router: React.FC = () => (
     <Route path="/business" element={<Business />} />
     <Route path="/admin" element={<DashBoard />} />
     <Route path="/admin/committee/:id" element={<CommitteeInfo />} />
-    <Route path="/admin/members" element={<Members />} />
-    <Route path="/admin/users" element={<Users />} />
     <Route path="/seminars" element={<SeminarPage />} />
     <Route path="/seminars/:id" element={<SeminarDetailPage />} />
     <Route path="/references" element={<ReferencePage />} />
