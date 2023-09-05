@@ -33,7 +33,7 @@ jobs:
           tags: |
             ghcr.io/esgforumwebsitedev/esgforum-react:latest
             ghcr.io/esgforumwebsitedev/esgforum-react:${{ env.RELEASE_VERSION }}
-          ache-from: type=gha # 여기서 gha 는 Guthub Actions 용 캐시를 의미합니다.
+          cache-from: type=gha # 여기서 gha 는 Guthub Actions 용 캐시를 의미합니다.
           cache-to: type=gha,mode=max
       - name: Deploy
         uses: appleboy/ssh-action@master
