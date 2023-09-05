@@ -7,15 +7,11 @@ import {
   CardBody,
 } from "@material-tailwind/react";
 import {
-  statisticsCardsData,
   CommitteeData,
   User,
   Member,
-  MemberData,
-  GetCommitteeData,
-  getUserData,
-  getMemberData,
-} from "../../data";
+  UserDataResponse,
+} from "../../types/admin.interface";
 import TableHead from "../../components/layout/table/tableHead";
 import StatisticsCardsSection from "../../components/layout/dashboard/statisticsCard";
 import AddCommitteeModal from "../../components/widget/cards/addCommitteeModal";
@@ -23,21 +19,56 @@ import CommitteeTableSection from "../../components/layout/dashboard/committeeTa
 import Spinner from "../../components/layout/dashboard/spinner";
 import TBodyApplicants from "../../components/widget/cards/tableBodyApplicants";
 import { onClick } from "../../components/widget/cards/statisticsCard";
+import authenticatedAxios from "../../services/request.service";
+import { useNavigate } from "react-router-dom";
+import { StatisticsCardData } from "../../types/admin.interface";
+import { BookmarkSquareIcon, UserGroupIcon, UserPlusIcon } from "@heroicons/react/24/solid";
 
 const apiUrl = "http://127.0.0.1:8000/api";
 
 const Dashboard: React.FC = () => {
-  const [showModal, setShowModal] = useState(false);
-  const [committe, setCommitte] = useState("");
-  const [explanation, setExplanation] = useState("");
-  const [error, setError] = useState("");
-  const [ready, setReady] = useState(false);
+  const navigate = useNavigate();
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [committe, setCommitte] = useState<string>("");
+  const [explanation, setExplanation] = useState<string>("");
+  const [error, setError] = useState<string>("");
+  const [ready, setReady] = useState<boolean>(false);
   const [assetCommittee, setAssetCommittee] = useState<CommitteeData[]>([]);
   const [assetApplicants, setAssetApplicants] = useState<User[]>([]);
   const [assetUsers, setAssetUsers] = useState<User[]>([]);
   const [assetMember, setAssetMember] = useState<Member[]>([]);
 
-  const link: onClick[] = [{name: "members", to: "members"}];
+  const statisticsCardsData: StatisticsCardData[] = [
+    {
+      name: "committees",
+      color: "bg-green-500",
+      icon: BookmarkSquareIcon,
+      title: "위원회 수",
+    },
+    {
+      name: "members",
+      color: "bg-pink-500",
+      icon: UserGroupIcon,
+      title: "회원 수",
+    },
+    {
+      name: "users",
+      color: "bg-blue-500",
+      icon: UserPlusIcon,
+      title: "가입자 수",
+    },
+  ];
+
+  const link: onClick[] = [
+    {
+      name: "members",
+      to: "members"
+    },
+    {
+      name: "users",
+      to: "users"
+    },
+  ];
 
   const assetData = {
     committees: assetCommittee,
@@ -47,16 +78,28 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const committeeData = await GetCommitteeData();
-      const userdata = await getUserData();
-      const memberData = await getMemberData();
-      if (Array.isArray(committeeData)) {
-        setAssetCommittee(committeeData);
-      }
-      setAssetUsers(userdata.users);
-      setAssetApplicants(userdata.applicants);
-      setAssetMember(memberData);
-      setReady(true);
+      axios
+        .all([
+          authenticatedAxios.get("/committees"),
+          authenticatedAxios.get("/users"),
+          authenticatedAxios.get("/members"),
+        ])
+        .then(
+          axios.spread((committeeDataResponse, userdataResponse, memberDataResponse) => {
+            setReady(true);
+            const committeeData: CommitteeData[] = committeeDataResponse.data;
+            const userdata: UserDataResponse = userdataResponse.data;
+            const memberData: Member[] = memberDataResponse.data;
+            setAssetCommittee(committeeData);
+            setAssetUsers(userdata.users);
+            setAssetApplicants(userdata.applicants);
+            setAssetMember(memberData);
+          })
+        )
+        .catch(() => {
+          window.alert("데이터를 불러올 수 없습니다");
+          navigate("/");
+        });
     };
 
     fetchData();
@@ -66,17 +109,13 @@ const Dashboard: React.FC = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(`${apiUrl}/committees`, {
+      const response = await authenticatedAxios.post<CommitteeData>(`${apiUrl}/committees`, {
         name: committe,
         explanation,
-      }, {
-        headers: {
-          Authorization: localStorage.getItem("token")
-        }
       });
 
       if (response.status === 201) {
-        const newCommittee: CommitteeData = response.data;
+        const newCommittee = response.data;
         const newAssetCommittee = [...assetCommittee, newCommittee];
         window.alert("위원회 생성 완료");
         setCommitte("");
@@ -92,7 +131,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <div>
-      <Spinner flag={ready}></Spinner>
+      <Spinner flag={ready} />
       <div className={`${ready ? "m-12" : "hidden"}`}>
         <StatisticsCardsSection
           statisticsCardsData={statisticsCardsData}
@@ -141,11 +180,11 @@ const Dashboard: React.FC = () => {
             handleSubmit={handleSubmit}
             setCommitte={setCommitte}
             setExplanation={setExplanation}
-          ></AddCommitteeModal>
+          />
         </div>
-      </div >
+      </div>
     </div>
   );
 }
 
-export default Dashboard
+export default Dashboard;

@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 import { Typography, Card, CardHeader, CardBody } from "@material-tailwind/react";
-import { PlusCircleIcon } from '@heroicons/react/24/solid';
-import TableHead from '../table/tableHead';
-import TBodyCommittee from '../../widget/cards/tableBodyCommittee'; // 아래 설명 참고
-import { CommitteeData } from '../../../data';
+import { PlusCircleIcon } from "@heroicons/react/24/solid";
+import TableHead from "../table/tableHead";
+import TBodyCommittee from "../../widget/cards/tableBodyCommittee"; // 아래 설명 참고
+import { CommitteeData } from "../../../types/admin.interface";
 
 interface CommitteeTableSectionProps {
   committees: CommitteeData[];
@@ -22,7 +22,7 @@ const CommitteeTableSection: React.FC<CommitteeTableSectionProps> = ({
       color="transparent"
       className="m-0 flex items-center justify-between p-6"
     >
-      <div className='relative'>
+      <div className="relative">
         <Typography variant="h6" color="blue-gray" className="mb-1">
           위원회
         </Typography>
