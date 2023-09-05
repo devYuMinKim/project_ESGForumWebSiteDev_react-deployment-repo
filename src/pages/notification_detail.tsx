@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { Post } from "../types/post.interface";
-import { getPostById } from "../services/post.service";
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { Post } from '../types/post.interface';
+import { getPostById } from '../services/post.service';
 
 const NotificationDetailPage: React.FC = () => {
   const [post, setPost] = useState<Post | null>(null);
@@ -53,9 +53,7 @@ const NotificationDetailPage: React.FC = () => {
             <div className="w-full flex items-center pl-3 space-x-4">
               {post.files &&
                 post.files.map((file, index) => (
-                  <a key={index} href={file.url} download>{`File ${
-                    index + 1
-                  }`}</a>
+                  <a key={index} href={file.url} download>{`File ${index + 1}`}</a>
                 ))}
             </div>
           </div>
