@@ -1,6 +1,6 @@
-import React from 'react';
-import FormInput from '../../layout/login';
-import FormTextarea from '../../layout/dashboard/textarea';
+import React from "react";
+import FormInput from "../../layout/login";
+import FormTextarea from "../../layout/dashboard/textarea";
 
 interface AddCommitteeModalProps {
   showModal: boolean;

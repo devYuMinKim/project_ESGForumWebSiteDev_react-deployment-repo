@@ -1,28 +1,29 @@
 import { Typography } from "@material-tailwind/react";
-import { CommitteeData as Committee } from "../../../data";
+import { CommitteeData as Committee } from "../../../types/admin.interface";
 import { useNavigate } from "react-router-dom";
-
-const MAX_LENGTH = 24;
-const tdTextContent = "font-medium text-blue-gray-600 text-center";
 
 interface TBodyCommitteeProps {
   committees: Committee[]
 }
 
-const TextTruncate = (text: string) => {
-  if (text.length <= MAX_LENGTH) {
-    return text;
-  }
-
-  const truncatedText = text.substring(0, MAX_LENGTH) + "...";
-
-  return truncatedText;
-};
-
 const TBodyCommittee: React.FC<TBodyCommitteeProps> = ({
   committees,
 }) => {
   const navigate = useNavigate();
+
+  const tdTextContent = "font-medium text-blue-gray-600 text-center";
+
+  const TextTruncate = (text: string) => {
+    const MAX_LENGTH = 24;
+
+    if (text.length <= MAX_LENGTH) {
+      return text;
+    }
+
+    const truncatedText = text.substring(0, MAX_LENGTH) + "...";
+
+    return truncatedText;
+  };
 
   const handleRowClick = (id: number) => {
     navigate(`committee/${id}`);

@@ -2,10 +2,15 @@ import styled from 'styled-components';
 
 export const Body = styled.div`
   display: flex;
-  width: 1440px;
-  padding: 10px 140px;
+  max-width: 1200px;
+  // padding: 10px 140px;
+  margin: 0 auto;
   flex-direction: column;
   align-items: flex-start;
+
+  @media (max-width: 768px) {
+    padding: 10px 20px;
+  }
 `;
 
 export const Description = styled.div`
