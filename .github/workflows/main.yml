@@ -28,6 +28,8 @@ jobs:
           file: ./Dockerfile
           push: true
           platforms: linux/amd64,linux/arm64
+          build-args:
+            REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL }}
           tags: |
             ghcr.io/esgforumwebsitedev/esgforum-react:latest
             ghcr.io/esgforumwebsitedev/esgforum-react:${{ env.RELEASE_VERSION }}
