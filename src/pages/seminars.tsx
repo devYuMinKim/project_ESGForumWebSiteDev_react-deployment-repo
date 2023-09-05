@@ -147,10 +147,10 @@ const SeminarPage = () => {
               {/* 테이블 헤더 (attributes) */}
               <thead className="">
                 <tr className="text-m font-semibold text-center border-b-2 border-blue-500 uppercase">
-                  <th className="px-4 py-3 w-7/12">주제</th>
+                  <th className="px-4 py-3 w-5/12">주제</th>
                   <th className="px-4 py-3 w-2/12">주관</th>
-                  <th className="px-4 py-3">날짜</th>
-                  <th className="px-4 py-3">생성일</th>
+                  <th className="px-4 py-3 w-3/12">날짜</th>
+                  <th className="px-4 py-3 w-2/12">생성일</th>
                 </tr>
               </thead>
               {/* 테이블 바디 (데이터) */}
