@@ -6,14 +6,13 @@ import FormInput from "../../components/layout/login";
 import FormTextarea from "../../components/layout/dashboard/textarea";
 import StatisticsCardsSection from "../../components/layout/dashboard/statisticsCard";
 import { CommitteeData, committeeMember, StatisticsCardData } from "../../types/admin.interface";
-import { BookmarkSquareIcon, PlusCircleIcon, UserGroupIcon, UserIcon } from "@heroicons/react/24/solid";
+import { BookmarkSquareIcon, PlusCircleIcon, UserGroupIcon, UserIcon, ArrowLeftCircleIcon } from "@heroicons/react/24/solid";
 import AddMemberModal from "../../components/widget/cards/addMemberModal";
 import TableHead from "../../components/layout/table/tableHead";
 import TBodyMembers, { findChairMan } from "../../components/widget/cards/tableBodyMembers";
 import Spinner from "../../components/layout/dashboard/spinner";
 import authenticatedAxios from "../../services/request.service";
-
-const apiUrl = "http://127.0.0.1:8000/api";
+import { Link } from "react-router-dom";
 
 const CommitteeInfo: React.FC = ({
 }) => {
@@ -73,14 +72,14 @@ const CommitteeInfo: React.FC = ({
     return (
       [
         {
-          name: "committee",
+          name: "committees",
           color: "bg-slate-700",
           icon: BookmarkSquareIcon,
           title: "위원회 이름",
           value: name
         },
         {
-          name: "user",
+          name: "users",
           color: "bg-slate-700",
           icon: UserIcon,
           title: "위원장",
@@ -110,7 +109,7 @@ const CommitteeInfo: React.FC = ({
           return;
         }
 
-        const response = await authenticatedAxios.delete(`${apiUrl}/committees/${id}`);
+        const response = await authenticatedAxios.delete(`committee/${id}`);
 
         if (response.status === 204) {
           window.alert("삭제 완료");
@@ -122,7 +121,7 @@ const CommitteeInfo: React.FC = ({
         return;
       }
 
-      const response = await authenticatedAxios.put(`${apiUrl}/committees/${id}`, {
+      const response = await authenticatedAxios.put(`/committee/${id}`, {
         id,
         name: cName,
         explanation,
@@ -147,8 +146,7 @@ const CommitteeInfo: React.FC = ({
     e.preventDefault();
 
     try {
-      // 회원 추가 /committee/{committee}/members
-      const response = await authenticatedAxios.post(`${apiUrl}/committee/${id}/members`, {
+      const response = await authenticatedAxios.post(`/committee/${id}/members`, {
         name: mName,
         affiliation,
       });
@@ -177,10 +175,21 @@ const CommitteeInfo: React.FC = ({
   return (
     <div>
       <Spinner flag={ready} />
-      <div className={`${ready ? "m-12" : "hidden"}`}>
+      <div className={`${ready ? "mx-24 my-6" : "opacity-0"} transition-opacity`}>
+        <div className="flex mb-12 text-slate-600 hover:animate-pulse cursor-pointer align-middle">
+          <ArrowLeftCircleIcon className="w-10" />
+          <div className="align-middle">
+            <Link to={'/admin'}>
+              <Typography variant="h5" color="blue-gray" className={""}>
+                이전 페이지
+              </Typography>
+            </Link>
+          </div>
+        </div>
         <StatisticsCardsSection
           statisticsCardsData={committeeStatisticsCardsData(committee.name, members, chairman)}
           assetData={assetData}
+          gridCols={"xl:grid-cols-3"}
         />
         <div className="mb-4 grid grid-cols-1 gap-6 xl:grid-cols-3">
           <Card className="overflow-hidden xl:col-span-1 border-2 border-slate-100 rounded-lg">
@@ -243,7 +252,7 @@ const CommitteeInfo: React.FC = ({
             >
               <div className="relative">
                 <Typography variant="h6" color="blue-gray" className="mb-1">
-                  회원 명단
+                  위원회 회원 명단
                 </Typography>
               </div>
               <div className="absolute mb-1 right-6">
@@ -258,7 +267,7 @@ const CommitteeInfo: React.FC = ({
             <CardBody className="overflow-y-scroll px-0 pt-0 pb-2 h-96">
 
               <table className="w-full min-w-[640px] table-auto">
-                <TableHead topics={["이름", "소속", "위원회 직위", "작업하기"]} px="px-1" />
+                <TableHead topics={["이름", "소속", "위원회 직위", "위원회 회원 관리"]} px="px-5" />
                 <TBodyMembers c_id={id} members={members} setMembers={setMembers} setChairman={setChairman}></TBodyMembers>
               </table>
             </CardBody>
@@ -268,16 +277,14 @@ const CommitteeInfo: React.FC = ({
             showModal={showModal}
             name={mName}
             affiliation={affiliation}
-            // error={error}
             setShowModal={setShowModal}
-            // setError={setError}
             handleSubmit={handleMemberSubmit}
             setName={setMemberName}
             setAffiliation={setAffiliation}
           />
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 
