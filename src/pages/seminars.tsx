@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   getSeminars,
   getOngoingSeminars,
   getPastSeminars,
   searchSeminars,
-} from "../services/seminar.service";
-import { Seminar } from "../types/seminars.interface";
-import Pagination from "rc-pagination";
-import Select from "react-select";
+} from '../services/seminar.service';
+import { Seminar } from '../types/seminars.interface';
+import Pagination from 'rc-pagination';
+import Select from 'react-select';
 
 // import { ReactComponent as SearchIcon } from "../assets/icons/seminars-search.svg";
 
 const options = [
-  { value: "subject", label: "주제" },
-  { value: "host", label: "주관" },
+  { value: 'subject', label: '주제' },
+  { value: 'host', label: '주관' },
 ];
 
 const SeminarCard = (props: { seminar: Seminar }) => {
@@ -52,33 +52,33 @@ const SeminarPage = () => {
   const [seminars, setSeminars] = useState<Seminar[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
-  const [type, setType] = useState("all");
-  const [searchKeyword, setSearchKeyword] = useState("");
-  const [searchType, setSearchType] = useState("subject");
+  const [type, setType] = useState('all');
+  const [searchKeyword, setSearchKeyword] = useState('');
+  const [searchType, setSearchType] = useState('subject');
 
   useEffect(() => {
     (async () => {
       let response;
-      if (type === "all") {
+      if (type === 'all') {
         if (searchKeyword) {
           response =
-            searchType === "subject"
+            searchType === 'subject'
               ? await searchSeminars(searchKeyword)
               : await searchSeminars(undefined, searchKeyword);
         } else {
           response = await getSeminars(currentPage);
         }
-      } else if (type === "ongoing") {
+      } else if (type === 'ongoing') {
         response = await getOngoingSeminars(
           currentPage,
-          searchType === "subject" ? searchKeyword : undefined,
-          searchType === "host" ? searchKeyword : undefined
+          searchType === 'subject' ? searchKeyword : undefined,
+          searchType === 'host' ? searchKeyword : undefined
         );
-      } else if (type === "past") {
+      } else if (type === 'past') {
         response = await getPastSeminars(
           currentPage,
-          searchType === "subject" ? searchKeyword : undefined,
-          searchType === "host" ? searchKeyword : undefined
+          searchType === 'subject' ? searchKeyword : undefined,
+          searchType === 'host' ? searchKeyword : undefined
         );
       }
 
@@ -99,18 +99,16 @@ const SeminarPage = () => {
           </div>
           {/* 종류 */}
           <ul className="flex flex-row space-x-2 sm:space-x-6 md:space-x-12 mt-4 mx-4 items-center border-b border-gray-300 overflow-auto text-sm">
-            <li className={type === "all" ? "text-blue-500 font-bold" : ""}>
-              <button onClick={() => setType("all")}>전체</button>
+            <li className={type === 'all' ? 'text-blue-500 font-bold' : ''}>
+              <button onClick={() => setType('all')}>전체</button>
               <div className="h-1 bg-blue-500 scale-x-0 group-hover:scale-100 transition-transform origin-left rounded-full duration-300 ease-out"></div>
             </li>
-            <li className={type === "ongoing" ? "text-blue-500 font-bold" : ""}>
-              <button onClick={() => setType("ongoing")}>
-                진행중인 세미나
-              </button>
+            <li className={type === 'ongoing' ? 'text-blue-500 font-bold' : ''}>
+              <button onClick={() => setType('ongoing')}>진행중인 세미나</button>
               <div className="h-1 bg-blue-500 scale-x-0 group-hover:scale-100 transition-transform origin-left rounded-full duration-300 ease-out"></div>
             </li>
-            <li className={type === "past" ? "text-blue-500 font-bold" : ""}>
-              <button onClick={() => setType("past")}>지난 세미나</button>
+            <li className={type === 'past' ? 'text-blue-500 font-bold' : ''}>
+              <button onClick={() => setType('past')}>지난 세미나</button>
               <div className="h-1 bg-blue-500 scale-x-0 group-hover:scale-100 transition-transform origin-left rounded-full duration-300 ease-out"></div>
             </li>
           </ul>
@@ -122,14 +120,13 @@ const SeminarPage = () => {
                 <Select
                   value={options.find((option) => option.value === searchType)}
                   onChange={(selectedOption) => {
-                    if (selectedOption !== null)
-                      setSearchType(selectedOption.value);
+                    if (selectedOption !== null) setSearchType(selectedOption.value);
                   }}
                   options={options}
                   styles={{
                     control: (provided) => ({
                       ...provided,
-                      width: "100px",
+                      width: '100px',
                     }),
                   }}
                 />
@@ -159,9 +156,7 @@ const SeminarPage = () => {
               {/* 테이블 바디 (데이터) */}
               <tbody className="text-sm font-normal text-gray-700 text-center">
                 {seminars &&
-                  seminars.map((seminar) => (
-                    <SeminarCard key={seminar.id} seminar={seminar} />
-                  ))}
+                  seminars.map((seminar) => <SeminarCard key={seminar.id} seminar={seminar} />)}
               </tbody>
             </table>
           </div>
@@ -171,9 +166,9 @@ const SeminarPage = () => {
               total={totalItems}
               pageSize={10}
               onChange={(page) => setCurrentPage(page)}
-              style={{ display: "flex", justifyContent: "center" }}
+              style={{ display: 'flex', justifyContent: 'center' }}
               itemRender={(current, type, element) => {
-                if (type === "page") {
+                if (type === 'page') {
                   if (currentPage <= 3 && current > Math.min(5, totalItems)) {
                     return null;
                   }
@@ -186,10 +181,7 @@ const SeminarPage = () => {
                     return null;
                   }
 
-                  if (
-                    currentPage > totalItems - 3 &&
-                    current < Math.max(totalItems - 4, 1)
-                  ) {
+                  if (currentPage > totalItems - 3 && current < Math.max(totalItems - 4, 1)) {
                     return null;
                   }
 
@@ -198,8 +190,8 @@ const SeminarPage = () => {
                       onClick={() => setCurrentPage(current)}
                       className={`inline-block px-3 py-1 border border-blue-500 cursor-pointer rounded-full text-sm ${
                         currentPage === current
-                          ? "text-white bg-blue-500"
-                          : "text-blue-500 hover:bg-blue-500 hover:text-white"
+                          ? 'text-white bg-blue-500'
+                          : 'text-blue-500 hover:bg-blue-500 hover:text-white'
                       }`}
                     >
                       {current}

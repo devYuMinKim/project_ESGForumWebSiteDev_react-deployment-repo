@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Content, DesContent } from '../../components/aboutus/DesContent';
+import { DesContent } from '../../components/aboutus/DesContent';
 import { Body, ContentContainer } from '../../components/aboutus/Layout';
 import PageTitle from '../../components/aboutus/PageTitle';
 import SubNav from '../../components/layout/subnav';
