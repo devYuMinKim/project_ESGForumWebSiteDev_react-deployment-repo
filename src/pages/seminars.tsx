@@ -142,38 +142,37 @@ const SeminarPage = () => {
                 </div>
               </div>
             </div>
-            <div className="mt-6 overflow-x-auto">
-              <table className="w-full table-auto">
-                {/* 테이블 헤더 (attributes) */}
-                <thead className="">
-                  <tr className="text-m font-semibold text-center border-b-2 border-blue-500 uppercase">
-                    <th className="px-4 py-3 w-5/12">주제</th>
-                    <th className="px-4 py-3 w-3/12">주관</th>
-                    <th className="px-4 py-3">날짜</th>
-                    <th className="px-4 py-3">생성일</th>
-                  </tr>
-                </thead>
-                {/* 테이블 바디 (데이터) */}
-                <tbody className="text-sm font-normal text-gray-700 text-center">
-                  {seminars &&
-                    seminars.map((seminar) => (
-                      <SeminarCard key={seminar.id} seminar={seminar} />
-                    ))}
-                </tbody>
-              </table>
-            </div>
-            <div className="flex flex-col items-center w-full px-4 py-4 text-sm text-gray-500 justify-center mx-auto">
-              <Pagination
-                current={currentPage}
-                total={totalItems}
-                pageSize={10}
-                onChange={(page) => setCurrentPage(page)}
-                style={{ display: "flex", justifyContent: "center" }}
-                itemRender={(current, type, element) => {
-                  if (type === "page") {
-                    if (currentPage <= 3 && current > Math.min(5, totalItems)) {
-                      return null;
-                    }
+          </div>
+          <div className="mt-6 overflow-x-auto">
+            <table className="w-full table-auto">
+              {/* 테이블 헤더 (attributes) */}
+              <thead className="">
+                <tr className="text-m font-semibold text-center border-b-2 border-blue-500 uppercase">
+                  <th className="px-4 py-3 w-5/12">주제</th>
+                  <th className="px-4 py-3 w-2/12">주관</th>
+                  <th className="px-4 py-3 w-3/12">날짜</th>
+                  <th className="px-4 py-3 w-2/12">생성일</th>
+                </tr>
+              </thead>
+              {/* 테이블 바디 (데이터) */}
+              <tbody className="text-sm font-normal text-gray-700 text-center">
+                {seminars &&
+                  seminars.map((seminar) => <SeminarCard key={seminar.id} seminar={seminar} />)}
+              </tbody>
+            </table>
+          </div>
+          <div className="flex flex-col items-center w-full px-4 py-4 text-sm text-gray-500 justify-center mx-auto">
+            <Pagination
+              current={currentPage}
+              total={totalItems}
+              pageSize={10}
+              onChange={(page) => setCurrentPage(page)}
+              style={{ display: 'flex', justifyContent: 'center' }}
+              itemRender={(current, type, element) => {
+                if (type === 'page') {
+                  if (currentPage <= 3 && current > Math.min(5, totalItems)) {
+                    return null;
+                  }
 
                     if (
                       currentPage > 3 &&
