@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import MainPage from "./pages";
@@ -21,6 +22,32 @@ import CommitteeInfo from "./pages/admin/committee";
 import SeminarDetailPage from "./pages/seminar_detail";
 import ReferenceDetailPage from "./pages/reference_detail";
 import NotificationDetailPage from "./pages/notification_detail";
+=======
+import React from 'react';
+import { Route, Routes } from 'react-router-dom';
+import MainPage from './pages';
+import Login from './pages/login';
+import Register from './pages/register';
+import Committee from './pages/committee';
+import Business from './pages/business';
+import AboutUsPage from './pages/aboutus';
+import ObjectivePage from './pages/aboutus/objective';
+import BoEPage from './pages/aboutus/boe';
+import GreetingsPage from './pages/aboutus/greetings';
+import HistoryPage from './pages/aboutus/history';
+import RulesPage from './pages/aboutus/rules';
+import ContactPage from './pages/aboutus/contact';
+import SeminarPage from './pages/seminars';
+import ReferencePage from './pages/reference';
+import NotificationPage from './pages/notification';
+import DashBoard from './pages/admin/dashboard';
+import CommitteeInfo from './pages/admin/committee';
+import SeminarDetailPage from './pages/seminar_detail';
+import ReferenceDetailPage from './pages/reference_detail';
+import NotificationDetailPage from './pages/notification_detail';
+import Members from './pages/admin/members';
+import Users from './pages/admin/users';
+>>>>>>> fed44a28add034d56274d7d298a924e8d4ca4125
 
 const Router: React.FC = () => (
   <Routes>
@@ -42,7 +69,7 @@ const Router: React.FC = () => (
     <Route path="/aboutus" element={<AboutUsPage />} />
     <Route path="/aboutus/objective" element={<ObjectivePage />} />
     <Route path="/aboutus/boe" element={<BoEPage />} />
-    <Route path="/aboutus/meetings" element={<MeetingsPage />} />
+    <Route path="/aboutus/greetings" element={<GreetingsPage />} />
     <Route path="/aboutus/history" element={<HistoryPage />} />
     <Route path="/aboutus/rules" element={<RulesPage />} />
     <Route path="/aboutus/contact" element={<ContactPage />} />
