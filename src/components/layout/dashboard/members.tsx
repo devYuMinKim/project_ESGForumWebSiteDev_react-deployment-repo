@@ -1,12 +1,19 @@
 import { Card, CardBody, CardHeader, Typography } from "@material-tailwind/react"
-import TableHead from "../../components/layout/table/tableHead"
-import { Member } from "../../types/admin.interface";
+import TableHead from "../table/tableHead"
+import { Member } from "../../../types/admin.interface";
 import { useEffect, useState } from "react";
-import FormInput from "../../components/layout/login";
-import Spinner from "../../components/layout/dashboard/spinner";
-import authenticatedAxios from "../../services/request.service";
+import FormInput from "../login";
+import Spinner from "./spinner";
+import authenticatedAxios from "../../../services/request.service";
 
-const Members: React.FC = () => {
+interface MembersProps {
+  memberCount: number
+  setMemberCount: React.Dispatch<React.SetStateAction<number>>;
+}
+
+const Members: React.FC<MembersProps> = ({ 
+  memberCount,
+  setMemberCount }) => {
 
   const tdTextContent = "font-medium text-blue-gray-600 text-center";
 
@@ -32,7 +39,7 @@ const Members: React.FC = () => {
         id,
         note
       });
-      
+
       if (response.status === 201) {
         const newMembersInfo: Member[] = response.data;
         setMembers(newMembersInfo);
@@ -40,20 +47,20 @@ const Members: React.FC = () => {
         setReady(true);
         return;
       }
-      
+
       window.alert("문제가 발생했습니다. 다시 시도하세요.");
       return;
-      
+
     } catch (error) {
       window.alert("문제가 발생했습니다. 다시 시도하세요.");
       return;
     }
   }
-  
+
   // 회원 삭제
   const deleteMember = async (id: number, members: Member[], setMembers: React.Dispatch<React.SetStateAction<Member[]>>, setNote: React.Dispatch<React.SetStateAction<(number | null | undefined | string)[]>>) => {
     try {
-      const flag = window.confirm("삭제 하시겠습니까?");
+      const flag = window.confirm("회원을 탈퇴시키겠습니까?");
 
       if (!flag) return;
 
@@ -62,11 +69,12 @@ const Members: React.FC = () => {
       if (response.status === 204) {
         const newMembers = getNewMembers(members, id);
         setMembers(newMembers);
+        setMemberCount(--memberCount)
         const notes = newMembers.map((member) => {
           return member.note;
         });
         setNote(notes);
-        window.alert("삭제 완료");
+        window.alert("탈퇴 완료");
         return;
       }
 
@@ -96,6 +104,7 @@ const Members: React.FC = () => {
           });
 
           setReady(true);
+          setMemberCount(memberData.length);
           setMembers(memberData);
           setNote(notes);
         }
@@ -108,9 +117,9 @@ const Members: React.FC = () => {
   }, []);
 
   return (
-    <div>
+    <div className="relative">
       <Spinner flag={ready} />
-      <div className={`${ready ? "m-12" : "hidden"}`}>
+      <div className={`${ready ? "" : "opacity-0"} transition-opacity`}>
         <Card
           className="border-2 border-slate-100 rounded-lg">
           <CardHeader
@@ -120,12 +129,12 @@ const Members: React.FC = () => {
             className="m-0 p-6"
           >
             <Typography variant="h6" color="blue-gray" className="mb-1">
-              회원 정보
+              포럼 회원 정보
             </Typography>
           </CardHeader>
-          <CardBody className="p-0">
-            <table className="w-full min-w-[300px] table-auto">
-              <TableHead topics={["이름", "소속", "포럼 직위", ""]} px="px-5" />
+          <CardBody className="overflow-y-scroll px-0 pt-0 pb-2">
+            <table className="w-full min-w-[640px] table-auto">
+              <TableHead topics={["이름", "소속", "포럼 직위", "회원 관리"]} px="px-5" />
               <tbody>
                 {members.map(
                   ({ id, name, affiliation }, key) => {
@@ -182,10 +191,10 @@ const Members: React.FC = () => {
                             직위 변경
                           </button>
                           <button
-                            className={"w-10 bg-red-500 text-white font-bold uppercase text-sm px-1 py-1 rounded shadow hover:shadow-lg my-1"}
+                            className={"w-15 bg-red-500 text-white font-bold uppercase text-sm px-1 py-1 rounded shadow hover:shadow-lg my-1"}
                             onClick={async () => deleteMember(id, members, setMembers, setNote)}
                           >
-                            삭제
+                            포럼 탈퇴
                           </button>
                         </td>
                       </tr>
