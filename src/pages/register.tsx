@@ -4,9 +4,9 @@ import axios from "axios";
 import FormInput from "../components/layout/login";
 // import logo from "../assets/odego_logo.png";
 
-const Register: React.FC = () => {
-  const apiUrl = "http://127.0.0.1:8000/api";
+const API_URL = process.env.REACT_APP_API_URL;
 
+const Register: React.FC = () => {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -25,7 +25,7 @@ const Register: React.FC = () => {
     }
 
     try {
-      const response = await axios.post(`${apiUrl}/auth/register`, {
+      const response = await axios.post(`${API_URL}/auth/register`, {
         email: email,
         password: password,
         name: name,
