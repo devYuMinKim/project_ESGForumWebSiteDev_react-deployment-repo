@@ -33,9 +33,9 @@ const Router: React.FC = () => (
     <Route path="/seminars" element={<SeminarPage />} />
     <Route path="/seminars/:id" element={<SeminarDetailPage />} />
     <Route path="/references" element={<ReferencePage />} />
-    <Route path="/references/:id" element={<ReferenceDetailPage />} />
+    {/* <Route path="/references/:id" element={<ReferenceDetailPage />} /> */}
     <Route path="/notifications" element={<NotificationPage />} />
-    <Route path="/notifications/:id" element={<NotificationDetailPage />} />
+    {/* <Route path="/notifications/:id" element={<NotificationDetailPage />} /> */}
     <Route path="/reference" element={<ReferencePage />} />
     <Route path="/notification" element={<NotificationPage />} />
     <Route path="/aboutus" element={<AboutUsPage />} />
@@ -44,7 +44,8 @@ const Router: React.FC = () => (
     <Route path="/aboutus/greetings" element={<GreetingsPage />} />
     <Route path="/aboutus/history" element={<HistoryPage />} />
     <Route path="/aboutus/rules" element={<RulesPage />} />
-    <Route path="/aboutus/contact" element={<ContactPage />} />
+    {/* <Route path="/aboutus/contact" element={<ContactPage />} /> */}
+    {/* <Route path="/quill" element={<Editor />} /> */}
   </Routes>
 );
 
