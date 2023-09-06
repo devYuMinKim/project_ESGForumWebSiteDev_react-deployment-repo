@@ -1,6 +1,7 @@
 import { Typography } from "@material-tailwind/react";
 import { committeeMember } from "../../../types/admin.interface";
 import axios from "axios";
+import authenticatedAxios from "../../../services/request.service";
 
 export const findChairMan = (members: committeeMember[]) => {
   for (const member of members) {
@@ -34,11 +35,7 @@ const TBodyMembers: React.FC<TBodyMembersProps> = ({ c_id, members, setMembers, 
     setChairman: React.Dispatch<React.SetStateAction<string>>,) => {
     try {
       // 수정 - 위원장 임명
-      const response = await axios.put(`${apiUrl}/committee/${id}/members/${m_id}`, {
-        headers: {
-          Authorization: localStorage.getItem("token")
-        }
-      });
+      const response = await authenticatedAxios.put(`${apiUrl}/committee/${id}/members/${m_id}`);
 
       if (response.status === 201) {
         const newMembersInfo = response.data;
