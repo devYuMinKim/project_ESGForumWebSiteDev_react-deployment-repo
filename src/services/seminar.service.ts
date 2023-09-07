@@ -74,7 +74,7 @@ export async function updateSeminar(
  * @param id
  * @returns Seminar
  */
-export async function deleteSeminar(id: string | number) {
+export async function deleteSeminar(id: string | undefined) {
   const res = await axios.delete(`${API_URL}/seminars/${id}`);
   return res.data;
 }
