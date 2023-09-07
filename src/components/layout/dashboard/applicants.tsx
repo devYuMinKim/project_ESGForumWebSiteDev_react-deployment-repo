@@ -15,25 +15,12 @@ const Applicant: React.FC<ApplicantsProps> = ({
   applicantsCount,
   setApplicantsCount,
 }) => {
-
   const getNotes = (members: Member[]) => {
     const notes = members.map((member) => {
       return member.note;
     });
 
     return notes;
-  }
-
-  const shadow = (notes: (string | number | null | undefined)[]) => {
-    const shadow = [...notes].map((note) => {
-      if (!note || note === null) {
-        return "일반 회원";
-      }
-
-      return note;
-    });
-
-    return shadow;
   }
 
   const [applicants, setApplicants] = useState<Member[]>([]);
@@ -46,7 +33,7 @@ const Applicant: React.FC<ApplicantsProps> = ({
         const response = await authenticatedAxios.get<Member[]>("/applicants");
 
         if (response.status === 200) {
-          const applicants: Member[] = response.data; // 데이터를 MemberData 타입 배열로 변환
+          const applicants: Member[] = response.data;
 
           setReady(true);
           if (applicants) {
@@ -57,13 +44,24 @@ const Applicant: React.FC<ApplicantsProps> = ({
           }
         }
       } catch (error) {
-
+        window.alert("오류가 발생했습니다.");
       }
     };
 
     fetchData();
   }, [])
 
+  const shadow = (notes: (string | number | null | undefined)[]) => {
+    const shadow = [...notes].map((note) => {
+      if (!note || note === null) {
+        return "일반 회원";
+      }
+
+      return note;
+    });
+
+    return shadow;
+  }
 
   const tdTextContent = "font-medium text-blue-gray-600 text-center";
 
@@ -91,8 +89,6 @@ const Applicant: React.FC<ApplicantsProps> = ({
     }
   }
 
-
-
   return (
     <div className="relative">
       <Spinner flag={ready} />
@@ -114,7 +110,7 @@ const Applicant: React.FC<ApplicantsProps> = ({
               <TableHead topics={["email", "id", "이름", "소속", "포럼 직위", "허가 하기"]} px="px-10" />
               <tbody>
                 {applicants.map(
-                  ({ email, id, affiliation, name }, key) => {
+                  ({ email, id, affiliation, name, note }, key) => {
                     const className = `h-15 py-3 px-6 ${key === applicants.length - 1
                       ? ""
                       : "border-b border-blue-gray-50"
@@ -161,7 +157,7 @@ const Applicant: React.FC<ApplicantsProps> = ({
                             variant="small"
                             className={tdTextContent}
                           >
-                            {`${[notes][key] === null ? "일반 회원" : shadow(notes)[key]}`}
+                            {note || "일반 회원"}
                           </Typography>
                         </td>
                         <td className={`${className} flex justify-center`}>
@@ -170,7 +166,6 @@ const Applicant: React.FC<ApplicantsProps> = ({
                               const isApprovaled = await approvalHandler(id);
                               if (isApprovaled) {
                                 setApplicants([...applicants].filter((applicant) => applicant.email !== email));
-                                setApplicantsCount(--applicantsCount);
                               }
                             }}
                           >
