@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Seminar, User } from "../types/seminars.interface";
-import { getCurrentUser, getSeminarById } from "../services/seminar.service";
+import {
+  deleteSeminar,
+  getCurrentUser,
+  getSeminarById,
+} from "../services/seminar.service";
 import useToken from "../hooks/useToken";
 
 const SeminarDetailPage: React.FC = () => {
@@ -10,12 +14,14 @@ const SeminarDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
 
   const token = useToken();
+  const navigate = useNavigate();
 
   useEffect(() => {
     (async () => {
+      if (!token) return;
+
       try {
         const user = await getCurrentUser(token);
-        console.log(user);
         setCurrentUser(user);
       } catch (error) {
         setCurrentUser(null);
@@ -37,27 +43,53 @@ const SeminarDetailPage: React.FC = () => {
 
   if (!seminar) return <div>Loading...</div>;
 
+  async function handleDelete() {
+    try {
+      await deleteSeminar(id);
+      alert("게시글이 삭제되었습니다.");
+      navigate("/seminars");
+    } catch (error) {
+      alert("Failed to delete the seminar.");
+    }
+  }
+
   return (
     <>
       <div className="flex justify-center min-h-screen mt-5">
         <div className="rounded flex justify-center overflow-hidden border w-full lg:w-6/12 md:w-6/12 bg-white mx-3 md:mx-0 lg:mx-0">
           <div className="rounded overflow-hidden w-full bg-white mx-3 md:mx-0 lg:mx-0 p-4">
+            {/* 제목 */}
             <h2 className="text-4xl font-bold p-3">{seminar.subject}</h2>
+            {/* 날짜 */}
             <div className="w-full flex justify-end items-center p-3 space-x-4">
               <p className="text-xs text-gray-600">
                 {seminar.date_start} ~ {seminar.date_end}
               </p>
             </div>
+            {/* 지역 */}
             <div className="w-full flex justify-end items-center pr-3 space-x-4">
               <p className="text-base text-gray-600">{seminar.location}</p>
             </div>
 
             <hr />
+            {/* 내용 */}
             <p className="text-lg p-3 h-4/6">{seminar.content}</p>
-            {currentUser?.isAdmin && (
-              <div className="flex justify-end">
-                <button className="mr-2">수정</button>
-                <button>삭제</button>
+            {/* 수정, 삭제 버튼 */}
+            {currentUser && (
+              <div className="flex justify-end mb-2">
+                <button
+                  type="button"
+                  className="py-2 px-4 bg-teal-500 hover:bg-teal-600 focus:ring-teal-500 focus:ring-offset-indigo-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg mr-2"
+                >
+                  수정
+                </button>
+                <button
+                  type="button"
+                  onClick={handleDelete}
+                  className="py-2 px-4 bg-red-500 hover:bg-red-600 focus:ring-red-500 focus:ring-offset-indigo-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg"
+                >
+                  삭제
+                </button>
               </div>
             )}
 

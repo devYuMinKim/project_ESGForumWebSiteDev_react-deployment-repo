@@ -1,11 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { Post } from '../types/post.interface';
-import { getPostById } from '../services/post.service';
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { Post } from "../types/post.interface";
+import { getPostById } from "../services/post.service";
+import { deleteSeminar, getCurrentUser } from "../services/seminar.service";
+import { User } from "../types/seminars.interface";
+import useToken from "../hooks/useToken";
 
 const NotificationDetailPage: React.FC = () => {
   const [post, setPost] = useState<Post | null>(null);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
   const { id } = useParams<{ id: string }>();
+
+  const token = useToken();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    (async () => {
+      if (!token) return;
+
+      try {
+        const user = await getCurrentUser(token);
+        setCurrentUser(user);
+      } catch (error) {
+        setCurrentUser(null);
+      }
+    })();
+  }, [token]);
 
   useEffect(() => {
     (async () => {
@@ -21,6 +41,16 @@ const NotificationDetailPage: React.FC = () => {
 
   if (!post) return <div>Loading...</div>;
 
+  async function handleDelete() {
+    try {
+      await deleteSeminar(id);
+      alert("게시글이 삭제되었습니다.");
+      navigate("/seminars");
+    } catch (error) {
+      alert("Failed to delete the seminar.");
+    }
+  }
+
   return (
     <>
       <div className="flex justify-center min-h-screen mt-5">
@@ -30,6 +60,26 @@ const NotificationDetailPage: React.FC = () => {
 
             <hr />
             <p className="text-lg p-3 h-4/6">{post.content}</p>
+
+            {/* 수정, 삭제 버튼 */}
+            {currentUser && (
+              <div className="flex justify-end mb-2">
+                <button
+                  type="button"
+                  className="py-2 px-4 bg-teal-500 hover:bg-teal-600 focus:ring-teal-500 focus:ring-offset-indigo-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg mr-2"
+                >
+                  수정
+                </button>
+                <button
+                  type="button"
+                  onClick={handleDelete}
+                  className="py-2 px-4 bg-red-500 hover:bg-red-600 focus:ring-red-500 focus:ring-offset-indigo-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg"
+                >
+                  삭제
+                </button>
+              </div>
+            )}
+
             <hr />
 
             <p className="block text-base text-blue-500 px-e3 py-f2 flex items-center space-x-g1 mt-2">
@@ -53,7 +103,9 @@ const NotificationDetailPage: React.FC = () => {
             <div className="w-full flex items-center pl-3 space-x-4">
               {post.files &&
                 post.files.map((file, index) => (
-                  <a key={index} href={file.url} download>{`File ${index + 1}`}</a>
+                  <a key={index} href={file.url} download>{`File ${
+                    index + 1
+                  }`}</a>
                 ))}
             </div>
           </div>

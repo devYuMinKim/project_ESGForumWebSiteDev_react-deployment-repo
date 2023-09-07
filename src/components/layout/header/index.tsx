@@ -49,7 +49,7 @@ const Header: React.FC = () => {
             to="/aboutus"
             className={({ isActive }) =>
               isActive
-                ? "mr-10 font-medium text-teal-500"
+                ? "mr-10 font-bold text-teal-500"
                 : "mr-10 font-medium hover:text-gray-900"
             }
           >
@@ -59,7 +59,7 @@ const Header: React.FC = () => {
             to="/business"
             className={({ isActive }) =>
               isActive
-                ? "mr-10 font-medium text-teal-500"
+                ? "mr-10 font-bold text-teal-500"
                 : "mr-10 font-medium hover:text-gray-900"
             }
           >
@@ -69,7 +69,7 @@ const Header: React.FC = () => {
             to="/seminars"
             className={({ isActive }) =>
               isActive
-                ? "mr-10 font-medium text-teal-500"
+                ? "mr-10 font-bold text-teal-500"
                 : "mr-10 font-medium hover:text-gray-900"
             }
           >
@@ -79,7 +79,7 @@ const Header: React.FC = () => {
             to="/references"
             className={({ isActive }) =>
               isActive
-                ? "mr-10 font-medium text-teal-500"
+                ? "mr-10 font-bold text-teal-500"
                 : "mr-10 font-medium hover:text-gray-900"
             }
           >
@@ -89,7 +89,7 @@ const Header: React.FC = () => {
             to="/committee"
             className={({ isActive }) =>
               isActive
-                ? "mr-10 font-medium text-teal-500"
+                ? "mr-10 font-bold text-teal-500"
                 : "mr-10 font-medium hover:text-gray-900"
             }
           >
@@ -99,7 +99,7 @@ const Header: React.FC = () => {
             to="/notifications"
             className={({ isActive }) =>
               isActive
-                ? "mr-10 font-medium text-teal-500"
+                ? "mr-10 font-bold text-teal-500"
                 : "mr-10 font-medium hover:text-gray-900"
             }
           >
