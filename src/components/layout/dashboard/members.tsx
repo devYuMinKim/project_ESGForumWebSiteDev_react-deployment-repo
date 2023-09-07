@@ -17,19 +17,12 @@ const Members: React.FC<MembersProps> = ({
   memberCount,
   setMemberCount }) => {
 
-  const getNotes = (members: Member[]) => {
-    const notes = members.map((member) => {
-      return member.note;
-    });
-
-    return notes;
-  }
-
   const [ready, setReady] = useState<boolean>(false);
   const [members, setMembers] = useState<Member[]>([]);
-  const [notes, setNote] = useState<(number | null | undefined | string)[]>(getNotes(members));
+  const [mNote, setNote] = useState<string>("");
   const [showModal, setShowModal] = useState<boolean>(false);
   const [name, setName] = useState<string>("");
+  const [mId, setId] = useState<number>(0);
   const [affiliation, setAffiliation] = useState<string>("");
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -43,11 +36,10 @@ const Members: React.FC<MembersProps> = ({
 
       if (response.status === 201) {
         const newMember = response.data;
-        members.push(newMember);
         window.alert("추가 성공");
         setName("");
         setAffiliation("");
-        setMembers(members);
+        setMembers([...members, newMember]);
         setMemberCount(++memberCount);
         setShowModal(false);
       }
@@ -58,23 +50,19 @@ const Members: React.FC<MembersProps> = ({
   }
 
   useEffect(() => {
-    console.log("mem")
     const fetchData = async () => {
       try {
         const response = await authenticatedAxios.get<Member[]>("/members");
 
         if (response.status === 200) {
-          const memberData = response.data; // 데이터를 MemberData 타입 배열로 변환
-
-          const notes = getNotes(memberData);
+          const memberData = response.data;
 
           setReady(true);
-          setMemberCount([...memberData].length);
-          setMembers([...memberData]);
-          setNote(notes);
+          setMembers(memberData);
+          setMemberCount(memberData.length);
         }
       } catch (error) {
-
+        window.alert("데이터를 불러올 수 없습니다.")
       }
     };
 
@@ -82,16 +70,6 @@ const Members: React.FC<MembersProps> = ({
   }, []);
 
   const tdTextContent = "font-medium text-blue-gray-600 text-center";
-
-  const shadow = (notes: (string | number | null | undefined)[]) => {
-    const shadow = [...notes].map((note) => {
-      if (!note || note === null) {
-        return "일반 회원";
-      }
-      return note;
-    })
-    return shadow;
-  }
 
   const getNewMembers = (members: Member[], id: number) => {
     const newMember = members.filter((member) => member.id !== id);
@@ -106,7 +84,18 @@ const Members: React.FC<MembersProps> = ({
   }
 
   // 직위 변경
-  const positionChange = async (id: number, note: any, setMembers: React.Dispatch<React.SetStateAction<Member[]>>) => {
+  const positionChange = async (id: number, note: string, setMembers: React.Dispatch<React.SetStateAction<Member[]>>) => {
+
+    if (!id) {
+      window.alert("회원을 선택해 값을 수정한 후에 시도하세요.");
+      return;
+    }
+
+    if (!note) {
+      window.alert("직위를 입력하세요.");
+      return;
+    }
+
     try {
       const response = await authenticatedAxios.put("/members", {
         id,
@@ -131,7 +120,12 @@ const Members: React.FC<MembersProps> = ({
   }
 
   // 회원 삭제
-  const deleteMember = async (id: number, members: Member[], setMembers: React.Dispatch<React.SetStateAction<Member[]>>, setNote: React.Dispatch<React.SetStateAction<(number | null | undefined | string)[]>>) => {
+  const deleteMember = async (
+    id: number,
+    members: Member[],
+    setMembers: React.Dispatch<React.SetStateAction<Member[]>>,
+    setNote: React.Dispatch<React.SetStateAction<string>>) => {
+
     try {
       const flag = window.confirm("회원을 탈퇴시키겠습니까?");
 
@@ -143,10 +137,7 @@ const Members: React.FC<MembersProps> = ({
         const newMembers = getNewMembers(members, id);
         setMembers(newMembers);
         setMemberCount(--memberCount)
-        const notes = newMembers.map((member) => {
-          return member.note;
-        });
-        setNote(notes);
+        setNote("");
         window.alert("탈퇴 완료");
         return;
       }
@@ -188,7 +179,7 @@ const Members: React.FC<MembersProps> = ({
               <TableHead topics={["사이트 가입 여부", "email", "id", "이름", "소속", "포럼 직위", "회원 관리"]} px="px-8" />
               <tbody>
                 {members.map(
-                  ({ id, email, name, affiliation, authority }, key) => {
+                  ({ id, email, name, affiliation, authority, note }, key) => {
                     const className = `py-3 px-1 ${key === members.length - 1
                       ? ""
                       : "border-b border-blue-gray-50"
@@ -196,7 +187,7 @@ const Members: React.FC<MembersProps> = ({
 
                     return (
                       <tr
-                        key={key}
+                        key={id}
                         className="transition-shadow hover:shadow-inner"
                       >
                         <td className={className}>
@@ -247,13 +238,12 @@ const Members: React.FC<MembersProps> = ({
                               type="text"
                               autoComplete="name"
                               placeholder={"회원의 직위를 입력하세요."}
-                              value={`${[notes][key] === null ? "일반 회원" : shadow(notes)[key]}`}
+                              value={note || "일반 회원"}
                               width={"w-24"}
                               margin="m-0"
                               onChange={(e) => {
-                                const _note = [...notes];
-                                _note[key] = e.target.value;
-                                setNote(_note);
+                                setNote(e.target.value);
+                                setId(id);
                               }}
                             />
                           </div>
@@ -261,7 +251,7 @@ const Members: React.FC<MembersProps> = ({
                         <td className={`${className} flex justify-center space-x-2 h-full py-3`}>
                           <button
                             className={"w-15 bg-slate-600 text-white font-bold uppercase text-sm px-1 py-1 rounded shadow hover:shadow-lg my-1"}
-                            onClick={async () => positionChange(id, notes[key], setMembers)}
+                            onClick={async () => positionChange(mId, mNote, setMembers)}
                           >
                             직위 변경
                           </button>
