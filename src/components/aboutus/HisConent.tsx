@@ -54,7 +54,7 @@ export const Year = styled.div`
 `;
 export const ThisYear = styled.p`
   display: contents;
-  font-family: 'Noto Sans';
+  font-family: 'IBMPlexSansKR-Regular';
   font-size: 32px;
   font-weight: 400;
   line-height: 64px;
@@ -87,7 +87,7 @@ export const HistoryItem = styled.div`
 export const Date = styled.p`
   width: 64px;
   min-width: 64px;
-  font-family: 'Noto Sans';
+  font-family: 'IBMPlexSansKR-Regular';
   font-size: 24px;
   font-weight: 400;
   line-height: 64px;
@@ -95,7 +95,7 @@ export const Date = styled.p`
   margin-right: 27px;
 `;
 export const Content = styled.p`
-  font-family: 'Noto Sans';
+  font-family: 'IBMPlexSansKR-Regular';
   font-size: 20px;
   font-weight: 400;
   line-height: 64px;
