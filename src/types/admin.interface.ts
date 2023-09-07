@@ -18,12 +18,14 @@ export interface committeeMember {
 
 export interface Member {
   id: number
+  email: string
+  authority: number | null
   name: string;
   affiliation: string;
   note?: number | null | string; // esg 포럼에서의 직위
 }
 
-export type Track = "committees" | "members" | "users" | "unauthorized";
+export type Track = "committees" | "members" | "applicants";
 
 export interface StatisticsCardData {
   name: Track
@@ -31,16 +33,4 @@ export interface StatisticsCardData {
   icon: any,
   title: string,
   value?: string | number
-}
-
-export interface User {
-  email: string,
-  affiliation: string,
-  name: string,
-  authority: null | 0 | 1
-}
-
-export interface UserDataResponse {
-  users: User[],
-  applicants: User[],
 }

@@ -38,7 +38,7 @@ const CommitteeTableSection: React.FC<CommitteeTableSectionProps> = ({
         navigate("/");
       });
   }, [])
-
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 

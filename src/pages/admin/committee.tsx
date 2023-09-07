@@ -7,12 +7,12 @@ import FormTextarea from "../../components/layout/dashboard/textarea";
 import StatisticsCardsSection from "../../components/layout/dashboard/statisticsCard";
 import { CommitteeData, committeeMember, StatisticsCardData } from "../../types/admin.interface";
 import { BookmarkSquareIcon, PlusCircleIcon, UserGroupIcon, UserIcon, ArrowLeftCircleIcon } from "@heroicons/react/24/solid";
-import AddMemberModal from "../../components/widget/cards/addMemberModal";
 import TableHead from "../../components/layout/table/tableHead";
 import TBodyMembers, { findChairMan } from "../../components/widget/cards/tableBodyMembers";
 import Spinner from "../../components/layout/dashboard/spinner";
 import authenticatedAxios from "../../services/request.service";
 import { Link } from "react-router-dom";
+import AddCommitteeMemberModal from "../../components/widget/cards/addCommitteeMemberModal";
 
 const CommitteeInfo: React.FC = ({
 }) => {
@@ -42,6 +42,7 @@ const CommitteeInfo: React.FC = ({
   }
 
   useEffect(() => {
+    console.log("@@")
     const fetchData = async () => {
       axios
         .all([
@@ -79,7 +80,7 @@ const CommitteeInfo: React.FC = ({
           value: name
         },
         {
-          name: "users",
+          name: "committees",
           color: "bg-slate-700",
           icon: UserIcon,
           title: "위원장",
@@ -178,9 +179,9 @@ const CommitteeInfo: React.FC = ({
       <div className={`${ready ? "mx-24 my-6" : "opacity-0"} transition-opacity`}>
         <div className="flex mb-12 text-slate-600 hover:animate-pulse cursor-pointer align-middle">
           <ArrowLeftCircleIcon className="w-10" />
-          <div className="align-middle">
+          <div className="flex items-center">
             <Link to={'/admin'}>
-              <Typography variant="h5" color="blue-gray" className={""}>
+              <Typography variant="h6" color="blue-gray">
                 이전 페이지
               </Typography>
             </Link>
@@ -189,7 +190,6 @@ const CommitteeInfo: React.FC = ({
         <StatisticsCardsSection
           statisticsCardsData={committeeStatisticsCardsData(committee.name, members, chairman)}
           assetData={assetData}
-          gridCols={"xl:grid-cols-3"}
         />
         <div className="mb-4 grid grid-cols-1 gap-6 xl:grid-cols-3">
           <Card className="overflow-hidden xl:col-span-1 border-2 border-slate-100 rounded-lg">
@@ -273,7 +273,7 @@ const CommitteeInfo: React.FC = ({
             </CardBody>
           </Card>
 
-          <AddMemberModal
+          <AddCommitteeMemberModal
             showModal={showModal}
             name={mName}
             affiliation={affiliation}
