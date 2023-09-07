@@ -1,11 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Seminar } from "../types/seminars.interface";
-import { getSeminarById } from "../services/seminar.service";
+import { Seminar, User } from "../types/seminars.interface";
+import { getCurrentUser, getSeminarById } from "../services/seminar.service";
+import useToken from "../hooks/useToken";
 
 const SeminarDetailPage: React.FC = () => {
   const [seminar, setSeminar] = useState<Seminar | null>(null);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
   const { id } = useParams<{ id: string }>();
+
+  const token = useToken();
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const user = await getCurrentUser(token);
+        console.log(user);
+        setCurrentUser(user);
+      } catch (error) {
+        setCurrentUser(null);
+      }
+    })();
+  }, [token]);
 
   useEffect(() => {
     (async () => {
@@ -38,6 +54,13 @@ const SeminarDetailPage: React.FC = () => {
 
             <hr />
             <p className="text-lg p-3 h-4/6">{seminar.content}</p>
+            {currentUser?.isAdmin && (
+              <div className="flex justify-end">
+                <button className="mr-2">수정</button>
+                <button>삭제</button>
+              </div>
+            )}
+
             <hr />
 
             <p className="block text-base text-blue-500 px-e3 py-f2 flex items-center space-x-g1 mt-2">
