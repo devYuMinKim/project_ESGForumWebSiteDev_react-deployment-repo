@@ -10,8 +10,6 @@ import { Seminar } from "../types/seminars.interface";
 import Pagination from "rc-pagination";
 import Select from "react-select";
 
-// import { ReactComponent as SearchIcon } from "../assets/icons/seminars-search.svg";
-
 const options = [
   { value: "subject", label: "주제" },
   { value: "host", label: "주관" },
@@ -121,7 +119,6 @@ const SeminarPage = () => {
             <div className="flex flex-col sm:flex-row space-y-2 gap-4 sm:space-y-0 w-full px-4 mb-2 mt-4 items-center">
               <div className="flex w-full sm:w-3/5 items-center rounded-lg">
                 <div className="flex w-1/6">
-                  {/* FIXME: <SearchIcon /> */}
                   <Select
                     value={options.find(
                       (option) => option.value === searchType
