@@ -36,7 +36,7 @@ const StatisticsCard: React.FC<StatisticsCardProps> =
       if (track == name) {
         return "";
       }
-      
+
       if (!track) {
         return "";
       }
@@ -63,10 +63,10 @@ const StatisticsCard: React.FC<StatisticsCardProps> =
           {icon}
         </CardHeader>
         <CardBody className="p-4 text-right">
-          <Typography variant="small" className="font-normal text-blue-gray-600">
+          <Typography variant="small" className="font-normal text-blue-gray-600 mb-1">
             {title}
           </Typography>
-          <Typography variant="h4" color="blue-gray">
+          <Typography variant="h6" color="blue-gray">
             {value}
           </Typography>
         </CardBody>

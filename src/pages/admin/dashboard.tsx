@@ -7,44 +7,53 @@ import Spinner from "../../components/layout/dashboard/spinner";
 import authenticatedAxios from "../../services/request.service";
 import { useNavigate } from "react-router-dom";
 import { StatisticsCardData } from "../../types/admin.interface";
-import { BookmarkSquareIcon, UserGroupIcon, UserCircleIcon, QueueListIcon } from "@heroicons/react/24/solid";
+import { BookmarkSquareIcon, UserGroupIcon, QueueListIcon } from "@heroicons/react/24/solid";
 import Members from "../../components/layout/dashboard/members";
-import Users from "../../components/layout/dashboard/users";
-import Applicant from "../../components/layout/dashboard/applicants";
+import Applicants from "../../components/layout/dashboard/applicants";
 
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const [ready, setReady] = useState<boolean>(false);
   const [committeeCount, setCommitteeCount] = useState<number>(0);
-  const [applicantsCount, setApplicantsCount] = useState<number>(0);
-  const [userCount, setUserCount] = useState<number>(0);
   const [memberCount, setMemberCount] = useState<number>(0);
+  const [applicantsCount, setApplicantsCount] = useState<number>(0);
   const [track, setTrack] = useState<Track>("committees");
 
   useEffect(() => {
     axios
       .all([
         authenticatedAxios.get("/committees/count"),
-        authenticatedAxios.get("/users/count"),
         authenticatedAxios.get("/members/count"),
       ])
       .then(
-        axios.spread((committeeDataResponse, userdataResponse, memberDataResponse) => {
-          setReady(true);
+        axios.spread((committeeDataResponse, memberDataResponse) => {
           const committeeData = committeeDataResponse.data;
-          const userdata = userdataResponse.data;
           const memberData = memberDataResponse.data;
-          setCommitteeCount(committeeData);
-          setUserCount(userdata.users);
-          setApplicantsCount(userdata.applicants);
-          setMemberCount(memberData);
+          setCounts(committeeCount, committeeData, setCommitteeCount);
+          setCounts(applicantsCount, memberData.applicants, setApplicantsCount);
+          setCounts(memberCount, memberData.members, setMemberCount);
+          // setCommitteeCount(committeeData);
+          // setApplicantsCount(memberData.applicants);
+          // setMemberCount(memberData.members);
         })
       )
       .catch(() => {
         window.alert("데이터를 불러올 수 없습니다");
         navigate("/");
       });
+    setReady(true);
   }, []);
+  console.log("dashboard")
+
+  const setCounts = (
+    count: number,
+    newCount: number,
+    setFunction: React.Dispatch<React.SetStateAction<number>>) => {
+
+    if (count !== newCount) {
+      setFunction(newCount);
+    } 
+  }
 
   const statisticsCardsData: StatisticsCardData[] = [
     {
@@ -62,26 +71,18 @@ const Dashboard: React.FC = () => {
       value: memberCount
     },
     {
-      name: "users",
-      color: "bg-slate-700",
-      icon: UserCircleIcon,
-      title: "승인된 가입자 수",
-      value: userCount
-    },
-    {
-      name: "unauthorized",
+      name: "applicants",
       color: "bg-slate-700",
       icon: QueueListIcon,
-      title: "사이트 가입 대기자 수",
+      title: "사이트 가입 신청자 수",
       value: applicantsCount
     },
   ];
 
   const link: Track[] = [
     "committees",
-    "users",
     "members",
-    "unauthorized",
+    "applicants",
   ];
 
   const trackedData = (track: Track) => {
@@ -92,22 +93,16 @@ const Dashboard: React.FC = () => {
           setMemberCount={setMemberCount}
         />
 
-      case "users":
-        return <Users
-          userCount={userCount}
-          setUserCount={setUserCount} />
-
-      case "unauthorized":
-        return <Applicant
-          usersCount={userCount}
+      case "applicants":
+        return <Applicants
           applicantsCount={applicantsCount}
           setApplicantsCount={setApplicantsCount}
-          setUsersCount={setUserCount} />
+        />
 
       default:
         return <CommitteeTableSection
-        committeeCount={committeeCount}
-        setCommitteeCount={setCommitteeCount} />
+          committeeCount={committeeCount}
+          setCommitteeCount={setCommitteeCount} />
     }
   }
 

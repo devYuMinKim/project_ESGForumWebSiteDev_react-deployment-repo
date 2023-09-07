@@ -13,7 +13,6 @@ export interface StatisticsCardsSectionProps {
   statisticsCardsData: StatisticsCardData[]
   assetData?: AssetData
   onClick?: Track[]
-  gridCols?: string
   track?: Track
   setTrack?: React.Dispatch<React.SetStateAction<Track>>;
 }
@@ -22,7 +21,6 @@ const StatisticsCardsSection: React.FC<StatisticsCardsSectionProps> = ({
   statisticsCardsData,
   assetData,
   onClick,
-  gridCols,
   track,
   setTrack }) => {
 
@@ -36,7 +34,7 @@ const StatisticsCardsSection: React.FC<StatisticsCardsSectionProps> = ({
   }
 
   return (
-    <div className={`mb-12 grid gap-y-8 gap-x-6 md:grid-cols-2 ${gridCols || "xl:grid-cols-4"} bg-clip-border`}>
+    <div className={"mb-12 grid gap-y-8 gap-x-6 md:grid-cols-2 xl:grid-cols-3 bg-clip-border"}>
       {statisticsCardsData.map(({ icon, name, color, title, value, ...rest }) => (
         <StatisticsCard
           key={title}

@@ -5,21 +5,87 @@ import { useEffect, useState } from "react";
 import FormInput from "../login";
 import Spinner from "./spinner";
 import authenticatedAxios from "../../../services/request.service";
+import PlusCircleIcon from "@heroicons/react/24/solid/PlusCircleIcon";
+import AddMemberModal from "../../widget/cards/addMemberModal";
 
 interface MembersProps {
   memberCount: number
   setMemberCount: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const Members: React.FC<MembersProps> = ({ 
+const Members: React.FC<MembersProps> = ({
   memberCount,
   setMemberCount }) => {
+
+  const getNotes = (members: Member[]) => {
+    const notes = members.map((member) => {
+      return member.note;
+    });
+
+    return notes;
+  }
+
+  const [ready, setReady] = useState<boolean>(false);
+  const [members, setMembers] = useState<Member[]>([]);
+  const [notes, setNote] = useState<(number | null | undefined | string)[]>(getNotes(members));
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [name, setName] = useState<string>("");
+  const [affiliation, setAffiliation] = useState<string>("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      const response = await authenticatedAxios.post("members", {
+        name,
+        affiliation,
+      });
+
+      if (response.status === 201) {
+        const newMember = response.data;
+        members.push(newMember);
+        window.alert("추가 성공");
+        setName("");
+        setAffiliation("");
+        setMembers(members);
+        setMemberCount(++memberCount);
+        setShowModal(false);
+      }
+    }
+    catch (error) {
+      window.alert("오류가 발생했습니다. 다시 시도하세요.");
+    }
+  }
+
+  useEffect(() => {
+    console.log("mem")
+    const fetchData = async () => {
+      try {
+        const response = await authenticatedAxios.get<Member[]>("/members");
+
+        if (response.status === 200) {
+          const memberData = response.data; // 데이터를 MemberData 타입 배열로 변환
+
+          const notes = getNotes(memberData);
+
+          setReady(true);
+          setMemberCount([...memberData].length);
+          setMembers([...memberData]);
+          setNote(notes);
+        }
+      } catch (error) {
+
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const tdTextContent = "font-medium text-blue-gray-600 text-center";
 
   const shadow = (notes: (string | number | null | undefined)[]) => {
     const shadow = [...notes].map((note) => {
-      if (note === null) {
+      if (!note || note === null) {
         return "일반 회원";
       }
       return note;
@@ -30,6 +96,13 @@ const Members: React.FC<MembersProps> = ({
   const getNewMembers = (members: Member[], id: number) => {
     const newMember = members.filter((member) => member.id !== id);
     return newMember;
+  }
+
+  const getAutortity = (authorityData: number | null) => {
+    if (authorityData === 0 || authorityData === 1) {
+      return "0"
+    }
+    return "X"
   }
 
   // 직위 변경
@@ -87,35 +160,6 @@ const Members: React.FC<MembersProps> = ({
     }
   }
 
-  const [ready, setReady] = useState<boolean>(false);
-  const [members, setMembers] = useState<Member[]>([]);
-  const [notes, setNote] = useState<(number | null | undefined | string)[]>([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await authenticatedAxios.get<Member[]>("/members");
-
-        if (response.status === 200) {
-          const memberData = response.data; // 데이터를 MemberData 타입 배열로 변환
-
-          const notes = memberData.map((member) => {
-            return member.note;
-          });
-
-          setReady(true);
-          setMemberCount(memberData.length);
-          setMembers(memberData);
-          setNote(notes);
-        }
-      } catch (error) {
-
-      }
-    };
-
-    fetchData();
-  }, []);
-
   return (
     <div className="relative">
       <Spinner flag={ready} />
@@ -126,18 +170,25 @@ const Members: React.FC<MembersProps> = ({
             floated={false}
             shadow={false}
             color="transparent"
-            className="m-0 p-6"
+            className="m-0 flex items-center justify-between p-6"
           >
             <Typography variant="h6" color="blue-gray" className="mb-1">
               포럼 회원 정보
             </Typography>
+            <div className="absolute mb-1 right-6">
+              <PlusCircleIcon
+                className="font-medium w-10 cursor-pointer"
+                type="button"
+                onClick={() => setShowModal(true)}
+              />
+            </div>
           </CardHeader>
           <CardBody className="overflow-y-scroll px-0 pt-0 pb-2">
-            <table className="w-full min-w-[640px] table-auto">
-              <TableHead topics={["이름", "소속", "포럼 직위", "회원 관리"]} px="px-5" />
+            <table className="w-full min-w-[840px] table-auto">
+              <TableHead topics={["사이트 가입 여부", "email", "id", "이름", "소속", "포럼 직위", "회원 관리"]} px="px-8" />
               <tbody>
                 {members.map(
-                  ({ id, name, affiliation }, key) => {
+                  ({ id, email, name, affiliation, authority }, key) => {
                     const className = `py-3 px-1 ${key === members.length - 1
                       ? ""
                       : "border-b border-blue-gray-50"
@@ -153,7 +204,31 @@ const Members: React.FC<MembersProps> = ({
                             variant="small"
                             className={tdTextContent}
                           >
-                            {name ? name : "불러오지 못했습니다.."}
+                            {getAutortity(authority)}
+                          </Typography>
+                        </td>
+                        <td className={className}>
+                          <Typography
+                            variant="small"
+                            className={tdTextContent}
+                          >
+                            {email ? email : "X"}
+                          </Typography>
+                        </td>
+                        <td className={className}>
+                          <Typography
+                            variant="small"
+                            className={tdTextContent}
+                          >
+                            {id}
+                          </Typography>
+                        </td>
+                        <td className={className}>
+                          <Typography
+                            variant="small"
+                            className={tdTextContent}
+                          >
+                            {name}
                           </Typography>
                         </td>
                         <td className={className}>
@@ -206,6 +281,15 @@ const Members: React.FC<MembersProps> = ({
           </CardBody>
         </Card>
       </div>
+      <AddMemberModal
+        showModal={showModal}
+        setShowModal={setShowModal}
+        name={name}
+        affiliation={affiliation}
+        setName={setName}
+        setAffiliation={setAffiliation}
+        handleSubmit={handleSubmit}
+      />
     </div>
   )
 }

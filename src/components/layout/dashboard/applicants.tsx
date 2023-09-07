@@ -1,5 +1,5 @@
 import { Card, CardBody, CardHeader, Typography } from "@material-tailwind/react";
-import { User, UserDataResponse } from "../../../types/admin.interface";
+import { Member } from "../../../types/admin.interface";
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
 import authenticatedAxios from "../../../services/request.service";
 import Spinner from "./spinner";
@@ -7,34 +7,53 @@ import TableHead from "../table/tableHead";
 import { useEffect, useState } from "react";
 
 interface ApplicantsProps {
-  usersCount: number
   applicantsCount: number
   setApplicantsCount: React.Dispatch<React.SetStateAction<number>>,
-  setUsersCount: React.Dispatch<React.SetStateAction<number>>,
 }
 
 const Applicant: React.FC<ApplicantsProps> = ({
-  usersCount,
   applicantsCount,
   setApplicantsCount,
-  setUsersCount,
- }) => {
+}) => {
 
-  const [applicants, setApplicants] = useState<User[]>([]);
+  const getNotes = (members: Member[]) => {
+    const notes = members.map((member) => {
+      return member.note;
+    });
+
+    return notes;
+  }
+
+  const shadow = (notes: (string | number | null | undefined)[]) => {
+    const shadow = [...notes].map((note) => {
+      if (!note || note === null) {
+        return "일반 회원";
+      }
+
+      return note;
+    });
+
+    return shadow;
+  }
+
+  const [applicants, setApplicants] = useState<Member[]>([]);
   const [ready, setReady] = useState<boolean>(false);
+  const [notes, setNote] = useState<(number | null | undefined | string)[]>(getNotes(applicants));
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await authenticatedAxios.get<UserDataResponse>("/users");
-        console.log(response)
+        const response = await authenticatedAxios.get<Member[]>("/applicants");
+
         if (response.status === 200) {
-          const applicants: User[] = response.data.applicants; // 데이터를 MemberData 타입 배열로 변환
+          const applicants: Member[] = response.data; // 데이터를 MemberData 타입 배열로 변환
 
           setReady(true);
           if (applicants) {
             setApplicants(applicants);
             setApplicantsCount(applicants.length);
+            const notes = getNotes(applicants);
+            setNote(notes);
           }
         }
       } catch (error) {
@@ -48,7 +67,7 @@ const Applicant: React.FC<ApplicantsProps> = ({
 
   const tdTextContent = "font-medium text-blue-gray-600 text-center";
 
-  const approvalHandler = async (email: string) => {
+  const approvalHandler = async (id: number) => {
     const flag = window.confirm("허가 하시겠습니까?");
 
     if (!flag) {
@@ -56,12 +75,13 @@ const Applicant: React.FC<ApplicantsProps> = ({
     }
 
     try {
-      const response = await authenticatedAxios.put("/users/approval", {
-        email
+      const response = await authenticatedAxios.put("/members/approval", {
+        id
       });
 
       if (response.status === 201) {
         window.alert("허가 완료");
+        setApplicantsCount(--applicantsCount);
         return true;
       }
 
@@ -70,6 +90,8 @@ const Applicant: React.FC<ApplicantsProps> = ({
       window.alert("오류가 발생했습니다. 다시 시도하세요.");
     }
   }
+
+
 
   return (
     <div className="relative">
@@ -84,15 +106,15 @@ const Applicant: React.FC<ApplicantsProps> = ({
             className="m-0 p-6"
           >
             <Typography variant="h6" color="blue-gray" className="mb-1">
-              사이트 가입 대기자 정보
+              사이트 가입 신청자 정보
             </Typography>
           </CardHeader>
           <CardBody className="p-0 overflow-y-scroll">
-            <table className="w-full min-w-[640px] table-auto">
-              <TableHead topics={["이메일", "소속", "이름", "허가 하기"]} px="px-10" />
+            <table className="w-full min-w-[840px] table-auto">
+              <TableHead topics={["email", "id", "이름", "소속", "포럼 직위", "허가 하기"]} px="px-10" />
               <tbody>
                 {applicants.map(
-                  ({ email, affiliation, name }, key) => {
+                  ({ email, id, affiliation, name }, key) => {
                     const className = `h-15 py-3 px-6 ${key === applicants.length - 1
                       ? ""
                       : "border-b border-blue-gray-50"
@@ -115,7 +137,7 @@ const Applicant: React.FC<ApplicantsProps> = ({
                             variant="small"
                             className={tdTextContent}
                           >
-                            {affiliation}
+                            {id}
                           </Typography>
                         </td>
                         <td className={className}>
@@ -126,15 +148,29 @@ const Applicant: React.FC<ApplicantsProps> = ({
                             {name}
                           </Typography>
                         </td>
+                        <td className={className}>
+                          <Typography
+                            variant="small"
+                            className={tdTextContent}
+                          >
+                            {affiliation}
+                          </Typography>
+                        </td>
+                        <td>
+                          <Typography
+                            variant="small"
+                            className={tdTextContent}
+                          >
+                            {`${[notes][key] === null ? "일반 회원" : shadow(notes)[key]}`}
+                          </Typography>
+                        </td>
                         <td className={`${className} flex justify-center`}>
                           <div
                             onClick={async () => {
-                              const isApprovaled = await approvalHandler(email);
+                              const isApprovaled = await approvalHandler(id);
                               if (isApprovaled) {
-                                setApplicants([...applicants, applicants[key]]);
+                                setApplicants([...applicants].filter((applicant) => applicant.email !== email));
                                 setApplicantsCount(--applicantsCount);
-                                setUsersCount(++usersCount);
-                                setApplicants(applicants.filter((applicant) => applicant.email !== email));
                               }
                             }}
                           >
