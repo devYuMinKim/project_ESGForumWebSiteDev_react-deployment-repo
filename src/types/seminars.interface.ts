@@ -24,3 +24,8 @@ export interface PaginatedResponse<T> {
 
 export interface SendSeminar
   extends Omit<Seminar, "id" | "created_at" | "updated_at"> {}
+
+export interface User {
+  data: any;
+  isAdmin: boolean;
+}

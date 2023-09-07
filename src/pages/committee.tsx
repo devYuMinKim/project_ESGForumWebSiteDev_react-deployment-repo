@@ -3,13 +3,14 @@ import axios from "axios";
 import CommitteeTableRow from "../components/layout/table";
 import { CommitteeMember, CommitteeData } from "../types/committee.interface";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const Committee: React.FC = () => {
-  const apiUrl = "http://127.0.0.1:8000/api";
   const [committees, setCommittees] = useState<CommitteeData[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(`${apiUrl}/committees`);
+      const response = await axios.get(`${API_URL}/getMember`);
       setCommittees(response.data);
     };
 
@@ -48,9 +49,10 @@ const Committee: React.FC = () => {
                     </tr>
                   </thead>
                   <tbody className="text-sm divide-y divide-gray-100">
-                    {committee.members.map((member) => (
-                      <CommitteeTableRow key={member.id} member={member} />
-                    ))}
+                    {committee.members &&
+                      committee.members.map((member) => (
+                        <CommitteeTableRow key={member.id} member={member} />
+                      ))}
                   </tbody>
                 </table>
               </div>
