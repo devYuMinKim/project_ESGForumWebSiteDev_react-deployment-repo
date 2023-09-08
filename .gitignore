@@ -11,7 +11,7 @@
 # production
 /build
 
-# Ignore package.json 
+# Ignore package.json
 /package.json
 
 # misc
