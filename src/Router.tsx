@@ -20,6 +20,7 @@ import CommitteeInfo from './pages/admin/committee';
 import SeminarDetailPage from './pages/seminar_detail';
 import ReferenceDetailPage from './pages/reference_detail';
 import NotificationDetailPage from './pages/notification_detail';
+import SeminarPostPage from './pages/seminar_post';
 
 const Router: React.FC = () => (
   <Routes>
@@ -31,6 +32,7 @@ const Router: React.FC = () => (
     <Route path="/admin" element={<DashBoard />} />
     <Route path="/admin/committee/:id" element={<CommitteeInfo />} />
     <Route path="/seminars" element={<SeminarPage />} />
+    <Route path="/seminars/post" element={<SeminarPostPage />} />
     <Route path="/seminars/:id" element={<SeminarDetailPage />} />
     <Route path="/references" element={<ReferencePage />} />
     {/* <Route path="/references/:id" element={<ReferenceDetailPage />} /> */}
