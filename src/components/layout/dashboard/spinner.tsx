@@ -7,8 +7,8 @@ interface SpinnerProps {
 }
 
 const Spinner: React.FC<SpinnerProps> = ({ width, height, flag }) => (
-  <div className={`${flag
-    ? "hidden"
+  <div className={`"transition-opacity" ${flag
+    ? "opacity-0"
     : "absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center"}`}>
     <div role="status" className={`${flag ? "hidden" : ""}`}>
       <svg

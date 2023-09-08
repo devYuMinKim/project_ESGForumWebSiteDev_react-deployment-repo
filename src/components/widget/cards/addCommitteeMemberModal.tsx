@@ -1,29 +1,24 @@
 import React from "react";
 import FormInput from "../../layout/login";
-import FormTextarea from "../../layout/dashboard/textarea";
 
-interface AddCommitteeModalProps {
+interface AddCommitteeMemberModalProps {
   showModal: boolean;
-  committe: string;
-  explanation: string;
-  error: string;
+  name: string;
+  affiliation: string;
   setShowModal: (show: boolean) => void;
-  setCommitte: React.Dispatch<React.SetStateAction<string>>;
+  setName: React.Dispatch<React.SetStateAction<string>>;
+  setAffiliation: React.Dispatch<React.SetStateAction<string>>;
   handleSubmit: (e: React.FormEvent) => Promise<void>;
-  setError: React.Dispatch<React.SetStateAction<string>>;
-  setExplanation: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const AddCommitteeModal: React.FC<AddCommitteeModalProps> = ({
+const AddCommitteeMemberModal: React.FC<AddCommitteeMemberModalProps> = ({
   showModal,
-  committe,
-  explanation,
-  error,
+  name,
+  affiliation,
   setShowModal,
-  setError,
+  setName,
+  setAffiliation,
   handleSubmit,
-  setCommitte,
-  setExplanation,
 }) => {
   return (
     <>
@@ -36,15 +31,14 @@ const AddCommitteeModal: React.FC<AddCommitteeModalProps> = ({
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                 <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                   <h3 className="text-xl font-semibold mt-2">
-                    위원회 추가
+                    회원 추가
                   </h3>
                   <h3
                     className="text-3xl text-slate-500 cursor-pointer"
                     onClick={() => {
-                      setCommitte("");
-                      setExplanation("");
+                      setName("");
+                      setAffiliation("");
                       setShowModal(false);
-                      setError("");
                     }
                     }
                   >
@@ -58,17 +52,18 @@ const AddCommitteeModal: React.FC<AddCommitteeModalProps> = ({
                       label="이름"
                       type="text"
                       autoComplete="name"
-                      placeholder="위원회 이름을 적어주세요."
-                      value={committe}
-                      onChange={(e) => setCommitte(e.target.value)}
+                      placeholder="회원 이름을 적어주세요."
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
                     />
-                    <FormTextarea
-                      id="explanation"
-                      label="설명"
-                      autoComplete="explanation"
-                      placeholder="위원회에 대한 설명을 적어주세요."
-                      value={explanation}
-                      onChange={(e) => setExplanation(e.target.value)}
+                    <FormInput
+                      id="affiliation"
+                      label="소속"
+                      type="text"
+                      autoComplete="affiliation"
+                      placeholder="회원의 소속처를 적어주세요."
+                      value={affiliation}
+                      onChange={(e) => setAffiliation(e.target.value)}
                     />
                     <button
                       className="absolute top-30 right-0 bg-green-500 text-white font-bold uppercase text-sm px-3 py-1 rounded shadow hover:shadow-lg mb-5"
@@ -76,9 +71,7 @@ const AddCommitteeModal: React.FC<AddCommitteeModalProps> = ({
                     >
                       추가
                     </button>
-                    <p>
-                      {error}
-                    </p>
+                    <p></p>
                   </form>
                 </div>
               </div>
@@ -91,4 +84,4 @@ const AddCommitteeModal: React.FC<AddCommitteeModalProps> = ({
   );
 };
 
-export default AddCommitteeModal;
+export default AddCommitteeMemberModal;

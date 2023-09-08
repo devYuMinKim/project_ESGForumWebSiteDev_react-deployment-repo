@@ -1,33 +1,16 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import CommitteeTableRow from "../components/layout/table";
+import { CommitteeMember, CommitteeData } from "../types/committee.interface";
 
-interface CommitteeMember {
-  id: number;
-  name: string;
-  affiliation: string;
-  note: string;
-  pivot: {
-    cId: number;
-    id2: number;
-    note: string;
-  };
-}
-
-interface CommitteeData {
-  id: number;
-  name: string;
-  explanation: string;
-  members: CommitteeMember[];
-}
+const API_URL = process.env.REACT_APP_API_URL;
 
 const Committee: React.FC = () => {
-  const apiUrl = "http://127.0.0.1:8000/api";
   const [committees, setCommittees] = useState<CommitteeData[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(`${apiUrl}/committees`);
+      const response = await axios.get(`${API_URL}/getMember`);
       setCommittees(response.data);
     };
 
@@ -54,8 +37,11 @@ const Committee: React.FC = () => {
                       <th className="p-2 whitespace-nowrap">
                         <div className="font-semibold text-left">이름</div>
                       </th>
-                      <th className="p-2 whitespace-nowrap w-7/12">
+                      <th className="p-2 whitespace-nowrap w-6/12">
                         <div className="font-semibold text-left">소속</div>
+                      </th>
+                      <th className="p-2 whitespace-nowrap w-4/12">
+                        <div className="font-semibold text-left">이메일</div>
                       </th>
                       <th className="p-2 whitespace-nowrap">
                         <div className="font-semibold text-left">비고</div>
@@ -63,9 +49,10 @@ const Committee: React.FC = () => {
                     </tr>
                   </thead>
                   <tbody className="text-sm divide-y divide-gray-100">
-                    {committee.members.map((member) => (
-                      <CommitteeTableRow key={member.id} member={member} />
-                    ))}
+                    {committee.members &&
+                      committee.members.map((member) => (
+                        <CommitteeTableRow key={member.id} member={member} />
+                      ))}
                   </tbody>
                 </table>
               </div>

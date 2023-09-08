@@ -8,7 +8,7 @@ interface AttachmentsProps {
 const Attachments = (props: AttachmentsProps) => {
   return (
     <>
-      <label htmlFor="file-upload">
+      <label htmlFor="file-upload" className="w-fit">
         <AttachmentContainer>
           <AttachIcon>
             <AttachmentIcon />
@@ -49,16 +49,11 @@ const AttachIcon = styled.div`
   width: 20px;
   height: 20px;
 `;
-const Vector = styled.img`
-  width: 89.6%;
-  height: 72.4%;
-`;
 const AttachMention = styled.div`
   padding: 5.97px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Noto Sans';
   font-size: 12px;
   font-weight: 400;
   line-height: normal;

@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const useRefreshAccessToken = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
 
   const refreshAccessToken = async () => {
-    const apiUrl = "http://127.0.0.1:8000/api";
     const refreshToken = localStorage.getItem("refreshToken");
 
     if (!refreshToken) {
@@ -17,7 +18,7 @@ const useRefreshAccessToken = () => {
 
     try {
       const response = await axios.post(
-        `${apiUrl}/auth/refresh_token`,
+        `${API_URL}/auth/refresh_token`,
         { refreshToken },
         {
           headers: {

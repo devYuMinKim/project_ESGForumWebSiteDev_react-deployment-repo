@@ -48,37 +48,61 @@ const Header: React.FC = () => {
         <nav className="flex flex-wrap items-center justify-center pl-24 text-base md:ml-auto md:mr-auto">
           <NavLink
             to="/aboutus"
-            className="mr-10 font-medium hover:text-gray-900"
+            className={({ isActive }) =>
+              isActive
+                ? "mr-10 font-bold text-teal-500"
+                : "mr-10 font-medium hover:text-gray-900"
+            }
           >
             포럼소개
           </NavLink>
           <NavLink
             to="/business"
-            className="mr-10 font-medium hover:text-gray-900"
+            className={({ isActive }) =>
+              isActive
+                ? "mr-10 font-bold text-teal-500"
+                : "mr-10 font-medium hover:text-gray-900"
+            }
           >
             주요사업
           </NavLink>
           <NavLink
             to="/seminars"
-            className="mr-10 font-medium hover:text-gray-900"
+            className={({ isActive }) =>
+              isActive
+                ? "mr-10 font-bold text-teal-500"
+                : "mr-10 font-medium hover:text-gray-900"
+            }
           >
             세미나
           </NavLink>
           <NavLink
             to="/references"
-            className="mr-10 font-medium hover:text-gray-900"
+            className={({ isActive }) =>
+              isActive
+                ? "mr-10 font-bold text-teal-500"
+                : "mr-10 font-medium hover:text-gray-900"
+            }
           >
             자료실
           </NavLink>
           <NavLink
             to="/committee"
-            className="mr-10 font-medium hover:text-gray-900"
+            className={({ isActive }) =>
+              isActive
+                ? "mr-10 font-bold text-teal-500"
+                : "mr-10 font-medium hover:text-gray-900"
+            }
           >
             회원안내
           </NavLink>
           <NavLink
             to="/notifications"
-            className="mr-10 font-medium hover:text-gray-900"
+            className={({ isActive }) =>
+              isActive
+                ? "mr-10 font-bold text-teal-500"
+                : "mr-10 font-medium hover:text-gray-900"
+            }
           >
             알림마당
           </NavLink>

@@ -3,9 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import FormInput from "../components/layout/login";
 
-const Login: React.FC = () => {
-  const apiUrl = "http://127.0.0.1:8000/api";
+const API_URL = process.env.REACT_APP_API_URL;
 
+const Login: React.FC = () => {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -16,7 +16,7 @@ const Login: React.FC = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(`${apiUrl}/auth/login`, {
+      const response = await axios.post(`${API_URL}/auth/login`, {
         email: email,
         password: password,
       });

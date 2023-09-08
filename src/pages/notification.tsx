@@ -1,22 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import {
-  getPosts,
-  getOngoingPosts,
-  getPastPosts,
-  searchPosts,
-} from "../services/post.service";
-import { Post } from "../types/post.interface";
-import Pagination from "rc-pagination";
-import Select from "react-select";
-import Body from "../components/layout/body";
-
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { getPosts, getOngoingPosts, getPastPosts, searchPosts } from '../services/post.service';
+import { Post } from '../types/post.interface';
+import Pagination from 'rc-pagination';
+import Select from 'react-select';
+import Body from '../components/layout/body';
 
 // import { ReactComponent as SearchIcon } from "../assets/icons/seminars-search.svg";
 
 const options = [
-  { value: "subject", label: "주제" },
-  { value: "host", label: "주관" },
+  { value: 'subject', label: '주제' },
+  { value: 'host', label: '주관' },
 ];
 
 const PostCard = (props: { post: Post }) => {
@@ -41,33 +35,33 @@ const NotificationPage = () => {
   const [post, setPost] = useState<Post[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
-  const [type, setType] = useState("all");
-  const [searchKeyword, setSearchKeyword] = useState("");
-  const [searchType, setSearchType] = useState("subject");
+  const [type, setType] = useState('all');
+  const [searchKeyword, setSearchKeyword] = useState('');
+  const [searchType, setSearchType] = useState('subject');
 
   useEffect(() => {
     (async () => {
       let response;
-      if (type === "all") {
+      if (type === 'all') {
         if (searchKeyword) {
           response =
-            searchType === "subject"
+            searchType === 'subject'
               ? await searchPosts(searchKeyword)
               : await searchPosts(undefined, searchKeyword);
         } else {
           response = await getPosts(currentPage);
         }
-      } else if (type === "ongoing") {
+      } else if (type === 'ongoing') {
         response = await getOngoingPosts(
           currentPage,
-          searchType === "subject" ? searchKeyword : undefined,
-          searchType === "host" ? searchKeyword : undefined
+          searchType === 'subject' ? searchKeyword : undefined,
+          searchType === 'host' ? searchKeyword : undefined
         );
-      } else if (type === "past") {
+      } else if (type === 'past') {
         response = await getPastPosts(
           currentPage,
-          searchType === "subject" ? searchKeyword : undefined,
-          searchType === "host" ? searchKeyword : undefined
+          searchType === 'subject' ? searchKeyword : undefined,
+          searchType === 'host' ? searchKeyword : undefined
         );
       }
 
@@ -89,8 +83,8 @@ const NotificationPage = () => {
             </div>
             {/* 종류 */}
             <ul className="flex flex-row space-x-2 sm:space-x-6 md:space-x-12 mt-4 mx-4 items-center border-b border-gray-300 overflow-auto text-sm">
-              <li className={type === "all" ? "text-blue-500 font-bold" : ""}>
-                <button onClick={() => setType("all")}>전체</button>
+              <li className={type === 'all' ? 'text-blue-500 font-bold' : ''}>
+                <button onClick={() => setType('all')}>전체</button>
                 <div className="h-1 bg-blue-500 scale-x-0 group-hover:scale-100 transition-transform origin-left rounded-full duration-300 ease-out"></div>
               </li>
             </ul>
@@ -100,18 +94,15 @@ const NotificationPage = () => {
                 <div className="flex w-1/6">
                   {/* FIXME: <SearchIcon /> */}
                   <Select
-                    value={options.find(
-                      (option) => option.value === searchType
-                    )}
+                    value={options.find((option) => option.value === searchType)}
                     onChange={(selectedOption) => {
-                      if (selectedOption !== null)
-                        setSearchType(selectedOption.value);
+                      if (selectedOption !== null) setSearchType(selectedOption.value);
                     }}
                     options={options}
                     styles={{
                       control: (provided) => ({
                         ...provided,
-                        width: "100px",
+                        width: '100px',
                       }),
                     }}
                   />
@@ -141,7 +132,7 @@ const NotificationPage = () => {
                 <tbody className="text-sm font-normal text-gray-700 text-center">
                   {post &&
                     post.map((post) => {
-                      if (post.type === "notification") {
+                      if (post.type === 'notification') {
                         return <PostCard key={post.id} post={post} />;
                       } else {
                         return null;
@@ -156,9 +147,9 @@ const NotificationPage = () => {
                 total={totalItems}
                 pageSize={10}
                 onChange={(page) => setCurrentPage(page)}
-                style={{ display: "flex", justifyContent: "center" }}
+                style={{ display: 'flex', justifyContent: 'center' }}
                 itemRender={(current, type, element) => {
-                  if (type === "page") {
+                  if (type === 'page') {
                     if (currentPage <= 3 && current > Math.min(5, totalItems)) {
                       return null;
                     }
@@ -171,10 +162,7 @@ const NotificationPage = () => {
                       return null;
                     }
 
-                    if (
-                      currentPage > totalItems - 3 &&
-                      current < Math.max(totalItems - 4, 1)
-                    ) {
+                    if (currentPage > totalItems - 3 && current < Math.max(totalItems - 4, 1)) {
                       return null;
                     }
 
@@ -183,8 +171,8 @@ const NotificationPage = () => {
                         onClick={() => setCurrentPage(current)}
                         className={`inline-block px-3 py-1 border border-blue-500 cursor-pointer rounded-full text-sm ${
                           currentPage === current
-                            ? "text-white bg-blue-500"
-                            : "text-blue-500 hover:bg-blue-500 hover:text-white"
+                            ? 'text-white bg-blue-500'
+                            : 'text-blue-500 hover:bg-blue-500 hover:text-white'
                         }`}
                       >
                         {current}
