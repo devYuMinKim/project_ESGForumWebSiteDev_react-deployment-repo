@@ -2,10 +2,11 @@ import styled from 'styled-components';
 
 export const Body = styled.div`
   display: flex;
-  width: 1440px;
+  width: 100%;   /* FIXME: 1440에서 수정함  */
   padding: 10px 140px;
   flex-direction: column;
   align-items: flex-start;
+  background-image: url('../../main/bg_history.png'); /* FIXME: */
 `;
 
 export const Description = styled.div`
