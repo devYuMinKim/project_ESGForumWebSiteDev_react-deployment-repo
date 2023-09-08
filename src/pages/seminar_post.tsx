@@ -10,12 +10,12 @@ import {
 import useToken from '../hooks/useToken';
 import moment from 'moment';
 
-import { Datetimepicker, Input, initTE } from 'tw-elements';
+// import { Datetimepicker, Input, initTE } from 'tw-elements';
 import QuillEditor from '../components/editor/quill-editor';
 
 const InputForm = (props: { title: string; onChange: (data: string) => void }) => {
   useEffect(() => {
-    initTE({ Input });
+    // initTE({ Input });
   });
   return (
     <div className="relative mb-3" data-te-input-wrapper-init>
@@ -39,7 +39,7 @@ const InputForm = (props: { title: string; onChange: (data: string) => void }) =
 
 const DatetimeForm = (props: { title: string; name: string }) => {
   useEffect(() => {
-    initTE({ Input, Datetimepicker });
+    // initTE({ Input, Datetimepicker });
   });
   return (
     <div
@@ -119,7 +119,7 @@ const SeminarPostPage: React.FC = () => {
     }
   };
 
-  const handleDraft = async () => {};
+  const handleDraft = async () => { };
 
   useEffect(() => {
     (async () => {
