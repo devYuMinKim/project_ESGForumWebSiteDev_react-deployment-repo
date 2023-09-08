@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { Seminar, User } from "../types/seminars.interface";
-import {
-  deleteSeminar,
-  getCurrentUser,
-  getSeminarById,
-} from "../services/seminar.service";
-import useToken from "../hooks/useToken";
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Seminar, User } from '../types/seminars.interface';
+import { deleteSeminar, getCurrentUser, getSeminarById } from '../services/seminar.service';
+import useToken from '../hooks/useToken';
+import ReadContents from '../components/editor/ReadContents';
 
 const SeminarDetailPage: React.FC = () => {
   const [seminar, setSeminar] = useState<Seminar | null>(null);
@@ -46,10 +43,10 @@ const SeminarDetailPage: React.FC = () => {
   async function handleDelete() {
     try {
       await deleteSeminar(id);
-      alert("게시글이 삭제되었습니다.");
-      navigate("/seminars");
+      alert('게시글이 삭제되었습니다.');
+      navigate('/seminars');
     } catch (error) {
-      alert("Failed to delete the seminar.");
+      alert('Failed to delete the seminar.');
     }
   }
 
@@ -70,10 +67,11 @@ const SeminarDetailPage: React.FC = () => {
             <div className="w-full flex justify-end items-center pr-3 space-x-4">
               <p className="text-base text-gray-600">{seminar.location}</p>
             </div>
-
             <hr />
             {/* 내용 */}
-            <p className="text-lg p-3 h-4/6">{seminar.content}</p>
+            <div className="text-lg p-3">
+              <ReadContents value={seminar.content} />
+            </div>
             {/* 수정, 삭제 버튼 */}
             {currentUser && (
               <div className="flex justify-end mb-2">
@@ -92,9 +90,7 @@ const SeminarDetailPage: React.FC = () => {
                 </button>
               </div>
             )}
-
             <hr />
-
             <p className="block text-base text-blue-500 px-e3 py-f2 flex items-center space-x-g1 mt-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -116,9 +112,7 @@ const SeminarDetailPage: React.FC = () => {
             <div className="w-full flex items-center pl-3 space-x-4">
               {seminar.files &&
                 seminar.files.map((file, index) => (
-                  <a key={index} href={file.url} download>{`File ${
-                    index + 1
-                  }`}</a>
+                  <a key={index} href={file.url} download>{`File ${index + 1}`}</a>
                 ))}
             </div>
           </div>
