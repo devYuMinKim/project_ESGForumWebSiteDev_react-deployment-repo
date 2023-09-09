@@ -1,9 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { Seminar, User } from '../types/seminars.interface';
-import { deleteSeminar, getCurrentUser, getSeminarById } from '../services/seminar.service';
-import useToken from '../hooks/useToken';
-import ReadContents from '../components/editor/ReadContents';
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate, Link } from "react-router-dom";
+import { Seminar, User } from "../types/seminars.interface";
+import {
+  deleteSeminar,
+  getCurrentUser,
+  getSeminarById,
+} from "../services/seminar.service";
+import useToken from "../hooks/useToken";
+import ReadContents from "../components/editor/ReadContents";
 
 const SeminarDetailPage: React.FC = () => {
   const [seminar, setSeminar] = useState<Seminar | null>(null);
@@ -41,12 +45,14 @@ const SeminarDetailPage: React.FC = () => {
   if (!seminar) return <div>Loading...</div>;
 
   async function handleDelete() {
-    try {
-      await deleteSeminar(id);
-      alert('게시글이 삭제되었습니다.');
-      navigate('/seminars');
-    } catch (error) {
-      alert('Failed to delete the seminar.');
+    if (window.confirm("정말로 이 게시글을 삭제하시겠습니까?")) {
+      try {
+        await deleteSeminar(id);
+        alert("게시글이 삭제되었습니다.");
+        navigate("/seminars");
+      } catch (error) {
+        alert("Failed to delete the seminar.");
+      }
     }
   }
 
@@ -57,16 +63,27 @@ const SeminarDetailPage: React.FC = () => {
           <div className="rounded overflow-hidden w-full bg-white mx-3 md:mx-0 lg:mx-0 p-4">
             {/* 제목 */}
             <h2 className="text-4xl font-bold p-3">{seminar.subject}</h2>
+
+            <div className="w-full flex justify-end items-center pr-3 space-x-2">
+              <p className="text-base text-gray-500">주최:</p>
+              <p className="text-bold">{seminar.host}</p>
+              <p className="text-base text-gray-300">|</p>
+              <p className="text-base text-gray-500">주관:</p>
+              <p className="text-bold">{seminar.supervision}</p>
+              <p className="text-base text-gray-300">|</p>
+              <p className="text-base text-gray-500">참여:</p>
+              <p className="text-bold">{seminar.participation}</p>
+              <p className="text-base text-gray-300">|</p>
+              <p className="text-base text-gray-500">장소:</p>
+              <p className="text-bold">{seminar.location}</p>
+            </div>
             {/* 날짜 */}
             <div className="w-full flex justify-end items-center p-3 space-x-4">
               <p className="text-xs text-gray-600">
-                {seminar.date_start} ~ {seminar.date_end}
+                개최 기간: {seminar.date_start} ~ {seminar.date_end}
               </p>
             </div>
-            {/* 지역 */}
-            <div className="w-full flex justify-end items-center pr-3 space-x-4">
-              <p className="text-base text-gray-600">{seminar.location}</p>
-            </div>
+
             <hr />
             {/* 내용 */}
             <div className="text-lg p-3">
@@ -79,7 +96,7 @@ const SeminarDetailPage: React.FC = () => {
                   type="button"
                   className="py-2 px-4 bg-teal-500 hover:bg-teal-600 focus:ring-teal-500 focus:ring-offset-indigo-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg mr-2"
                 >
-                  수정
+                  <Link to={`/seminars/edit/${id}`}>수정</Link>
                 </button>
                 <button
                   type="button"
@@ -112,7 +129,9 @@ const SeminarDetailPage: React.FC = () => {
             <div className="w-full flex items-center pl-3 space-x-4">
               {seminar.files &&
                 seminar.files.map((file, index) => (
-                  <a key={index} href={file.url} download>{`File ${index + 1}`}</a>
+                  <a key={index} href={file.url} download>{`File ${
+                    index + 1
+                  }`}</a>
                 ))}
             </div>
           </div>
