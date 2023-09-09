@@ -43,6 +43,11 @@ const Login: React.FC = () => {
         );
       }
     } catch (error) {
+      if (axios.isAxiosError(error) && error.response?.status === 403) {
+        setError("로그인을 할 수 없는 유저입니다. 관리자에게 문의해주세요.");
+        return;
+      }
+      
       setError("로그인 중 오류가 발생했습니다. 나중에 다시 시도해주세요.");
     }
   };
