@@ -34,3 +34,5 @@ export interface StatisticsCardData {
   title: string,
   value?: string | number
 }
+
+export type ApplicantsManagement = "approval" | "rejection";
