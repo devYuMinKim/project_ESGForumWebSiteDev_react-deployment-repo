@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import useValidateToken from "../../../hooks/useValidateToken";
 import useRefreshAccessToken from "../../../hooks/useRefreshToken";
-import { ReactComponent as ESGLogo } from './esg-logo.svg'  // 로고 추가
+import { ReactComponent as ESGLogo } from "../../../assets/icons/esg-logo.svg";
+
 const Header: React.FC = () => {
   const { loggedIn } = useValidateToken();
   const { loading } = useRefreshAccessToken();
@@ -35,14 +36,12 @@ const Header: React.FC = () => {
 
   return (
     <header className="w-full mt-5 text-gray-700 bg-white border-t border-gray-100 shadow-sm body-font">
-      <div className="container flex flex-col items-start justify-between p-6 mx-auto md:flex-row">
+      <div className="container flex flex-col items-start justify-between p-4 mx-auto md:flex-row">
         <NavLink
           to="/"
           className="flex items-center mb-4 font-medium text-gray-900 title-font md:mb-0"
         >
-          {/* 로고 추가 */}
           <ESGLogo />
-
         </NavLink>
 
         <nav className="flex flex-wrap items-center justify-center pl-24 text-base md:ml-auto md:mr-auto">

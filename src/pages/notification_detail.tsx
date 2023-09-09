@@ -42,12 +42,14 @@ const NotificationDetailPage: React.FC = () => {
   if (!post) return <div>Loading...</div>;
 
   async function handleDelete() {
-    try {
-      await deleteSeminar(id);
-      alert("게시글이 삭제되었습니다.");
-      navigate("/seminars");
-    } catch (error) {
-      alert("Failed to delete the seminar.");
+    if (window.confirm("정말로 이 게시글을 삭제하시겠습니까?")) {
+      try {
+        await deleteSeminar(id);
+        alert("게시글이 삭제되었습니다.");
+        navigate("/notifications");
+      } catch (error) {
+        alert("Failed to delete the notification.");
+      }
     }
   }
 
