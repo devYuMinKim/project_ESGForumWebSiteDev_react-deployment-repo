@@ -22,6 +22,8 @@ import ReferenceDetailPage from "./pages/reference_detail";
 import NotificationDetailPage from "./pages/notification_detail";
 import SeminarPostPage from "./pages/seminar_post";
 import SeminarEditPage from "./pages/seminar_edit";
+import ReferenceEditPage from "./pages/reference_edit";
+import NotificationEditPage from "./pages/notification_edit";
 
 const Router: React.FC = () => (
   <Routes>
@@ -37,8 +39,10 @@ const Router: React.FC = () => (
     <Route path="/seminars/edit/:id" element={<SeminarEditPage />} />
     <Route path="/seminars/:id" element={<SeminarDetailPage />} />
     <Route path="/references" element={<ReferencePage />} />
+    <Route path="/references/edit/:id" element={<ReferenceEditPage />} />
     <Route path="/references/:id" element={<ReferenceDetailPage />} />
     <Route path="/notifications" element={<NotificationPage />} />
+    <Route path="/notifications/edit/:id" element={<NotificationEditPage />} />
     <Route path="/notifications/:id" element={<NotificationDetailPage />} />
     <Route path="/aboutus" element={<AboutUsPage />} />
     <Route path="/aboutus/objective" element={<ObjectivePage />} />

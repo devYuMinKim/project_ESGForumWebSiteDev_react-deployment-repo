@@ -54,7 +54,7 @@ export async function createPost(post: SendPost): Promise<Post> {
  * @returns Post
  */
 export async function updatePost(
-  id: string | number,
+  id: string | undefined,
   post: SendPost
 ): Promise<Post> {
   const res = await axios.put<Post>(`${API_URL}/post/${id}`, post);
