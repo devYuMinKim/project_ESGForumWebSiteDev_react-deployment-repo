@@ -1,11 +1,10 @@
 import { Typography } from "@material-tailwind/react";
 import { committeeMember } from "../../../types/admin.interface";
-import axios from "axios";
 import authenticatedAxios from "../../../services/request.service";
 
 export const findChairMan = (members: committeeMember[]) => {
   for (const member of members) {
-    if (member.pivot.note === "1") {
+    if (member.pivot.note === "위원장") {
       return member.name;
     }
   }
@@ -21,7 +20,6 @@ interface TBodyMembersProps {
 
 const TBodyMembers: React.FC<TBodyMembersProps> = ({ c_id, members, setMembers, setChairman }) => {
   const tdTextContent = "font-medium text-blue-gray-600 text-center";
-  const apiUrl = process.env.REACT_APP_API_URL;
 
   const deleteMember = (members: committeeMember[], id2: number) => {
     const newMember = members.filter((member) => member.pivot.id2 !== id2);
@@ -35,7 +33,7 @@ const TBodyMembers: React.FC<TBodyMembersProps> = ({ c_id, members, setMembers, 
     setChairman: React.Dispatch<React.SetStateAction<string>>,) => {
     try {
       // 수정 - 위원장 임명
-      const response = await authenticatedAxios.put(`${apiUrl}/committee/${id}/members/${m_id}`);
+      const response = await authenticatedAxios.put(`/committee/${id}/members/${m_id}`);
 
       if (response.status === 201) {
         const newMembersInfo = response.data;
@@ -60,11 +58,7 @@ const TBodyMembers: React.FC<TBodyMembersProps> = ({ c_id, members, setMembers, 
       const flag = window.confirm("삭제 하시겠습니까?");
       // 삭제
       if (flag) {
-        const response = await axios.delete(`${apiUrl}/committee/${id}/members/${m_id}`, {
-          headers: {
-            Authorization: localStorage.getItem("token")
-          }
-        });
+        const response = await authenticatedAxios.delete(`/committee/${id}/members/${m_id}`);
 
         if (response.status === 204) {
           const newMember = deleteMember(members, m_id);
@@ -114,7 +108,7 @@ const TBodyMembers: React.FC<TBodyMembersProps> = ({ c_id, members, setMembers, 
                   variant={`${(pivot.note === "1") ? "h6" : "small"}`}
                   className={tdTextContent}
                 >
-                  {(pivot.note === "1") ? "위원장" : (pivot.note === null) ? "일반 회원" : "불러오지 못했습니다.."}
+                  {pivot.note}
                 </Typography>
               </td>
               <td className={`${className} flex justify-center space-x-2`}>
