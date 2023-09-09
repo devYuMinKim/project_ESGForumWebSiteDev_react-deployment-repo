@@ -1,5 +1,5 @@
 import { Card, CardBody, CardHeader, Typography } from "@material-tailwind/react";
-import { Member, MemberManagement } from "../../../types/admin.interface";
+import { Member, ApplicantsManagement } from "../../../types/admin.interface";
 import authenticatedAxios from "../../../services/request.service";
 import Spinner from "./spinner";
 import TableHead from "../table/tableHead";
@@ -41,7 +41,7 @@ const Applicant: React.FC<ApplicantsProps> = ({
 
   const tdTextContent = "font-medium text-blue-gray-600 text-center";
 
-  const managementHandler = async (ids: number[], managementValue: MemberManagement = 'approval') => {
+  const managementHandler = async (ids: number[], managementValue: ApplicantsManagement = 'approval') => {
 
     const isApproval = managementValue === 'approval';
 
