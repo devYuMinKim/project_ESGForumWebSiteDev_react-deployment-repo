@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { Post } from "../types/post.interface";
 import { getPostById } from "../services/post.service";
 import { deleteSeminar, getCurrentUser } from "../services/seminar.service";
+import ReadContents from "../components/editor/ReadContents";
 import { User } from "../types/seminars.interface";
 import useToken from "../hooks/useToken";
 
@@ -61,7 +62,9 @@ const NotificationDetailPage: React.FC = () => {
             <h2 className="text-4xl font-bold p-3">{post.title}</h2>
 
             <hr />
-            <p className="text-lg p-3 h-4/6">{post.content}</p>
+            <div className="text-lg p-3">
+              <ReadContents value={post.content} />
+            </div>
 
             {/* 수정, 삭제 버튼 */}
             {currentUser && (
@@ -70,7 +73,7 @@ const NotificationDetailPage: React.FC = () => {
                   type="button"
                   className="py-2 px-4 bg-teal-500 hover:bg-teal-600 focus:ring-teal-500 focus:ring-offset-indigo-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg mr-2"
                 >
-                  수정
+                  <Link to={`/notifications/edit/${id}`}>수정</Link>
                 </button>
                 <button
                   type="button"
