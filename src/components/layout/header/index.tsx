@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import useValidateToken from "../../../hooks/useValidateToken";
 import useRefreshAccessToken from "../../../hooks/useRefreshToken";
-
+import { ReactComponent as ESGLogo } from './esg-logo.svg'  // 로고 추가
 const Header: React.FC = () => {
   const { loggedIn } = useValidateToken();
   const { loading } = useRefreshAccessToken();
@@ -40,8 +40,9 @@ const Header: React.FC = () => {
           to="/"
           className="flex items-center mb-4 font-medium text-gray-900 title-font md:mb-0"
         >
-          {/* FIXME: 로고 추가 후 제거 요함 <img className="mx-auto h-10 w-auto" src={logo} alt="로고" /> */}
-          {/* TODO: 로고 추가 예정 */}
+          {/* 로고 추가 */}
+          <ESGLogo />
+
         </NavLink>
 
         <nav className="flex flex-wrap items-center justify-center pl-24 text-base md:ml-auto md:mr-auto">
@@ -49,7 +50,7 @@ const Header: React.FC = () => {
             to="/aboutus"
             className={({ isActive }) =>
               isActive
-                ? "mr-10 font-medium text-teal-500"
+                ? "mr-10 font-bold text-teal-500"
                 : "mr-10 font-medium hover:text-gray-900"
             }
           >
@@ -59,7 +60,7 @@ const Header: React.FC = () => {
             to="/business"
             className={({ isActive }) =>
               isActive
-                ? "mr-10 font-medium text-teal-500"
+                ? "mr-10 font-bold text-teal-500"
                 : "mr-10 font-medium hover:text-gray-900"
             }
           >
@@ -69,7 +70,7 @@ const Header: React.FC = () => {
             to="/seminars"
             className={({ isActive }) =>
               isActive
-                ? "mr-10 font-medium text-teal-500"
+                ? "mr-10 font-bold text-teal-500"
                 : "mr-10 font-medium hover:text-gray-900"
             }
           >
@@ -79,7 +80,7 @@ const Header: React.FC = () => {
             to="/references"
             className={({ isActive }) =>
               isActive
-                ? "mr-10 font-medium text-teal-500"
+                ? "mr-10 font-bold text-teal-500"
                 : "mr-10 font-medium hover:text-gray-900"
             }
           >
@@ -89,7 +90,7 @@ const Header: React.FC = () => {
             to="/committee"
             className={({ isActive }) =>
               isActive
-                ? "mr-10 font-medium text-teal-500"
+                ? "mr-10 font-bold text-teal-500"
                 : "mr-10 font-medium hover:text-gray-900"
             }
           >
@@ -99,7 +100,7 @@ const Header: React.FC = () => {
             to="/notifications"
             className={({ isActive }) =>
               isActive
-                ? "mr-10 font-medium text-teal-500"
+                ? "mr-10 font-bold text-teal-500"
                 : "mr-10 font-medium hover:text-gray-900"
             }
           >

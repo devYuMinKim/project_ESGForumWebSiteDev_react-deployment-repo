@@ -11,7 +11,7 @@ const Footer: FC = () => {
               <span className="text-md">&#40; UFESGI &#41;</span>
             </div>
             <div className="col-span-2"><span className="font-bold">공동의장 &nbsp;&nbsp;</span> 임정근・박홍석 </div>
-            <div className="col-span-2 row-span-2"><span className="font-bold">FESGI</span>  
+            <div className="col-span-2 row-span-2"><span className="font-bold">UFESGI</span>  
               &#40;University Forum for ESG Implementation&#41;
             </div>
           </div>
