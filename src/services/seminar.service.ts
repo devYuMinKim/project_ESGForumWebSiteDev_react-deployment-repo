@@ -61,7 +61,7 @@ export async function createSeminar(seminar: SendSeminar): Promise<Seminar> {
  * @returns Seminar
  */
 export async function updateSeminar(
-  id: string | number,
+  id: string | undefined,
   seminar: SendSeminar
 ): Promise<Seminar> {
   const res = await axios.put<Seminar>(`${API_URL}/seminars/${id}`, seminar);
