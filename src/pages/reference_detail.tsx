@@ -45,9 +45,9 @@ const ReferenceDetailPage: React.FC = () => {
     try {
       await deleteSeminar(id);
       alert("게시글이 삭제되었습니다.");
-      navigate("/seminars");
+      navigate("/references");
     } catch (error) {
-      alert("Failed to delete the seminar.");
+      alert("Failed to delete the reference.");
     }
   }
 
