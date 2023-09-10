@@ -11,7 +11,7 @@ export interface committeeMember {
   affiliation: string;
   pivot: {
     id2: number; // 회원의 순번
-    note: string | null; // 위원회에서의 직책
+    note: string; // 위원회에서의 직책
   }
   note?: number | null; // 특정 위원회의 직위 | 회원 만의 직위
 }
@@ -22,7 +22,7 @@ export interface Member {
   authority: number | null
   name: string;
   affiliation: string;
-  note?: number | null | string; // esg 포럼에서의 직위
+  note: string; // esg 포럼에서의 직위
 }
 
 export type Track = "committees" | "members" | "applicants";
@@ -34,3 +34,5 @@ export interface StatisticsCardData {
   title: string,
   value?: string | number
 }
+
+export type ApplicantsManagement = "approval" | "rejection";

@@ -32,9 +32,6 @@ const Dashboard: React.FC = () => {
           setCounts(committeeCount, committeeData, setCommitteeCount);
           setCounts(applicantsCount, memberData.applicants, setApplicantsCount);
           setCounts(memberCount, memberData.members, setMemberCount);
-          // setCommitteeCount(committeeData);
-          // setApplicantsCount(memberData.applicants);
-          // setMemberCount(memberData.members);
         })
       )
       .catch(() => {
@@ -95,7 +92,6 @@ const Dashboard: React.FC = () => {
 
       case "applicants":
         return <Applicants
-          applicantsCount={applicantsCount}
           setApplicantsCount={setApplicantsCount}
         />
 

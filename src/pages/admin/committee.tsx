@@ -42,7 +42,6 @@ const CommitteeInfo: React.FC = ({
   }
 
   useEffect(() => {
-    console.log("@@")
     const fetchData = async () => {
       axios
         .all([
@@ -177,16 +176,16 @@ const CommitteeInfo: React.FC = ({
     <div>
       <Spinner flag={ready} />
       <div className={`${ready ? "mx-24 my-6" : "opacity-0"} transition-opacity`}>
-        <div className="flex mb-12 text-slate-600 hover:animate-pulse cursor-pointer align-middle">
-          <ArrowLeftCircleIcon className="w-10" />
-          <div className="flex items-center">
-            <Link to={'/admin'}>
+        <Link to={'/admin'}>
+          <div className="flex mb-12 text-slate-600 hover:animate-pulse cursor-pointer align-middle">
+            <ArrowLeftCircleIcon className="w-10" />
+            <div className="flex items-center">
               <Typography variant="h6" color="blue-gray">
                 이전 페이지
               </Typography>
-            </Link>
+            </div>
           </div>
-        </div>
+        </Link>
         <StatisticsCardsSection
           statisticsCardsData={committeeStatisticsCardsData(committee.name, members, chairman)}
           assetData={assetData}

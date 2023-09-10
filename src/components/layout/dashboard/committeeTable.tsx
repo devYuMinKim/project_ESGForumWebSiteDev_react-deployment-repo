@@ -90,7 +90,7 @@ const CommitteeTableSection: React.FC<CommitteeTableSectionProps> = ({
           {/* 위원회 데이터 */}
           <CardBody className="overflow-y-scroll px-0 pt-0 pb-2">
             <table className="w-full min-w-[640px] table-auto">
-              <TableHead topics={["id", "이름", "설명"]} px="px-5" />
+              <TableHead topics={["이름", "설명"]} px="px-5" />
               <TBodyCommittee
                 committees={committees}></TBodyCommittee>
             </table>

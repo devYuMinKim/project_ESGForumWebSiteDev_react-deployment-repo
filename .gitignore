@@ -11,6 +11,9 @@
 # production
 /build
 
+# Ignore package.json and package-lock.json
+/package.json
+
 # misc
 .DS_Store
 .env

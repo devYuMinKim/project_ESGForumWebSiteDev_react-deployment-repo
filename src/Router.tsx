@@ -1,26 +1,29 @@
-import React from 'react';
-import { Route, Routes } from 'react-router-dom';
-import MainPage from './pages';
-import Login from './pages/login';
-import Register from './pages/register';
-import Committee from './pages/committee';
-import Business from './pages/business';
-import AboutUsPage from './pages/aboutus';
-import ObjectivePage from './pages/aboutus/objective';
-import BoEPage from './pages/aboutus/boe';
-import GreetingsPage from './pages/aboutus/greetings';
-import HistoryPage from './pages/aboutus/history';
-import RulesPage from './pages/aboutus/rules';
-import ContactPage from './pages/aboutus/contact';
-import SeminarPage from './pages/seminars';
-import ReferencePage from './pages/reference';
-import NotificationPage from './pages/notification';
-import DashBoard from './pages/admin/dashboard';
-import CommitteeInfo from './pages/admin/committee';
-import SeminarDetailPage from './pages/seminar_detail';
-import ReferenceDetailPage from './pages/reference_detail';
-import NotificationDetailPage from './pages/notification_detail';
-import SeminarPostPage from './pages/seminar_post';
+import React from "react";
+import { Route, Routes } from "react-router-dom";
+import MainPage from "./pages";
+import Login from "./pages/login";
+import Register from "./pages/register";
+import Committee from "./pages/committee";
+import Business from "./pages/business";
+import AboutUsPage from "./pages/aboutus";
+import ObjectivePage from "./pages/aboutus/objective";
+import BoEPage from "./pages/aboutus/boe";
+import GreetingsPage from "./pages/aboutus/greetings";
+import HistoryPage from "./pages/aboutus/history";
+import RulesPage from "./pages/aboutus/rules";
+import ContactPage from "./pages/aboutus/contact";
+import SeminarPage from "./pages/seminars";
+import ReferencePage from "./pages/reference";
+import NotificationPage from "./pages/notification";
+import DashBoard from "./pages/admin/dashboard";
+import CommitteeInfo from "./pages/admin/committee";
+import SeminarDetailPage from "./pages/seminar_detail";
+import ReferenceDetailPage from "./pages/reference_detail";
+import NotificationDetailPage from "./pages/notification_detail";
+import SeminarPostPage from "./pages/seminar_post";
+import SeminarEditPage from "./pages/seminar_edit";
+import ReferenceEditPage from "./pages/reference_edit";
+import NotificationEditPage from "./pages/notification_edit";
 
 const Router: React.FC = () => (
   <Routes>
@@ -33,13 +36,14 @@ const Router: React.FC = () => (
     <Route path="/admin/committee/:id" element={<CommitteeInfo />} />
     <Route path="/seminars" element={<SeminarPage />} />
     <Route path="/seminars/post" element={<SeminarPostPage />} />
+    <Route path="/seminars/edit/:id" element={<SeminarEditPage />} />
     <Route path="/seminars/:id" element={<SeminarDetailPage />} />
     <Route path="/references" element={<ReferencePage />} />
-    {/* <Route path="/references/:id" element={<ReferenceDetailPage />} /> */}
+    <Route path="/references/edit/:id" element={<ReferenceEditPage />} />
+    <Route path="/references/:id" element={<ReferenceDetailPage />} />
     <Route path="/notifications" element={<NotificationPage />} />
-    {/* <Route path="/notifications/:id" element={<NotificationDetailPage />} /> */}
-    <Route path="/reference" element={<ReferencePage />} />
-    <Route path="/notification" element={<NotificationPage />} />
+    <Route path="/notifications/edit/:id" element={<NotificationEditPage />} />
+    <Route path="/notifications/:id" element={<NotificationDetailPage />} />
     <Route path="/aboutus" element={<AboutUsPage />} />
     <Route path="/aboutus/objective" element={<ObjectivePage />} />
     <Route path="/aboutus/boe" element={<BoEPage />} />

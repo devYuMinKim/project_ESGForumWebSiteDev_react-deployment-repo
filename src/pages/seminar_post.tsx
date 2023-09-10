@@ -14,15 +14,6 @@ import 'react-datetime-picker/dist/DateTimePicker.css';
 import 'react-calendar/dist/Calendar.css';
 import 'react-clock/dist/Clock.css';
 
-interface SeminarFormElement extends HTMLFormElement {
-  elements: Elements;
-}
-
-interface Elements extends HTMLFormControlsCollection {
-  startDateTime: HTMLInputElement;
-  endDateTime: HTMLInputElement;
-}
-
 type ValuePiece = Date | null;
 
 type Value = ValuePiece | [ValuePiece, ValuePiece];
