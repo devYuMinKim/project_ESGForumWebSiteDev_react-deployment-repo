@@ -1,68 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Seminar, SendSeminar, User } from '../types/seminars.interface';
-import {
-  createSeminar,
-  deleteSeminar,
-  getCurrentUser,
-  getSeminarById,
-} from '../services/seminar.service';
+import { createSeminar, getCurrentUser } from '../services/seminar.service';
 import useToken from '../hooks/useToken';
 import moment from 'moment';
 
-import { Datetimepicker, Input, initTE } from 'tw-elements';
+import DateTimePicker from 'react-datetime-picker';
+
+import { Input } from '@material-tailwind/react';
 import QuillEditor from '../components/editor/quill-editor';
 
-const InputForm = (props: { title: string; onChange: (data: string) => void }) => {
-  useEffect(() => {
-    initTE({ Input });
-  });
-  return (
-    <div className="relative mb-3" data-te-input-wrapper-init>
-      <input
-        id={props.title}
-        type="text"
-        className="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-        onChange={(e) => {
-          props.onChange(e.target.value);
-        }}
-      />
-      <label
-        htmlFor={props.title}
-        className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
-      >
-        {props.title}
-      </label>
-    </div>
-  );
-};
-
-const DatetimeForm = (props: { title: string; name: string }) => {
-  useEffect(() => {
-    initTE({ Input, Datetimepicker });
-  });
-  return (
-    <div
-      className="relative mb-3"
-      data-te-date-timepicker-init
-      data-te-input-wrapper-init
-      data-te-inline="true"
-    >
-      <input
-        type="text"
-        className="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-        id={props.title}
-        name={props.name}
-      />
-      <label
-        htmlFor="form2"
-        className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
-      >
-        {props.title}
-      </label>
-    </div>
-  );
-};
+import 'react-datetime-picker/dist/DateTimePicker.css';
+import 'react-calendar/dist/Calendar.css';
+import 'react-clock/dist/Clock.css';
 
 interface SeminarFormElement extends HTMLFormElement {
   elements: Elements;
@@ -73,7 +23,10 @@ interface Elements extends HTMLFormControlsCollection {
   endDateTime: HTMLInputElement;
 }
 
-//
+type ValuePiece = Date | null;
+
+type Value = ValuePiece | [ValuePiece, ValuePiece];
+
 const SeminarPostPage: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [title, setTitle] = useState<string>('');
@@ -83,25 +36,40 @@ const SeminarPostPage: React.FC = () => {
   const [supervision, setSupervision] = useState<string>('');
   const [participation, setParticipation] = useState<string>('');
 
-  const form = document.getElementById('seminarForm') as SeminarFormElement;
+  const [startDateTime, setStartDateTime] = useState<Value>(new Date());
+  const [endDateTime, setEndDateTime] = useState<Value>(new Date());
 
   const token = useToken();
   const navigate = useNavigate();
 
+  const handler = {
+    title: (e: React.ChangeEvent<HTMLInputElement>) => {
+      setTitle(e.target.value);
+    },
+    location: (e: React.ChangeEvent<HTMLInputElement>) => {
+      setLocation(e.target.value);
+    },
+    content: (e: React.ChangeEvent<HTMLInputElement>) => {
+      setContent(e.target.value);
+    },
+    host: (e: React.ChangeEvent<HTMLInputElement>) => {
+      setHost(e.target.value);
+    },
+    supervision: (e: React.ChangeEvent<HTMLInputElement>) => {
+      setSupervision(e.target.value);
+    },
+    participation: (e: React.ChangeEvent<HTMLInputElement>) => {
+      setParticipation(e.target.value);
+    },
+  };
+
   const handleSend = async () => {
     if (!window.confirm('작성하시겠습니까?')) return;
 
-    // FIXME: tw-elements 에서 options으로 datetime format을 지정할 수 있도록 수정해야 함. (현재는 moment를 사용해서 format을 변경함.) (written on 2023/09/08 12:44 PM)
     const seminar: SendSeminar = {
       subject: title,
-      date_start:
-        form.elements.startDateTime.value &&
-        moment(form.elements.startDateTime.value, 'DD/MM/YYYY, h:mm A').format(
-          'YYYY-MM-DD HH:mm:ss'
-        ),
-      date_end:
-        form.elements.endDateTime.value &&
-        moment(form.elements.endDateTime.value, 'DD/MM/YYYY, h:mm A').format('YYYY-MM-DD HH:mm:ss'),
+      date_start: moment(startDateTime as Date).format('YYYY-MM-DD HH:mm:ss'),
+      date_end: moment(endDateTime as Date).format('YYYY-MM-DD HH:mm:ss'),
       location: location,
       content: content,
       host: host,
@@ -119,7 +87,50 @@ const SeminarPostPage: React.FC = () => {
     }
   };
 
-  const handleDraft = async () => {};
+  const handleDraft = (msg: string) => {
+    if (!window.confirm(msg)) return;
+
+    const seminar: SendSeminar = {
+      subject: title,
+      date_start: moment(startDateTime as Date).format('YYYY-MM-DD HH:mm:ss'),
+      date_end: moment(endDateTime as Date).format('YYYY-MM-DD HH:mm:ss'),
+      location: location,
+      content: content,
+      host: host,
+      participation: participation,
+      supervision: supervision,
+    };
+
+    try {
+      localStorage.setItem('seminar', JSON.stringify(seminar));
+      alert('임시저장이 완료되었습니다.');
+      navigate('/seminars');
+    } catch (error) {
+      console.error(error);
+      alert('임시저장에 실패하였습니다.');
+    }
+  };
+
+  const handleBackDraft = () => {
+    if (!window.confirm('임시저장된 세미나가 있습니다. 불러오시겠습니까?')) {
+      return localStorage.removeItem('seminar');
+    }
+
+    const seminar = JSON.parse(localStorage.getItem('seminar') as string);
+
+    setTitle(seminar.subject);
+    setLocation(seminar.location);
+    setContent(seminar.content);
+    setHost(seminar.host);
+    setParticipation(seminar.participation);
+    setSupervision(seminar.supervision);
+    setStartDateTime(new Date(seminar.date_start));
+    setEndDateTime(new Date(seminar.date_end));
+  };
+
+  useEffect(() => {
+    handleBackDraft();
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -138,40 +149,62 @@ const SeminarPostPage: React.FC = () => {
     <form id="seminarForm">
       <div className="flex justify-center min-h-screen mt-5">
         <div className="rounded flex justify-center overflow-hidden border w-full lg:w-6/12 md:w-6/12 bg-white mx-3 md:mx-0 lg:mx-0">
-          <div className="rounded overflow-hidden w-full bg-white mx-3 md:mx-0 lg:mx-0 p-4">
+          <div className="rounded overflow-hidden w-full bg-white mx-3 md:mx-0 lg:mx-0 p-4 space-y-3">
+            {/* 이전 페이지로 돌아가기 버튼 */}
+            <button
+              type="button"
+              className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+              onClick={() => {
+                handleDraft('작성중인 세미나가 있습니다. 뒤로가기 전 임시저장을 하시겠습니까?');
+                navigate('/seminars');
+              }}
+            >
+              뒤로가기
+            </button>
             {/* 제목 */}
-            <div className="text-base text-gray-600">
-              <InputForm title="주제" onChange={setTitle} />
+            <div className="w-full flex justify-start items-center pr-3">
+              <div className="w-full">
+                <Input label="주제" onChange={handler.title} value={title} required />
+              </div>
             </div>
-            <div className="w-full flex justify-end items-center pr-3 space-x-4">
-              <div className="text-base text-gray-600">
-                <InputForm title="주최" onChange={setHost} />
+
+            <div className="grid grid-cols-4 justify-start items-center pr-3 space-x-3">
+              <div className="col-span-1 text-base text-gray-600">
+                <Input label="주최" onChange={handler.host} value={host} required />
               </div>
-              <div className="text-base text-gray-600">
-                <InputForm title="주관" onChange={setSupervision} />
+              <div className="col-span-1 text-base text-gray-600">
+                <Input label="주관" onChange={handler.supervision} value={supervision} required />
               </div>
-              <div className="text-base text-gray-600">
-                <InputForm title="참여" onChange={setParticipation} />
+              <div className="col-span-1 text-base text-gray-600">
+                <Input
+                  label="참여"
+                  onChange={handler.participation}
+                  value={participation}
+                  required
+                />
+              </div>
+              <div className="col-span-1 text-base text-gray-600">
+                <Input label="장소" onChange={handler.location} value={location} required />
               </div>
             </div>
             {/* 날짜 */}
-            <div className="w-full flex justify-end items-center p-3 space-x-4">
-              <div className="text-xs text-gray-600 flex gap-x-5">
-                <DatetimeForm title="시작 날짜" name="startDateTime" />
-                <DatetimeForm title="종료 날짜" name="endDateTime" />
-              </div>
-            </div>
-            {/* 장소 */}
-            <div className="w-full flex justify-end items-center pr-3 space-x-4">
-              <div className="text-base text-gray-600">
-                <InputForm title="장소" onChange={setLocation} />
+            <div className="w-full flex justify-start items-center pr-3 space-x-4">
+              <div className="flex justify-start flex-col gap-3 pl-4">
+                <div className="text-base text-gray-600">
+                  <span className="pr-3">시작 날짜</span>
+                  <DateTimePicker onChange={setStartDateTime} value={startDateTime} required />
+                </div>
+                <div className="text-base text-gray-600">
+                  <span className="pr-3">종료 날짜</span>
+                  <DateTimePicker onChange={setEndDateTime} value={endDateTime} required />
+                </div>
               </div>
             </div>
 
             <hr />
             {/* 내용 */}
             <div className="text-lg p-3 h-4/6">
-              <QuillEditor onChange={setContent} style={{ height: 700 }} />
+              <QuillEditor onChange={setContent} style={{ height: 700 }} value={content} />
             </div>
             <hr />
             {/* 버튼 */}
@@ -187,7 +220,7 @@ const SeminarPostPage: React.FC = () => {
               <button
                 type="button"
                 className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-                onClick={handleDraft}
+                onClick={() => handleDraft('임시저장 하시겠습니까?')}
               >
                 임시저장
               </button>
