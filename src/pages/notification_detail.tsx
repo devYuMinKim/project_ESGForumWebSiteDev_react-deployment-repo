@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { Post } from "../types/post.interface";
 import { getPostById } from "../services/post.service";
-import { deleteSeminar, getCurrentUser } from "../services/seminar.service";
+import { getCurrentUser } from "../services/seminar.service";
 import ReadContents from "../components/editor/ReadContents";
 import { User } from "../types/seminars.interface";
 import useToken from "../hooks/useToken";
