@@ -40,16 +40,14 @@ const Dashboard: React.FC = () => {
       });
     setReady(true);
   }, []);
-  console.log("dashboard")
 
   const setCounts = (
     count: number,
     newCount: number,
     setFunction: React.Dispatch<React.SetStateAction<number>>) => {
-
     if (count !== newCount) {
       setFunction(newCount);
-    } 
+    }
   }
 
   const statisticsCardsData: StatisticsCardData[] = [
@@ -82,37 +80,33 @@ const Dashboard: React.FC = () => {
     "applicants",
   ];
 
-  const trackedData = (track: Track) => {
+  const trackedData = () => {
     switch (track) {
       case "members":
-        return <Members
-          memberCount={memberCount}
-          setMemberCount={setMemberCount}
-        />
-
+        return <Members setMemberCount={setMemberCount} />;
       case "applicants":
-        return <Applicants
-          setApplicantsCount={setApplicantsCount}
-        />
-
+        return <Applicants setApplicantsCount={setApplicantsCount} />;
       default:
-        return <CommitteeTableSection
-          committeeCount={committeeCount}
-          setCommitteeCount={setCommitteeCount} />
+        return (
+          <CommitteeTableSection
+            committeeCount={committeeCount}
+            setCommitteeCount={setCommitteeCount}
+          />
+        );
     }
-  }
+  };
 
   return (
     <div>
       <Spinner flag={ready} />
-      <div className={`${ready ? "mx-24 my-12" : "opacity-0"} transition-opacity`}>
+      <div className={`${ready ? "mx-36 my-12" : "opacity-0"} transition-opacity`}>
         <StatisticsCardsSection
           statisticsCardsData={statisticsCardsData}
           onClick={link}
           track={track}
           setTrack={setTrack}
         />
-        {trackedData(track)}
+        {trackedData()}
       </div>
     </div>
   );
