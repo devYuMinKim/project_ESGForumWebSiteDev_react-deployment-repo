@@ -23,6 +23,7 @@ const SeminarDetailPage: React.FC = () => {
 
       try {
         const user = await getCurrentUser(token);
+        console.log(user);
         setCurrentUser(user);
       } catch (error) {
         setCurrentUser(null);
@@ -90,7 +91,7 @@ const SeminarDetailPage: React.FC = () => {
               <ReadContents value={seminar.content} />
             </div>
             {/* 수정, 삭제 버튼 */}
-            {currentUser && (
+            {currentUser?.is_admin && (
               <div className="flex justify-end mb-2">
                 <button
                   type="button"

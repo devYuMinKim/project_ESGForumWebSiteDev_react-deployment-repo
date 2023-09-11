@@ -27,5 +27,5 @@ export interface SendSeminar
 
 export interface User {
   data: any;
-  isAdmin: boolean;
+  is_admin: boolean;
 }
