@@ -19,11 +19,12 @@ const Members: React.FC<MembersProps> = ({
   const [members, setMembers] = useState<Member[]>([]);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [selected, setSelected] = useState<number[]>([]);
+  const myAxios = authenticatedAxios();
 
   const handleSubmit = async (name: string, affiliation: string) => {
 
     try {
-      const response = await authenticatedAxios.post("members", {
+      const response = await myAxios.post("members", {
         name,
         affiliation,
       });
@@ -49,7 +50,7 @@ const Members: React.FC<MembersProps> = ({
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await authenticatedAxios.get<Member[]>("/members");
+        const response = await myAxios.get<Member[]>("/members");
 
         if (response.status === 200) {
           const memberData = response.data;
@@ -93,7 +94,7 @@ const Members: React.FC<MembersProps> = ({
     }
 
     try {
-      const response = await authenticatedAxios.put("/members", {
+      const response = await myAxios.put("/members", {
         id,
         note
       });
@@ -129,7 +130,7 @@ const Members: React.FC<MembersProps> = ({
 
       if (!flag) return;
 
-      const response = await authenticatedAxios.delete("/members", {
+      const response = await myAxios.delete("/members", {
         data: { ids }
       });
 
@@ -170,7 +171,7 @@ const Members: React.FC<MembersProps> = ({
               <div className={`space-x-5 ${selected?.length ? "" : "opacity-0"} transition-opacity`}>
                 <button
                   className={`${(selected?.length === 1) ? "" : "opacity-0"} transition-opacity
-                   w-15 bg-slate-600 text-white font-bold text-sm px-1 py-1 rounded shadow hover:shadow-lg`}
+                   w-15 bg-admin text-white font-bold text-sm px-1 py-1 rounded shadow hover:shadow-lg`}
                   onClick={async () => positionChange(selected, setMembers)}
                 >
                   직위 변경
@@ -183,7 +184,7 @@ const Members: React.FC<MembersProps> = ({
                 </button>
               </div>
               <PlusCircleIcon
-                className="font-medium w-10 cursor-pointer ml-5"
+                className="font-medium w-10 cursor-pointer ml-5 text-admin"
                 type="button"
                 onClick={() => setShowModal(true)}
               />

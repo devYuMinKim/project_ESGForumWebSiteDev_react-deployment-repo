@@ -29,6 +29,7 @@ const CommitteeInfo: React.FC = ({
   const [isDelete, setIsDelete] = useState<boolean>(false);
   const [ready, setReady] = useState<boolean>(false);
   const [chairman, setChairman] = useState<string>("");
+  const myAxois = authenticatedAxios();
 
   const assetData = {
     committee: [committee],
@@ -40,8 +41,8 @@ const CommitteeInfo: React.FC = ({
     const fetchData = async () => {
       axios
         .all([
-          authenticatedAxios.get(`/committee/${id}`),
-          authenticatedAxios.get(`/committee/${id}/members`),
+          myAxois.get(`/committee/${id}`),
+          myAxois.get(`/committee/${id}/members`),
         ])
         .then(
           axios.spread((committeeDataResponse, committeeMemberDataResponse) => {
@@ -77,21 +78,21 @@ const CommitteeInfo: React.FC = ({
       [
         {
           name: "committees",
-          color: "bg-slate-700",
+          color: "bg-admin",
           icon: BookmarkSquareIcon,
           title: "위원회 이름",
           value: name
         },
         {
           name: "committees",
-          color: "bg-slate-700",
+          color: "bg-admin",
           icon: UserIcon,
           title: "위원장",
           value: chairMan
         },
         {
           name: "members",
-          color: "bg-slate-700",
+          color: "bg-admin",
           icon: UserGroupIcon,
           title: "회원 수",
           value: members.length
@@ -113,7 +114,7 @@ const CommitteeInfo: React.FC = ({
           return;
         }
 
-        const response = await authenticatedAxios.delete(`committee/${id}`);
+        const response = await myAxois.delete(`committee/${id}`);
 
         if (response.status === 204) {
           window.alert("삭제 완료");
@@ -125,7 +126,7 @@ const CommitteeInfo: React.FC = ({
         return;
       }
 
-      const response = await authenticatedAxios.put(`/committee/${id}`, {
+      const response = await myAxois.put(`/committee/${id}`, {
         id,
         name: cName,
         explanation,
@@ -150,8 +151,8 @@ const CommitteeInfo: React.FC = ({
       <Spinner flag={ready} />
       <div className={`${ready ? "mx-36 my-6" : "opacity-0"} transition-opacity`}>
         <Link to={'/admin'}>
-          <div className="flex mb-12 text-slate-600 hover:animate-pulse cursor-pointer align-middle">
-            <ArrowLeftCircleIcon className="w-10" />
+          <div className="flex mb-12 hover:animate-pulse cursor-pointer align-middle">
+            <ArrowLeftCircleIcon className="w-10 text-admin" />
             <div className="flex items-center">
               <Typography variant="h6" color="blue-gray">
                 이전 페이지
