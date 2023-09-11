@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import FormInput from "../../layout/login";
 
 interface AddMemberModalProps {
+  title: string;
   showModal: boolean;
   setShowModal: (show: boolean) => void;
   handleSubmit: (name: string, affiliation: string) => Promise<void>;
 }
 
 const AddMemberModal: React.FC<AddMemberModalProps> = ({
+  title,
   showModal,
   setShowModal,
   handleSubmit,
@@ -26,7 +28,7 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                 <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                   <h3 className="text-xl font-semibold mt-2">
-                    회원 추가
+                    {title}
                   </h3>
                   <h3
                     className="text-3xl text-slate-500 cursor-pointer"
@@ -65,7 +67,12 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({
                   <div className="relative">
                     <button
                       className="absolute top-30 right-0 bg-green-500 text-white font-bold text-sm px-3 py-1 rounded shadow hover:shadow-lg mb-5"
-                      onClick={() => handleSubmit(name, affiliation)}
+                      onClick={() => {
+                        handleSubmit(name, affiliation);
+                        setName("");
+                        setAffiliation("");
+                      }
+                      }
                     >
                       추가
                     </button>
