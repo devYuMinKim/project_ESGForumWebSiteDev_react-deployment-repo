@@ -40,7 +40,7 @@ const SubNav: React.FC = () => {
 
   return (
     <SubNavContainer>
-      <SubHome onClick={() => navigate('/aboutus')}>
+      <SubHome onClick={() => navigate('/aboutus/objective')}>
         <SubHomeIcon />
       </SubHome>
       {menuList.map((menu, i) => (

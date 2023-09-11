@@ -48,13 +48,12 @@ const Router: React.FC = () => (
     <Route path="/notifications/edit/:id" element={<NotificationEditPage />} />
     <Route path="/notifications/post" element={<NotificationPostPage />} />
     <Route path="/notifications/:id" element={<NotificationDetailPage />} />
-    <Route path="/aboutus" element={<AboutUsPage />} />
     <Route path="/aboutus/objective" element={<ObjectivePage />} />
     <Route path="/aboutus/boe" element={<BoEPage />} />
     <Route path="/aboutus/greetings" element={<GreetingsPage />} />
     <Route path="/aboutus/history" element={<HistoryPage />} />
     <Route path="/aboutus/rules" element={<RulesPage />} />
-    {/* <Route path="/aboutus/contact" element={<ContactPage />} /> */}
+    <Route path="/aboutus/contact" element={<ContactPage />} />
     {/* <Route path="/quill" element={<Editor />} /> */}
   </Routes>
 );
