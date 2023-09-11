@@ -1,25 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import FormInput from "../../layout/login";
 
 interface AddMemberModalProps {
   showModal: boolean;
-  name: string;
-  affiliation: string;
   setShowModal: (show: boolean) => void;
-  setName: React.Dispatch<React.SetStateAction<string>>;
-  setAffiliation: React.Dispatch<React.SetStateAction<string>>;
-  handleSubmit: (e: React.FormEvent) => Promise<void>;
+  handleSubmit: (name: string, affiliation: string) => Promise<void>;
 }
 
 const AddMemberModal: React.FC<AddMemberModalProps> = ({
   showModal,
-  name,
-  affiliation,
   setShowModal,
-  setName,
-  setAffiliation,
   handleSubmit,
 }) => {
+  const [name, setName] = useState<string>("");
+  const [affiliation, setAffiliation] = useState<string>("");
+
   return (
     <>
       {showModal ? (
@@ -45,8 +40,8 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({
                     ×
                   </h3>
                 </div>
-                <div className="relative py-12 px-10  flex-auto">
-                  <form className="space-y-6 relative" onSubmit={handleSubmit}>
+                <div className="pt-8 pb-12 px-10">
+                  <form className="space-y-6 relative">
                     <FormInput
                       id="name"
                       label="이름"
@@ -65,14 +60,16 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({
                       value={affiliation}
                       onChange={(e) => setAffiliation(e.target.value)}
                     />
+                    <p></p>
+                  </form>
+                  <div className="relative">
                     <button
-                      className="absolute top-30 right-0 bg-green-500 text-white font-bold uppercase text-sm px-3 py-1 rounded shadow hover:shadow-lg mb-5"
-                      type="submit"
+                      className="absolute top-30 right-0 bg-green-500 text-white font-bold text-sm px-3 py-1 rounded shadow hover:shadow-lg mb-5"
+                      onClick={() => handleSubmit(name, affiliation)}
                     >
                       추가
                     </button>
-                    <p></p>
-                  </form>
+                  </div>
                 </div>
               </div>
             </div>

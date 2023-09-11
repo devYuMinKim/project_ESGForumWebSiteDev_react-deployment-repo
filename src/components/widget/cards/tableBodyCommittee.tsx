@@ -48,14 +48,6 @@ const TBodyCommittee: React.FC<TBodyCommitteeProps> = ({
                   variant="small"
                   className={tdTextContent}
                 >
-                  {id}
-                </Typography>
-              </td>
-              <td className={className}>
-                <Typography
-                  variant="small"
-                  className={tdTextContent}
-                >
                   {TextTruncate(name)}
                 </Typography>
               </td>

@@ -1,10 +1,8 @@
-module.exports = {
-  content: [
-    './src/**/*.{js,jsx,ts,tsx}',
-    './public/index.html',
-    './node_modules/tw-elements/dist/js/**/*.js',
-  ],
-  darkMode: false,
+const withMT = require('@material-tailwind/react/utils/withMT');
+
+module.exports = withMT({
+  content: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
@@ -22,5 +20,5 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [require('@tailwindcss/forms'), require('tw-elements/dist/plugin.cjs')],
-};
+  plugins: [require('@tailwindcss/forms')],
+});

@@ -20,7 +20,12 @@ import CommitteeInfo from './pages/admin/committee';
 import SeminarDetailPage from './pages/seminar_detail';
 import ReferenceDetailPage from './pages/reference_detail';
 import NotificationDetailPage from './pages/notification_detail';
+import SeminarEditPage from './pages/seminar_edit';
+import ReferenceEditPage from './pages/reference_edit';
+import NotificationEditPage from './pages/notification_edit';
+import NotificationPostPage from './pages/notification_post';
 import SeminarPostPage from './pages/seminar_post';
+import ReferencePostPage from './pages/reference_post';
 
 const Router: React.FC = () => (
   <Routes>
@@ -33,13 +38,16 @@ const Router: React.FC = () => (
     <Route path="/admin/committee/:id" element={<CommitteeInfo />} />
     <Route path="/seminars" element={<SeminarPage />} />
     <Route path="/seminars/post" element={<SeminarPostPage />} />
+    <Route path="/seminars/edit/:id" element={<SeminarEditPage />} />
     <Route path="/seminars/:id" element={<SeminarDetailPage />} />
     <Route path="/references" element={<ReferencePage />} />
-    {/* <Route path="/references/:id" element={<ReferenceDetailPage />} /> */}
+    <Route path="/references/post" element={<ReferencePostPage />} />
+    <Route path="/references/edit/:id" element={<ReferenceEditPage />} />
+    <Route path="/references/:id" element={<ReferenceDetailPage />} />
     <Route path="/notifications" element={<NotificationPage />} />
-    {/* <Route path="/notifications/:id" element={<NotificationDetailPage />} /> */}
-    <Route path="/reference" element={<ReferencePage />} />
-    <Route path="/notification" element={<NotificationPage />} />
+    <Route path="/notifications/edit/:id" element={<NotificationEditPage />} />
+    <Route path="/notifications/post" element={<NotificationPostPage />} />
+    <Route path="/notifications/:id" element={<NotificationDetailPage />} />
     <Route path="/aboutus" element={<AboutUsPage />} />
     <Route path="/aboutus/objective" element={<ObjectivePage />} />
     <Route path="/aboutus/boe" element={<BoEPage />} />
