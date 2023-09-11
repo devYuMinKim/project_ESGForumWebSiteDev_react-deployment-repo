@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
-import { Post } from "../types/post.interface";
-import { getPostById } from "../services/post.service";
-import { deleteSeminar, getCurrentUser } from "../services/seminar.service";
-import ReadContents from "../components/editor/ReadContents";
-import { User } from "../types/seminars.interface";
-import useToken from "../hooks/useToken";
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate, Link } from 'react-router-dom';
+import { Post } from '../types/post.interface';
+import { getPostById } from '../services/post.service';
+import { deleteSeminar, getCurrentUser } from '../services/seminar.service';
+import ReadContents from '../components/editor/ReadContents';
+import { User } from '../types/seminars.interface';
+import useToken from '../hooks/useToken';
 
 const NotificationDetailPage: React.FC = () => {
   const [post, setPost] = useState<Post | null>(null);
@@ -43,13 +43,13 @@ const NotificationDetailPage: React.FC = () => {
   if (!post) return <div>Loading...</div>;
 
   async function handleDelete() {
-    if (window.confirm("정말로 이 게시글을 삭제하시겠습니까?")) {
+    if (window.confirm('정말로 이 게시글을 삭제하시겠습니까?')) {
       try {
-        await deleteSeminar(id);
-        alert("게시글이 삭제되었습니다.");
-        navigate("/notifications");
+        // await deleteSeminar(id); FIXME: deleteSeminar 가 아닌 deletePost 로 수정 필요
+        alert('게시글이 삭제되었습니다.');
+        navigate('/notifications');
       } catch (error) {
-        alert("Failed to delete the notification.");
+        alert('Failed to delete the notification.');
       }
     }
   }
@@ -60,6 +60,18 @@ const NotificationDetailPage: React.FC = () => {
         <div className="rounded flex justify-center overflow-hidden border w-full lg:w-6/12 md:w-6/12 bg-white mx-3 md:mx-0 lg:mx-0">
           <div className="rounded overflow-hidden w-full bg-white mx-3 md:mx-0 lg:mx-0 p-4">
             <h2 className="text-4xl font-bold p-3">{post.title}</h2>
+
+            <div className="w-full flex justify-end items-center pr-3 space-x-4">
+              <p className="text-base text-gray-500">주최:</p>
+              <p className="text-bold">{post.author}</p>
+            </div>
+            <div className="w-full flex justify-end items-center pr-3 space-x-4">
+              <p className="text-base text-gray-500">생성일:</p>
+              <p className="text-bold">{post.created_at}</p>
+            </div>
+            {/* <div className="w-full flex justify-end items-center pr-3 space-x-4">
+              <p className="text-base text-gray-600">{post.author}</p>
+            </div> */}
 
             <hr />
             <div className="text-lg p-3">
@@ -108,9 +120,7 @@ const NotificationDetailPage: React.FC = () => {
             <div className="w-full flex items-center pl-3 space-x-4">
               {post.files &&
                 post.files.map((file, index) => (
-                  <a key={index} href={file.url} download>{`File ${
-                    index + 1
-                  }`}</a>
+                  <a key={index} href={file.url} download>{`File ${index + 1}`}</a>
                 ))}
             </div>
           </div>

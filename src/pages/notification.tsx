@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getPosts, getOngoingPosts, getPastPosts, searchPosts } from '../services/post.service';
 import { Post } from '../types/post.interface';
 import Pagination from 'rc-pagination';
 import Select from 'react-select';
 import Body from '../components/layout/body';
+import { ReactComponent as WriteIcon } from '../assets/icons/write.svg';
 
 // import { ReactComponent as SearchIcon } from "../assets/icons/seminars-search.svg";
 
@@ -38,6 +39,10 @@ const NotificationPage = () => {
   const [type, setType] = useState('all');
   const [searchKeyword, setSearchKeyword] = useState('');
   const [searchType, setSearchType] = useState('subject');
+
+  const isAdmin = useState<boolean>(true); // FIXME: TEST: remove this
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     (async () => {
@@ -80,6 +85,19 @@ const NotificationPage = () => {
             {/* 주제 */}
             <div className="flex justify-between w-full px-4 py-2 items-center">
               <div className="text-xl font-bold">알림마당</div>
+              {isAdmin && (
+                <button
+                  type="button"
+                  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  onClick={() => {
+                    navigate('/notifications/post');
+                  }}
+                >
+                  {/* TODO: Icon here */}
+                  <WriteIcon />
+                  <span style={{ marginLeft: '14px' }}>작성하기</span>
+                </button>
+              )}
             </div>
             {/* 종류 */}
             <ul className="flex flex-row space-x-2 sm:space-x-6 md:space-x-12 mt-4 mx-4 items-center border-b border-gray-300 overflow-auto text-sm">
