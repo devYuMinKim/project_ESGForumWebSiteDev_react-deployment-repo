@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
-import useValidateToken from "../../../hooks/useValidateToken";
-import useRefreshAccessToken from "../../../hooks/useRefreshToken";
-import { ReactComponent as ESGLogo } from "../../../assets/icons/esg-logo.svg";
+import React, { useEffect, useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import useValidateToken from '../../../hooks/useValidateToken';
+import useRefreshAccessToken from '../../../hooks/useRefreshToken';
+import { ReactComponent as ESGLogo } from '../../../assets/icons/esg-logo.svg';
 
 const Header: React.FC = () => {
   const { loggedIn } = useValidateToken();
@@ -15,19 +15,19 @@ const Header: React.FC = () => {
       setAuthChanged(!authChanged);
     };
 
-    window.addEventListener("auth-changed", handleAuthChanged);
+    window.addEventListener('auth-changed', handleAuthChanged);
 
     return () => {
-      window.removeEventListener("auth-changed", handleAuthChanged);
+      window.removeEventListener('auth-changed', handleAuthChanged);
     };
   }, [authChanged]);
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("refreshToken");
-    const event = new CustomEvent("auth-changed");
+    localStorage.removeItem('token');
+    localStorage.removeItem('refreshToken');
+    const event = new CustomEvent('auth-changed');
     window.dispatchEvent(event);
-    navigate("/");
+    navigate('/');
   };
 
   if (loading) {
@@ -46,11 +46,9 @@ const Header: React.FC = () => {
 
         <nav className="flex flex-wrap items-center justify-center pl-24 text-base md:ml-auto md:mr-auto">
           <NavLink
-            to="/aboutus"
+            to="/aboutus/objective"
             className={({ isActive }) =>
-              isActive
-                ? "mr-10 font-bold text-teal-500"
-                : "mr-10 font-medium hover:text-gray-900"
+              isActive ? 'mr-10 font-bold text-teal-500' : 'mr-10 font-medium hover:text-gray-900'
             }
           >
             포럼소개
@@ -58,9 +56,7 @@ const Header: React.FC = () => {
           <NavLink
             to="/business"
             className={({ isActive }) =>
-              isActive
-                ? "mr-10 font-bold text-teal-500"
-                : "mr-10 font-medium hover:text-gray-900"
+              isActive ? 'mr-10 font-bold text-teal-500' : 'mr-10 font-medium hover:text-gray-900'
             }
           >
             주요사업
@@ -68,9 +64,7 @@ const Header: React.FC = () => {
           <NavLink
             to="/seminars"
             className={({ isActive }) =>
-              isActive
-                ? "mr-10 font-bold text-teal-500"
-                : "mr-10 font-medium hover:text-gray-900"
+              isActive ? 'mr-10 font-bold text-teal-500' : 'mr-10 font-medium hover:text-gray-900'
             }
           >
             세미나
@@ -78,9 +72,7 @@ const Header: React.FC = () => {
           <NavLink
             to="/references"
             className={({ isActive }) =>
-              isActive
-                ? "mr-10 font-bold text-teal-500"
-                : "mr-10 font-medium hover:text-gray-900"
+              isActive ? 'mr-10 font-bold text-teal-500' : 'mr-10 font-medium hover:text-gray-900'
             }
           >
             자료실
@@ -88,9 +80,7 @@ const Header: React.FC = () => {
           <NavLink
             to="/committee"
             className={({ isActive }) =>
-              isActive
-                ? "mr-10 font-bold text-teal-500"
-                : "mr-10 font-medium hover:text-gray-900"
+              isActive ? 'mr-10 font-bold text-teal-500' : 'mr-10 font-medium hover:text-gray-900'
             }
           >
             회원안내
@@ -98,9 +88,7 @@ const Header: React.FC = () => {
           <NavLink
             to="/notifications"
             className={({ isActive }) =>
-              isActive
-                ? "mr-10 font-bold text-teal-500"
-                : "mr-10 font-medium hover:text-gray-900"
+              isActive ? 'mr-10 font-bold text-teal-500' : 'mr-10 font-medium hover:text-gray-900'
             }
           >
             알림마당
