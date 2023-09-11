@@ -1,14 +1,11 @@
 import { useState, useEffect } from "react";
 
 const useToken = () => {
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState(() => localStorage.getItem("token") || "");
 
   useEffect(() => {
-    const tokenFromStorage = localStorage.getItem("token");
-    if (tokenFromStorage) {
-      setToken(tokenFromStorage);
-    }
-  }, []);
+    localStorage.setItem("token", token);
+  }, [token]);
 
   return token;
 };

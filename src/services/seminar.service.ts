@@ -3,6 +3,7 @@ import {
   PaginatedResponse,
   Seminar,
   SendSeminar,
+  User,
 } from "../types/seminars.interface";
 
 const API_URL = process.env.REACT_APP_API_URL;
@@ -60,7 +61,7 @@ export async function createSeminar(seminar: SendSeminar): Promise<Seminar> {
  * @returns Seminar
  */
 export async function updateSeminar(
-  id: string | number,
+  id: string | undefined,
   seminar: SendSeminar
 ): Promise<Seminar> {
   const res = await axios.put<Seminar>(`${API_URL}/seminars/${id}`, seminar);
@@ -73,7 +74,7 @@ export async function updateSeminar(
  * @param id
  * @returns Seminar
  */
-export async function deleteSeminar(id: string | number) {
+export async function deleteSeminar(id: string | undefined) {
   const res = await axios.delete(`${API_URL}/seminars/${id}`);
   return res.data;
 }

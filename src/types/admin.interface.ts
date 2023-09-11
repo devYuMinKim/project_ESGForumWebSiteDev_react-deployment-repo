@@ -4,41 +4,35 @@ export interface CommitteeData {
   explanation: string,
 }
 
-export interface committeeMember {
-  id: number; // 위원회에서의 순번
-  m_id: number;
+export interface CommitteeMember {
+  id: number; // CommitteeMember id
+  c_id: number; // Committee id
   name: string;
   affiliation: string;
   pivot: {
-    id2: number; // 회원의 순번
-    note: string | null; // 위원회에서의 직책
+    id2: number; // member id
+    note: string; // 위원회에서의 직책
   }
   note?: number | null; // 특정 위원회의 직위 | 회원 만의 직위
 }
 
 export interface Member {
   id: number
+  email: string
+  authority: number | null
   name: string;
   affiliation: string;
-  note?: number | null | string; // esg 포럼에서의 직위
+  note: string; // esg 포럼에서의 직위
 }
 
+export type Track = "committees" | "members" | "applicants";
+
 export interface StatisticsCardData {
-  name: string
+  name: Track
   color: string,
   icon: any,
   title: string,
   value?: string | number
 }
 
-export interface User {
-  email: string,
-  affiliation: string,
-  name: string,
-  authority: null | number
-}
-
-export interface UserDataResponse {
-  users: User[],
-  applicants: User[],
-}
+export type ApplicantsManagement = "approval" | "rejection";

@@ -32,20 +32,21 @@ export const DesContent = styled.div`
   justify-content: center;
 
   h2 {
-    font-family: 'Noto Serif KR';
+    font-family: 'KOTRA_BOLD-Bold';
     font-size: 32px;
     font-weight: 700;
     line-height: normal;
     color: rgba(0, 0, 0, 1);
   }
   h3 {
-    font-family: 'Roboto';
+    font-family: 'KOTRA_BOLD-Bold';
     font-size: 24px;
     font-weight: 600;
     line-height: normal;
     color: rgba(27, 59, 134, 1);
   }
   > div {
+    font-family: 'IBMPlexSansKR-Regular';
     padding: 12px 0;
     display: flex;
     flex-direction: column;
@@ -88,7 +89,7 @@ const ActionListIcon = styled.div`
 `;
 const ContentHead = styled.span`
   color: #328924;
-  font-family: Roboto;
+  font-family: IBMPlexSansKR-Regular;
   font-size: 1.25rem;
   font-style: normal;
   font-weight: 600;

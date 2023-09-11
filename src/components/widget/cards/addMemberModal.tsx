@@ -1,25 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import FormInput from "../../layout/login";
 
 interface AddMemberModalProps {
+  title: string;
   showModal: boolean;
-  name: string;
-  affiliation: string;
   setShowModal: (show: boolean) => void;
-  setName: React.Dispatch<React.SetStateAction<string>>;
-  setAffiliation: React.Dispatch<React.SetStateAction<string>>;
-  handleSubmit: (e: React.FormEvent) => Promise<void>;
+  handleSubmit: (name: string, affiliation: string) => Promise<void>;
 }
 
 const AddMemberModal: React.FC<AddMemberModalProps> = ({
+  title,
   showModal,
-  name,
-  affiliation,
   setShowModal,
-  setName,
-  setAffiliation,
   handleSubmit,
 }) => {
+  const [name, setName] = useState<string>("");
+  const [affiliation, setAffiliation] = useState<string>("");
+
   return (
     <>
       {showModal ? (
@@ -31,7 +28,7 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                 <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                   <h3 className="text-xl font-semibold mt-2">
-                    회원 추가
+                    {title}
                   </h3>
                   <h3
                     className="text-3xl text-slate-500 cursor-pointer"
@@ -45,8 +42,8 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({
                     ×
                   </h3>
                 </div>
-                <div className="relative py-12 px-10  flex-auto">
-                  <form className="space-y-6 relative" onSubmit={handleSubmit}>
+                <div className="pt-8 pb-12 px-10">
+                  <form className="space-y-6 relative">
                     <FormInput
                       id="name"
                       label="이름"
@@ -65,14 +62,21 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({
                       value={affiliation}
                       onChange={(e) => setAffiliation(e.target.value)}
                     />
+                    <p></p>
+                  </form>
+                  <div className="relative">
                     <button
-                      className="absolute top-30 right-0 bg-green-500 text-white font-bold uppercase text-sm px-3 py-1 rounded shadow hover:shadow-lg mb-5"
-                      type="submit"
+                      className="absolute top-30 right-0 bg-green-500 text-white font-bold text-sm px-3 py-1 rounded shadow hover:shadow-lg mb-5"
+                      onClick={() => {
+                        handleSubmit(name, affiliation);
+                        setName("");
+                        setAffiliation("");
+                      }
+                      }
                     >
                       추가
                     </button>
-                    <p></p>
-                  </form>
+                  </div>
                 </div>
               </div>
             </div>

@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
-import useValidateToken from "../../../hooks/useValidateToken";
-import useRefreshAccessToken from "../../../hooks/useRefreshToken";
+import React, { useEffect, useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import useValidateToken from '../../../hooks/useValidateToken';
+import useRefreshAccessToken from '../../../hooks/useRefreshToken';
+import { ReactComponent as ESGLogo } from '../../../assets/icons/esg-logo.svg';
 
 const Header: React.FC = () => {
-  const { loggedIn } = useValidateToken();
+  const { loggedIn, isAdmin } = useValidateToken();
   const { loading } = useRefreshAccessToken();
   const navigate = useNavigate();
+
   const [authChanged, setAuthChanged] = useState(false);
 
   useEffect(() => {
@@ -14,19 +16,19 @@ const Header: React.FC = () => {
       setAuthChanged(!authChanged);
     };
 
-    window.addEventListener("auth-changed", handleAuthChanged);
+    window.addEventListener('auth-changed', handleAuthChanged);
 
     return () => {
-      window.removeEventListener("auth-changed", handleAuthChanged);
+      window.removeEventListener('auth-changed', handleAuthChanged);
     };
   }, [authChanged]);
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("refreshToken");
-    const event = new CustomEvent("auth-changed");
+    localStorage.removeItem('token');
+    localStorage.removeItem('refreshToken');
+    const event = new CustomEvent('auth-changed');
     window.dispatchEvent(event);
-    navigate("/");
+    navigate('/');
   };
 
   if (loading) {
@@ -35,22 +37,19 @@ const Header: React.FC = () => {
 
   return (
     <header className="w-full mt-5 text-gray-700 bg-white border-t border-gray-100 shadow-sm body-font">
-      <div className="container flex flex-col items-start justify-between p-6 mx-auto md:flex-row">
+      <div className="container flex flex-col items-start justify-between p-4 mx-auto md:flex-row">
         <NavLink
           to="/"
           className="flex items-center mb-4 font-medium text-gray-900 title-font md:mb-0"
         >
-          {/* FIXME: 로고 추가 후 제거 요함 <img className="mx-auto h-10 w-auto" src={logo} alt="로고" /> */}
-          {/* TODO: 로고 추가 예정 */}
+          <ESGLogo />
         </NavLink>
 
         <nav className="flex flex-wrap items-center justify-center pl-24 text-base md:ml-auto md:mr-auto">
           <NavLink
-            to="/aboutus"
+            to="/aboutus/objective"
             className={({ isActive }) =>
-              isActive
-                ? "mr-10 font-medium text-teal-500"
-                : "mr-10 font-medium hover:text-gray-900"
+              isActive ? 'mr-10 font-bold text-teal-500' : 'mr-10 font-medium hover:text-gray-900'
             }
           >
             포럼소개
@@ -58,9 +57,7 @@ const Header: React.FC = () => {
           <NavLink
             to="/business"
             className={({ isActive }) =>
-              isActive
-                ? "mr-10 font-medium text-teal-500"
-                : "mr-10 font-medium hover:text-gray-900"
+              isActive ? 'mr-10 font-bold text-teal-500' : 'mr-10 font-medium hover:text-gray-900'
             }
           >
             주요사업
@@ -68,9 +65,7 @@ const Header: React.FC = () => {
           <NavLink
             to="/seminars"
             className={({ isActive }) =>
-              isActive
-                ? "mr-10 font-medium text-teal-500"
-                : "mr-10 font-medium hover:text-gray-900"
+              isActive ? 'mr-10 font-bold text-teal-500' : 'mr-10 font-medium hover:text-gray-900'
             }
           >
             세미나
@@ -78,9 +73,7 @@ const Header: React.FC = () => {
           <NavLink
             to="/references"
             className={({ isActive }) =>
-              isActive
-                ? "mr-10 font-medium text-teal-500"
-                : "mr-10 font-medium hover:text-gray-900"
+              isActive ? 'mr-10 font-bold text-teal-500' : 'mr-10 font-medium hover:text-gray-900'
             }
           >
             자료실
@@ -88,9 +81,7 @@ const Header: React.FC = () => {
           <NavLink
             to="/committee"
             className={({ isActive }) =>
-              isActive
-                ? "mr-10 font-medium text-teal-500"
-                : "mr-10 font-medium hover:text-gray-900"
+              isActive ? 'mr-10 font-bold text-teal-500' : 'mr-10 font-medium hover:text-gray-900'
             }
           >
             회원안내
@@ -98,13 +89,23 @@ const Header: React.FC = () => {
           <NavLink
             to="/notifications"
             className={({ isActive }) =>
-              isActive
-                ? "mr-10 font-medium text-teal-500"
-                : "mr-10 font-medium hover:text-gray-900"
+              isActive ? 'mr-10 font-bold text-teal-500' : 'mr-10 font-medium hover:text-gray-900'
             }
           >
             알림마당
           </NavLink>
+          {isAdmin && (
+            <NavLink
+              to="/admin"
+              className={({ isActive }) =>
+                isActive
+                  ? "mr-10 font-bold text-teal-500"
+                  : "mr-10 font-medium hover:text-gray-900"
+              }
+            >
+              관리자
+            </NavLink>
+          )}
         </nav>
         <div className="items-center h-full">
           {loggedIn === null ? (
