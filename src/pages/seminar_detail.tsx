@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { Seminar, User } from "../types/seminars.interface";
-import {
-  deleteSeminar,
-  getCurrentUser,
-  getSeminarById,
-} from "../services/seminar.service";
+import { deleteSeminar, getSeminarById } from "../services/seminar.service";
+import { getCurrentUser } from "../services/user.service";
 import useToken from "../hooks/useToken";
 import ReadContents from "../components/editor/ReadContents";
 
@@ -23,7 +20,6 @@ const SeminarDetailPage: React.FC = () => {
 
       try {
         const user = await getCurrentUser(token);
-        console.log(user);
         setCurrentUser(user);
       } catch (error) {
         setCurrentUser(null);
@@ -126,7 +122,6 @@ const SeminarDetailPage: React.FC = () => {
               </svg>
               첨부파일
             </p>
-            {/* TODO: 첨부파일 기능 정상 동작하는지 확인 요함 */}
             <div className="w-full flex items-center pl-3 space-x-4">
               {seminar.files &&
                 seminar.files.map((file, index) => (

@@ -5,9 +5,10 @@ import useRefreshAccessToken from '../../../hooks/useRefreshToken';
 import { ReactComponent as ESGLogo } from '../../../assets/icons/esg-logo.svg';
 
 const Header: React.FC = () => {
-  const { loggedIn } = useValidateToken();
+  const { loggedIn, isAdmin } = useValidateToken();
   const { loading } = useRefreshAccessToken();
   const navigate = useNavigate();
+
   const [authChanged, setAuthChanged] = useState(false);
 
   useEffect(() => {
@@ -93,6 +94,18 @@ const Header: React.FC = () => {
           >
             알림마당
           </NavLink>
+          {isAdmin && (
+            <NavLink
+              to="/admin"
+              className={({ isActive }) =>
+                isActive
+                  ? "mr-10 font-bold text-teal-500"
+                  : "mr-10 font-medium hover:text-gray-900"
+              }
+            >
+              관리자
+            </NavLink>
+          )}
         </nav>
         <div className="items-center h-full">
           {loggedIn === null ? (

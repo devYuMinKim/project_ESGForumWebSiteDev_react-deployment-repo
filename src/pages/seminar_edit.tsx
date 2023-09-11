@@ -1,25 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { Seminar, SendSeminar, User } from '../types/seminars.interface';
-import { updateSeminar, getSeminarById } from '../services/seminar.service';
-import useToken from '../hooks/useToken';
-import moment from 'moment';
-
-import QuillEditor from '../components/editor/quill-editor';
-import { Input } from '@material-tailwind/react';
-import DateTimePicker from 'react-datetime-picker';
-
-import { Value } from '../types/react-datetime-picker.type';
-import { getUserInfo } from '../services/user.service';
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { Seminar, SendSeminar, User } from "../types/seminars.interface";
+import { updateSeminar, getSeminarById } from "../services/seminar.service";
+import moment from "moment";
+import QuillEditor from "../components/editor/quill-editor";
+import { Input } from "@material-tailwind/react";
+import DateTimePicker from "react-datetime-picker";
+import { Value } from "../types/react-datetime-picker.type";
 
 const SeminarEditPage: React.FC = () => {
   const [seminar, setSeminar] = useState<Seminar | null>(null);
-  const [subject, setSubject] = useState<string>('');
-  const [location, setLocation] = useState<string>('');
-  const [content, setContent] = useState<string>('');
-  const [host, setHost] = useState<string>('');
-  const [supervision, setSupervision] = useState<string>('');
-  const [participation, setParticipation] = useState<string>('');
+  const [subject, setSubject] = useState<string>("");
+  const [location, setLocation] = useState<string>("");
+  const [content, setContent] = useState<string>("");
+  const [host, setHost] = useState<string>("");
+  const [supervision, setSupervision] = useState<string>("");
+  const [participation, setParticipation] = useState<string>("");
   const [startDateTime, setStartDateTime] = useState<Value>(new Date());
   const [endDateTime, setEndDateTime] = useState<Value>(new Date());
 
@@ -52,7 +48,6 @@ const SeminarEditPage: React.FC = () => {
       if (!id) return;
 
       const response = await getSeminarById(id);
-      console.log(response);
 
       if (!response) return;
 
@@ -69,7 +64,7 @@ const SeminarEditPage: React.FC = () => {
   }, [id]);
 
   async function handleUpdate() {
-    if (!window.confirm('수정하시겠습니까?')) return;
+    if (!window.confirm("수정하시겠습니까?")) return;
 
     const updatedSeminar: SendSeminar = {
       subject: subject,
@@ -78,22 +73,22 @@ const SeminarEditPage: React.FC = () => {
       host: host,
       supervision: supervision,
       participation: participation,
-      date_start: moment(startDateTime as Date).format('YYYY-MM-DD HH:mm:ss'),
-      date_end: moment(endDateTime as Date).format('YYYY-MM-DD HH:mm:ss'),
+      date_start: moment(startDateTime as Date).format("YYYY-MM-DD HH:mm:ss"),
+      date_end: moment(endDateTime as Date).format("YYYY-MM-DD HH:mm:ss"),
     };
 
     try {
       await updateSeminar(id, updatedSeminar);
-      alert('수정이 완료되었습니다.');
+      alert("수정이 완료되었습니다.");
       navigate(`/seminars/${id}`);
     } catch (error) {
       console.error(error);
-      alert('수정에 실패하였습니다.');
+      alert("수정에 실패하였습니다.");
     }
   }
 
   const handleCancel = async () => {
-    if (!window.confirm('취소하시겠습니까?')) return;
+    if (!window.confirm("취소하시겠습니까?")) return;
     navigate(`/seminars/${id}`);
   };
 
@@ -104,22 +99,47 @@ const SeminarEditPage: React.FC = () => {
           {/* 제목 */}
           <div className="w-full flex justify-start items-center pr-3">
             <div className="w-full">
-              <Input label="주제" onChange={handler.subject} value={subject} required />
+              <Input
+                label="주제"
+                onChange={handler.subject}
+                value={subject}
+                required
+              />
             </div>
           </div>
 
           <div className="grid grid-cols-4 justify-start items-center pr-3 space-x-3">
             <div className="col-span-1 text-base text-gray-600">
-              <Input label="주최" onChange={handler.host} value={host} required />
+              <Input
+                label="주최"
+                onChange={handler.host}
+                value={host}
+                required
+              />
             </div>
             <div className="col-span-1 text-base text-gray-600">
-              <Input label="주관" onChange={handler.supervision} value={supervision} required />
+              <Input
+                label="주관"
+                onChange={handler.supervision}
+                value={supervision}
+                required
+              />
             </div>
             <div className="col-span-1 text-base text-gray-600">
-              <Input label="참여" onChange={handler.participation} value={participation} required />
+              <Input
+                label="참여"
+                onChange={handler.participation}
+                value={participation}
+                required
+              />
             </div>
             <div className="col-span-1 text-base text-gray-600">
-              <Input label="장소" onChange={handler.location} value={location} required />
+              <Input
+                label="장소"
+                onChange={handler.location}
+                value={location}
+                required
+              />
             </div>
           </div>
           {/* 날짜 */}
@@ -127,11 +147,19 @@ const SeminarEditPage: React.FC = () => {
             <div className="flex justify-start flex-col gap-3 pl-4">
               <div className="text-base text-gray-600">
                 <span className="pr-3">시작 날짜</span>
-                <DateTimePicker onChange={setStartDateTime} value={startDateTime} required />
+                <DateTimePicker
+                  onChange={setStartDateTime}
+                  value={startDateTime}
+                  required
+                />
               </div>
               <div className="text-base text-gray-600">
                 <span className="pr-3">종료 날짜</span>
-                <DateTimePicker onChange={setEndDateTime} value={endDateTime} required />
+                <DateTimePicker
+                  onChange={setEndDateTime}
+                  value={endDateTime}
+                  required
+                />
               </div>
             </div>
           </div>

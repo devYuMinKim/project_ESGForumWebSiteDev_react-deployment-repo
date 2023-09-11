@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { Post } from "../types/post.interface";
-import { getPostById } from "../services/post.service";
-import { getCurrentUser } from "../services/seminar.service";
+import { deletePost, getPostById } from "../services/post.service";
+import { getCurrentUser } from "../services/user.service";
 import ReadContents from "../components/editor/ReadContents";
 import { User } from "../types/seminars.interface";
 import useToken from "../hooks/useToken";
@@ -45,7 +45,7 @@ const NotificationDetailPage: React.FC = () => {
   async function handleDelete() {
     if (window.confirm("정말로 이 게시글을 삭제하시겠습니까?")) {
       try {
-        // await deleteSeminar(id); FIXME: deleteSeminar 가 아닌 deletePost 로 수정 필요
+        await deletePost(id);
         alert("게시글이 삭제되었습니다.");
         navigate("/notifications");
       } catch (error) {
@@ -69,9 +69,6 @@ const NotificationDetailPage: React.FC = () => {
               <p className="text-base text-gray-500">생성일:</p>
               <p className="text-bold">{post.created_at}</p>
             </div>
-            {/* <div className="w-full flex justify-end items-center pr-3 space-x-4">
-              <p className="text-base text-gray-600">{post.author}</p>
-            </div> */}
 
             <hr />
             <div className="text-lg p-3">
@@ -116,7 +113,6 @@ const NotificationDetailPage: React.FC = () => {
               </svg>
               첨부파일
             </p>
-            {/* TODO: 첨부파일 기능 정상 동작하는지 확인 요함 */}
             <div className="w-full flex items-center pl-3 space-x-4">
               {post.files &&
                 post.files.map((file, index) => (
