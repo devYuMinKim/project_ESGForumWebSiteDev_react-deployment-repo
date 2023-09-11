@@ -7,22 +7,17 @@ import authenticatedAxios from "../../../services/request.service";
 import PlusCircleIcon from "@heroicons/react/24/solid/PlusCircleIcon";
 import AddMemberModal from "../../widget/cards/addMemberModal";
 import { getAutortity, selectMember } from "../../../services/member.service";
+import axios from "axios";
 
 interface MembersProps {
-  memberCount: number
   setMemberCount: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const Members: React.FC<MembersProps> = ({
-  memberCount,
   setMemberCount }) => {
-
   const [ready, setReady] = useState<boolean>(false);
   const [members, setMembers] = useState<Member[]>([]);
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [name, setName] = useState<string>("");
-  const [affiliation, setAffiliation] = useState<string>("");
-  const [manage, setManage] = useState<boolean>(false);
   const [selected, setSelected] = useState<number[]>([]);
 
   const handleSubmit = async (name: string, affiliation: string) => {
@@ -36,14 +31,17 @@ const Members: React.FC<MembersProps> = ({
       if (response.status === 201) {
         const newMember = response.data;
         window.alert("추가 성공");
-        setName("");
-        setAffiliation("");
+        console.log(newMember)
         setMembers([...members, newMember]);
-        setMemberCount(++memberCount);
+        setMemberCount(members.length);
         setShowModal(false);
       }
     }
     catch (error) {
+      if (axios.isAxiosError(error) && error.response?.status === 409) {
+        window.alert("이미 포럼의 회원입니다.");
+        return;
+      }
       window.alert("오류가 발생했습니다. 다시 시도하세요.");
     }
   }
@@ -56,18 +54,17 @@ const Members: React.FC<MembersProps> = ({
         if (response.status === 200) {
           const memberData = response.data;
 
-          setReady(true);
           setMembers(memberData);
           setMemberCount(memberData.length);
         }
       } catch (error) {
         window.alert("데이터를 불러올 수 없습니다.")
       }
+      setReady(true);
     };
 
     fetchData();
   }, []);
-
   const tdTextContent = "font-medium text-blue-gray-600 text-center";
 
   const getNewMembers = (members: Member[], ids: number[]) => {
@@ -86,6 +83,15 @@ const Members: React.FC<MembersProps> = ({
     const id = ids[0];
     const note = window.prompt("새로운 직위를 입력하세요.");
 
+    if (note === null) {
+      return;
+    }
+
+    if (!note) {
+      window.alert("직위를 입력하세요.");
+      return;
+    }
+
     try {
       const response = await authenticatedAxios.put("/members", {
         id,
@@ -95,19 +101,17 @@ const Members: React.FC<MembersProps> = ({
       if (response.status === 201) {
         const newMembersInfo: Member[] = response.data;
         setMembers(newMembersInfo);
-        setManage(false);
         setSelected([]);
         window.alert("수정 완료");
         return;
       }
-
+      
       window.alert("문제가 발생했습니다. 다시 시도하세요.");
-
-
+      
     } catch (error) {
       window.alert("문제가 발생했습니다. 다시 시도하세요.");
     }
-    setManage(false);
+    setSelected([]);
   }
 
   // 회원 삭제
@@ -135,7 +139,6 @@ const Members: React.FC<MembersProps> = ({
         setMemberCount(newMembers.length);
         window.alert("탈퇴 완료");
         setSelected([]);
-        setManage(false);
         return;
       }
 
@@ -144,7 +147,6 @@ const Members: React.FC<MembersProps> = ({
     } catch (error) {
       window.alert("문제가 발생했습니다. 다시 시도하세요.");
     }
-    setManage(false);
   }
 
   return (
@@ -187,7 +189,7 @@ const Members: React.FC<MembersProps> = ({
               />
             </div>
           </CardHeader>
-          <CardBody className="overflow-y-scroll px-0 pt-0 pb-2">
+          <CardBody className="max-h-[400px] overflow-y-scroll px-0 pt-0 pb-2">
             <table className="w-full min-w-[840px] table-auto">
               <TableHead topics={["", "이름", "이메일", "소속", "사이트 가입 여부", "포럼 직위"]} px="px-1" />
               <tbody>
@@ -204,16 +206,16 @@ const Members: React.FC<MembersProps> = ({
                         className={`transition-shadow ${selected.includes(id)
                           ? "bg-slate-50"
                           : ""}`}
-                        onClick={() => selectMember(id, manage, selected, setManage, setSelected)}
+                        onClick={() => selectMember(id, selected, setSelected)}
                       >
                         <td className={`${className} flex justify-center`}>
-                          <div
-                            className="h-full"
-                            onChange={() => selectMember(id, manage, selected, setManage, setSelected)}>
+                          <div className="h-full">
                             <input
                               type="checkbox"
+                              value={id}
                               checked={selected.includes(id)}
                               className="rounded"
+                              onChange={() => selectMember(id, selected, setSelected)}
                             />
                           </div>
                         </td>
@@ -254,7 +256,7 @@ const Members: React.FC<MembersProps> = ({
                             variant="small"
                             className={tdTextContent}
                           >
-                            {note}
+                            {note || "일반 회원"}
                           </Typography>
                         </td>
                       </tr>
@@ -267,6 +269,7 @@ const Members: React.FC<MembersProps> = ({
         </Card>
       </div>
       <AddMemberModal
+        title="포럼 회원 추가"
         showModal={showModal}
         setShowModal={setShowModal}
         handleSubmit={handleSubmit}
