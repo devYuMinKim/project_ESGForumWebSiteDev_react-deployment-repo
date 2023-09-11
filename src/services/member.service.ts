@@ -7,20 +7,16 @@ export const getAutortity = (authorityData: number | null) => {
 
 export const selectMember = (
   id: number,
-  manage: boolean,
   selected: number[],
-  setManage: React.Dispatch<React.SetStateAction<boolean>>,
   setSelected: React.Dispatch<React.SetStateAction<number[]>>) => {
 
   if (selected?.length === 0) {
     setSelected([...selected, id]);
-    setManage(!manage);
     return;
   }
 
   if (selected.includes(id)) {
     setSelected(selected.filter((select) => select !== id));
-    setManage(!manage);
   }
 
   else {

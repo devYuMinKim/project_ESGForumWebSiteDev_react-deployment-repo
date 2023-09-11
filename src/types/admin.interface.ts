@@ -4,13 +4,13 @@ export interface CommitteeData {
   explanation: string,
 }
 
-export interface committeeMember {
-  id: number; // 위원회에서의 순번
-  m_id: number;
+export interface CommitteeMember {
+  id: number; // CommitteeMember id
+  c_id: number; // Committee id
   name: string;
   affiliation: string;
   pivot: {
-    id2: number; // 회원의 순번
+    id2: number; // member id
     note: string; // 위원회에서의 직책
   }
   note?: number | null; // 특정 위원회의 직위 | 회원 만의 직위

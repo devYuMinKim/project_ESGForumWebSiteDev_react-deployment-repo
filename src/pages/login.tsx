@@ -36,7 +36,8 @@ const Login: React.FC = () => {
         window.dispatchEvent(new CustomEvent("auth-changed"));
         await eventPromise;
 
-        navigate("/");
+        const url = (response.data["isAdmin"]) ? "/admin" : "/"; 
+        navigate(url);
       } else {
         setError(
           "로그인에 실패했습니다. 이메일과 비밀번호를 다시 확인해주세요."
