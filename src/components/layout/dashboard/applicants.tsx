@@ -17,11 +17,12 @@ const Applicant: React.FC<ApplicantsProps> = ({
   const [applicants, setApplicants] = useState<Member[]>([]);
   const [ready, setReady] = useState<boolean>(false);
   const [selected, setSelected] = useState<number[]>([]);
+  const myAxios = authenticatedAxios();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await authenticatedAxios.get<Member[]>("/applicants");
+        const response = await myAxios.get<Member[]>("/applicants");
 
         if (response.status === 200) {
           const applicants: Member[] = response.data;
@@ -55,7 +56,7 @@ const Applicant: React.FC<ApplicantsProps> = ({
     }
 
     try {
-      const { status } = await authenticatedAxios.put(`/members/${managementValue}`, {
+      const { status } = await myAxios.put(`/members/${managementValue}`, {
         ids
       });
 
@@ -93,7 +94,7 @@ const Applicant: React.FC<ApplicantsProps> = ({
             <div className="absolute bottom-5 right-10 flex items-center">
               <div className={`space-x-5 ${selected?.length ? "" : "opacity-0"} transition-opacity`}>
                 <button
-                  className={"w-15 bg-slate-600 text-white font-bold uppercase text-sm px-1 py-1 rounded shadow hover:shadow-lg my-1"}
+                  className={"w-15 bg-admin text-white font-bold uppercase text-sm px-1 py-1 rounded shadow hover:shadow-lg my-1"}
                   onClick={async () => {
                     const isApprovaled = await managementHandler(selected);
                     if (isApprovaled) {

@@ -25,9 +25,10 @@ const CommitteeTableSection: React.FC<CommitteeTableSectionProps> = ({
   const [explanation, setExplanation] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [ready, setReady] = useState<boolean>(false);
+  const myAxios = authenticatedAxios();
 
   useEffect(() => {
-    authenticatedAxios.get("/committees")
+    myAxios.get("/committees")
       .then((res) => {
         setReady(true);
         setCommittees(res.data);
@@ -43,7 +44,7 @@ const CommitteeTableSection: React.FC<CommitteeTableSectionProps> = ({
     e.preventDefault();
 
     try {
-      const response = await authenticatedAxios.post<CommitteeData>(`/committees`, {
+      const response = await myAxios.post<CommitteeData>(`/committees`, {
         name: committe,
         explanation,
       });
@@ -82,7 +83,7 @@ const CommitteeTableSection: React.FC<CommitteeTableSectionProps> = ({
             </div>
             <div className="absolute mb-1 right-6">
               <PlusCircleIcon
-                className="font-medium w-10 cursor-pointer"
+                className="font-medium w-10 cursor-pointer text-admin"
                 type="button"
                 onClick={() => setShowModal(true)} />
             </div>
@@ -90,7 +91,7 @@ const CommitteeTableSection: React.FC<CommitteeTableSectionProps> = ({
           {/* 위원회 데이터 */}
           <CardBody className="overflow-y-scroll px-0 pt-0 pb-2">
             <table className="w-full min-w-[450px] table-auto">
-              <TableHead topics={["이름", "설명"]} px="px-5" />
+              <TableHead topics={["이름", "설명"]} px="px-10" />
               <TBodyCommittee
                 committees={committees}></TBodyCommittee>
             </table>

@@ -22,8 +22,8 @@ const Login: React.FC = () => {
       });
 
       if (response.status === 200) {
-        localStorage.setItem("token", response.data.token);
-        localStorage.setItem("refreshToken", response.data.refreshToken);
+        window.localStorage.setItem("token", response.data.token);
+        window.localStorage.setItem("refreshToken", response.data.refreshToken);
 
         const eventPromise = new Promise<void>((resolve) => {
           const listener = () => {

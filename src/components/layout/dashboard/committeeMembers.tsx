@@ -24,10 +24,11 @@ const CommitteeMembers: React.FC<CommitteeMembersProps> = ({
   const [showModal, setShowModal] = useState<boolean>(false);
   const tdTextContent = "font-medium text-blue-gray-600 text-center";
   const [selected, setSelected] = useState<number[]>([]);
+  const myAxios = authenticatedAxios();
 
   const handleSubmit = async (name: string, affiliation: string) => {
     try {
-      const response = await authenticatedAxios.post(`/committee/${c_id}/members`, {
+      const response = await myAxios.post(`/committee/${c_id}/members`, {
         name,
         affiliation,
       });
@@ -72,7 +73,7 @@ const CommitteeMembers: React.FC<CommitteeMembersProps> = ({
 
     try {
       // 수정 - 위원장 임명
-      const response = await authenticatedAxios.put(`/committee/${c_id}/members/${ids[0]}`);
+      const response = await myAxios.put(`/committee/${c_id}/members/${ids[0]}`);
 
       if (response.status === 201) {
         const newMembersInfo = response.data;
@@ -100,7 +101,7 @@ const CommitteeMembers: React.FC<CommitteeMembersProps> = ({
       const flag = window.confirm("탈퇴 시키겠습니까?");
       // 삭제
       if (flag) {
-        const response = await authenticatedAxios.delete(`/committee/${c_id}/members`, {
+        const response = await myAxios.delete(`/committee/${c_id}/members`, {
           data: { ids }
         });
 
@@ -137,7 +138,7 @@ const CommitteeMembers: React.FC<CommitteeMembersProps> = ({
             <div className={`space-x-5 ${selected?.length ? "" : "opacity-0"} transition-opacity`}>
               <button
                 className={`${(selected?.length === 1) ? "" : "opacity-0"} transition-opacity
-                w-15 bg-slate-600 text-white font-bold text-sm px-1 py-1 rounded shadow hover:shadow-lg`}
+                w-15 bg-admin text-white font-bold text-sm px-1 py-1 rounded shadow hover:shadow-lg`}
                 onClick={async () => appointmentHandler(selected, setMembers, setChairman)}
               >
                 위원장 임명
@@ -150,7 +151,7 @@ const CommitteeMembers: React.FC<CommitteeMembersProps> = ({
               </button>
             </div>
             <PlusCircleIcon
-              className="font-medium w-10 cursor-pointer ml-5"
+              className="font-medium w-10 cursor-pointer ml-5 text-admin"
               type="button"
               onClick={() => setShowModal(true)}
             />
