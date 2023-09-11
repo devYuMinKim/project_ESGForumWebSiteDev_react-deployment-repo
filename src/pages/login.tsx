@@ -6,11 +6,11 @@ import FormInput from "../components/layout/login";
 const API_URL = process.env.REACT_APP_API_URL;
 
 const Login: React.FC = () => {
-  const navigate = useNavigate();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,7 +47,7 @@ const Login: React.FC = () => {
         setError("로그인을 할 수 없는 유저입니다. 관리자에게 문의해주세요.");
         return;
       }
-      
+
       setError("로그인 중 오류가 발생했습니다. 나중에 다시 시도해주세요.");
     }
   };
@@ -57,8 +57,6 @@ const Login: React.FC = () => {
       <div className="flex min-h-screen items-center justify-center">
         <div className="flex min-h-full items-center flex-1 flex-col justify-center px-6 py-12 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-            {/* FIXME: 로고 추가 후 제거 요함 <img className="mx-auto h-10 w-auto" src={logo} alt="로고" /> */}
-            {/* TODO: 로고 추가 예정 */}
             <h2 className="mt-10 text-center text-1xl font-bold leading-9 tracking-tight text-gray-900">
               ESG 실천을 위해, 이제 대학이 나서겠습니다
             </h2>

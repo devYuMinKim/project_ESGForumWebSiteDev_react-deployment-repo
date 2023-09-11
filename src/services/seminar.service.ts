@@ -161,15 +161,3 @@ export async function searchSeminars(
   );
   return res.data;
 }
-
-/**
- * /user
- * Get current user
- * @returns User
- */
-export async function getCurrentUser(token: string): Promise<User> {
-  const res = await axios.get<User>(`${API_URL}/isAdmin`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  return res.data;
-}

@@ -67,7 +67,7 @@ export async function updatePost(
  * @param id
  * @returns Post
  */
-export async function deletePost(id: string | number) {
+export async function deletePost(id: string | undefined) {
   const res = await axios.delete(`${API_URL}/post/${id}`);
   return res.data;
 }

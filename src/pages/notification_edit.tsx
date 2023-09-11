@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import useToken from '../hooks/useToken';
-import QuillEditor from '../components/editor/quill-editor';
-import { getPostById, updatePost } from '../services/post.service';
-import { Post, SendPost } from '../types/post.interface';
-import { getUserInfo } from '../services/user.service';
-import { Input } from '@material-tailwind/react';
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import useToken from "../hooks/useToken";
+import QuillEditor from "../components/editor/quill-editor";
+import { getPostById, updatePost } from "../services/post.service";
+import { Post, SendPost } from "../types/post.interface";
+import { getUserInfo } from "../services/user.service";
+import { Input } from "@material-tailwind/react";
 
 const NotificationEditPage: React.FC = () => {
   const [post, setPost] = useState<Post | null>(null);
-  const [title, setTitle] = useState<string>('');
-  const [content, setContent] = useState<string>('');
+  const [title, setTitle] = useState<string>("");
+  const [content, setContent] = useState<string>("");
 
   const { id } = useParams<{ id: string }>();
   const token = useToken();
@@ -30,19 +30,18 @@ const NotificationEditPage: React.FC = () => {
       if (!id) return;
 
       const response = await getPostById(id);
-      console.log(response);
 
       if (!response) return;
 
       setPost(response);
 
-      setTitle(response.title || '');
-      setContent(response.content || '');
+      setTitle(response.title || "");
+      setContent(response.content || "");
     })();
   }, [id]);
 
   async function handleUpdate() {
-    if (!window.confirm('수정하시겠습니까?')) return;
+    if (!window.confirm("수정하시겠습니까?")) return;
 
     const userInfo = await getUserInfo(token);
     const authorName = userInfo.name;
@@ -52,22 +51,22 @@ const NotificationEditPage: React.FC = () => {
       content: content,
       files: [],
       view: 0,
-      type: 'notification',
+      type: "notification",
       author: authorName,
     };
 
     try {
       await updatePost(id, updatedPost);
-      alert('수정이 완료되었습니다.');
+      alert("수정이 완료되었습니다.");
       navigate(`/notifications/${id}`);
     } catch (error) {
       console.error(error);
-      alert('수정에 실패하였습니다.');
+      alert("수정에 실패하였습니다.");
     }
   }
 
   const handleCancel = async () => {
-    if (!window.confirm('취소하시겠습니까?')) return;
+    if (!window.confirm("취소하시겠습니까?")) return;
     navigate(`/notifications/${id}`);
   };
 
@@ -77,13 +76,22 @@ const NotificationEditPage: React.FC = () => {
         <div className="rounded overflow-hidden w-full bg-white mx-3 md:mx-0 lg:mx-0 p-4">
           {/* 제목 */}
           <div className="text-base text-gray-600">
-            <Input label="주제" onChange={handler.title} value={title} required />
+            <Input
+              label="주제"
+              onChange={handler.title}
+              value={title}
+              required
+            />
           </div>
 
           <hr />
           {/* 내용 */}
           <div className="text-lg p-3 h-4/6">
-            <QuillEditor value={content} onChange={handler.content} style={{ height: 700 }} />
+            <QuillEditor
+              value={content}
+              onChange={handler.content}
+              style={{ height: 700 }}
+            />
           </div>
           <hr />
           {/* 버튼 */}
