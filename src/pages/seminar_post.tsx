@@ -5,14 +5,10 @@ import { createSeminar } from "../services/seminar.service";
 import { getCurrentUser } from "../services/user.service";
 import useToken from "../hooks/useToken";
 import moment from "moment";
-
 import { Input } from "@material-tailwind/react";
-
 import DateTimePicker from "react-datetime-picker";
 import { Value } from "../types/react-datetime-picker.type";
-
 import QuillEditor from "../components/editor/quill-editor";
-
 import "react-datetime-picker/dist/DateTimePicker.css";
 import "react-calendar/dist/Calendar.css";
 import "react-clock/dist/Clock.css";
@@ -25,7 +21,6 @@ const SeminarPostPage: React.FC = () => {
   const [host, setHost] = useState<string>("");
   const [supervision, setSupervision] = useState<string>("");
   const [participation, setParticipation] = useState<string>("");
-
   const [startDateTime, setStartDateTime] = useState<Value>(new Date());
   const [endDateTime, setEndDateTime] = useState<Value>(new Date());
 
@@ -79,7 +74,6 @@ const SeminarPostPage: React.FC = () => {
 
   const handleDraft = (msg: string) => {
     if (!window.confirm(msg)) return;
-    console.log(startDateTime, endDateTime);
 
     const seminar: SendSeminar = {
       subject: subject,
@@ -115,7 +109,6 @@ const SeminarPostPage: React.FC = () => {
     }
 
     const seminar = JSON.parse(draft);
-    console.log(seminar);
 
     setSubject(seminar?.subject || "");
     setLocation(seminar?.location || "");
@@ -123,12 +116,6 @@ const SeminarPostPage: React.FC = () => {
     setHost(seminar?.host || "");
     setParticipation(seminar?.participation || "");
     setSupervision(seminar?.supervision || "");
-    // setStartDateTime(new Date(seminar?.date_start || ''));
-
-    // setStartDateTime(
-    //   seminar?.date_start === 'Invalid date' ? new Date() : new Date(seminar.date_start)
-    // );
-    // setEndDateTime(seminar?.date_end === 'Invalid date' ? new Date() : new Date(seminar.date_end));
   };
 
   useEffect(() => {

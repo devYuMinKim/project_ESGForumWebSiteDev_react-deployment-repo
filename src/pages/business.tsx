@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Card from "../components/layout/card";
-
 import { ReactComponent as Cowork } from "../assets/icons/business-cowork.svg";
 import { ReactComponent as Education } from "../assets/icons/business-education.svg";
 import { ReactComponent as Management } from "../assets/icons/business-management.svg";

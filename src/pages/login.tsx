@@ -6,11 +6,11 @@ import FormInput from "../components/layout/login";
 const API_URL = process.env.REACT_APP_API_URL;
 
 const Login: React.FC = () => {
-  const navigate = useNavigate();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

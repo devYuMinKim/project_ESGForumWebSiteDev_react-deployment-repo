@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import {
   getSeminars,
   getOngoingSeminars,
@@ -62,7 +61,6 @@ const SeminarPage = () => {
 
       try {
         const user = await getCurrentUser(token);
-        console.log(user);
         setCurrentUser(user);
       } catch (error) {
         setCurrentUser(null);

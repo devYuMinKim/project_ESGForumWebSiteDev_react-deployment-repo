@@ -3,11 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { User } from "../types/seminars.interface";
 import { getCurrentUser } from "../services/user.service";
 import useToken from "../hooks/useToken";
-
 import { Input } from "@material-tailwind/react";
-
 import QuillEditor from "../components/editor/quill-editor";
-
 import "react-datetime-picker/dist/DateTimePicker.css";
 import "react-calendar/dist/Calendar.css";
 import "react-clock/dist/Clock.css";
@@ -18,8 +15,7 @@ const NotificationPostPage: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
-
-  const [author, setAuthor] = useState<string>(""); // TODO: 작성자 불러와서 자동으로 넣어줘야 함
+  const [author, setAuthor] = useState<string>("");
 
   const token = useToken();
   const navigate = useNavigate();
@@ -37,8 +33,7 @@ const NotificationPostPage: React.FC = () => {
     if (!window.confirm("작성하시겠습니까?")) return;
 
     const notification: SendPost = {
-      // author: author,
-      author: "admin",
+      author: author,
       content: content,
       title: title,
       type: "notification",

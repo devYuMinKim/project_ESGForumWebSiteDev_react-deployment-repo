@@ -20,7 +20,6 @@ const SeminarDetailPage: React.FC = () => {
 
       try {
         const user = await getCurrentUser(token);
-        console.log(user);
         setCurrentUser(user);
       } catch (error) {
         setCurrentUser(null);

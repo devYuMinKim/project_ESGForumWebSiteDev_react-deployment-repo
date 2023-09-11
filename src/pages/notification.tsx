@@ -56,7 +56,6 @@ const NotificationPage = () => {
 
       try {
         const user = await getCurrentUser(token);
-        console.log(user);
         setCurrentUser(user);
       } catch (error) {
         setCurrentUser(null);

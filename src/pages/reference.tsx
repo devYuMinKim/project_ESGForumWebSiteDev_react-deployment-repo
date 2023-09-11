@@ -9,7 +9,6 @@ import {
 import { Post } from "../types/post.interface";
 import Pagination from "rc-pagination";
 import Select from "react-select";
-
 import { ReactComponent as WriteIcon } from "../assets/icons/write.svg";
 import { User } from "../types/seminars.interface";
 import useToken from "../hooks/useToken";
@@ -56,7 +55,6 @@ const ReferencePage = () => {
 
       try {
         const user = await getCurrentUser(token);
-        console.log(user);
         setCurrentUser(user);
       } catch (error) {
         setCurrentUser(null);
