@@ -1,12 +1,12 @@
 import React, { createElement } from "react";
 import StatisticsCard from "../../widget/cards/statisticsCard";
-import { Member, committeeMember, StatisticsCardData, Track } from "../../../types/admin.interface";
+import { Member, CommitteeMember, StatisticsCardData, Track } from "../../../types/admin.interface";
 import { CommitteeData } from "../../../types/admin.interface";
 
 interface AssetData {
   committees?: CommitteeData[]
   committee?: CommitteeData[]
-  members?: Member[] | committeeMember[]
+  members?: Member[] | CommitteeMember[]
 }
 
 export interface StatisticsCardsSectionProps {
