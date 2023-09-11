@@ -5,7 +5,6 @@ import Login from './pages/login';
 import Register from './pages/register';
 import Committee from './pages/committee';
 import Business from './pages/business';
-import AboutUsPage from './pages/aboutus';
 import ObjectivePage from './pages/aboutus/objective';
 import BoEPage from './pages/aboutus/boe';
 import GreetingsPage from './pages/aboutus/greetings';
@@ -48,7 +47,6 @@ const Router: React.FC = () => (
     <Route path="/notifications/edit/:id" element={<NotificationEditPage />} />
     <Route path="/notifications/post" element={<NotificationPostPage />} />
     <Route path="/notifications/:id" element={<NotificationDetailPage />} />
-    <Route path="/aboutus" element={<AboutUsPage />} />
     <Route path="/aboutus/objective" element={<ObjectivePage />} />
     <Route path="/aboutus/boe" element={<BoEPage />} />
     <Route path="/aboutus/greetings" element={<GreetingsPage />} />
