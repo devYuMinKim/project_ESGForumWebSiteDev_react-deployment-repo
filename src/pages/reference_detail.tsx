@@ -65,7 +65,7 @@ const ReferenceDetailPage: React.FC = () => {
             </div>
 
             {/* 수정, 삭제 버튼 */}
-            {currentUser && (
+            {currentUser?.is_admin && (
               <div className="flex justify-end mb-2">
                 <button
                   type="button"

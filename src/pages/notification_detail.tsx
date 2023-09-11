@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
-import { Post } from '../types/post.interface';
-import { getPostById } from '../services/post.service';
-import { deleteSeminar, getCurrentUser } from '../services/seminar.service';
-import ReadContents from '../components/editor/ReadContents';
-import { User } from '../types/seminars.interface';
-import useToken from '../hooks/useToken';
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate, Link } from "react-router-dom";
+import { Post } from "../types/post.interface";
+import { getPostById } from "../services/post.service";
+import { getCurrentUser } from "../services/seminar.service";
+import ReadContents from "../components/editor/ReadContents";
+import { User } from "../types/seminars.interface";
+import useToken from "../hooks/useToken";
 
 const NotificationDetailPage: React.FC = () => {
   const [post, setPost] = useState<Post | null>(null);
@@ -43,13 +43,13 @@ const NotificationDetailPage: React.FC = () => {
   if (!post) return <div>Loading...</div>;
 
   async function handleDelete() {
-    if (window.confirm('정말로 이 게시글을 삭제하시겠습니까?')) {
+    if (window.confirm("정말로 이 게시글을 삭제하시겠습니까?")) {
       try {
         // await deleteSeminar(id); FIXME: deleteSeminar 가 아닌 deletePost 로 수정 필요
-        alert('게시글이 삭제되었습니다.');
-        navigate('/notifications');
+        alert("게시글이 삭제되었습니다.");
+        navigate("/notifications");
       } catch (error) {
-        alert('Failed to delete the notification.');
+        alert("Failed to delete the notification.");
       }
     }
   }
@@ -79,7 +79,7 @@ const NotificationDetailPage: React.FC = () => {
             </div>
 
             {/* 수정, 삭제 버튼 */}
-            {currentUser && (
+            {currentUser?.is_admin && (
               <div className="flex justify-end mb-2">
                 <button
                   type="button"
@@ -120,7 +120,9 @@ const NotificationDetailPage: React.FC = () => {
             <div className="w-full flex items-center pl-3 space-x-4">
               {post.files &&
                 post.files.map((file, index) => (
-                  <a key={index} href={file.url} download>{`File ${index + 1}`}</a>
+                  <a key={index} href={file.url} download>{`File ${
+                    index + 1
+                  }`}</a>
                 ))}
             </div>
           </div>
