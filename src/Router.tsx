@@ -52,7 +52,7 @@ const Router: React.FC = () => (
     <Route path="/aboutus/greetings" element={<GreetingsPage />} />
     <Route path="/aboutus/history" element={<HistoryPage />} />
     <Route path="/aboutus/rules" element={<RulesPage />} />
-    {/* <Route path="/aboutus/contact" element={<ContactPage />} /> */}
+    <Route path="/aboutus/contact" element={<ContactPage />} />
     {/* <Route path="/quill" element={<Editor />} /> */}
   </Routes>
 );
