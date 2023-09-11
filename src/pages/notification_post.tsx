@@ -1,25 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { User } from '../types/seminars.interface';
-import { getCurrentUser } from '../services/seminar.service';
-import useToken from '../hooks/useToken';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { User } from "../types/seminars.interface";
+import { getCurrentUser } from "../services/user.service";
+import useToken from "../hooks/useToken";
 
-import { Input } from '@material-tailwind/react';
+import { Input } from "@material-tailwind/react";
 
-import QuillEditor from '../components/editor/quill-editor';
+import QuillEditor from "../components/editor/quill-editor";
 
-import 'react-datetime-picker/dist/DateTimePicker.css';
-import 'react-calendar/dist/Calendar.css';
-import 'react-clock/dist/Clock.css';
-import { createPost } from '../services/post.service';
-import { SendPost } from '../types/post.interface';
+import "react-datetime-picker/dist/DateTimePicker.css";
+import "react-calendar/dist/Calendar.css";
+import "react-clock/dist/Clock.css";
+import { createPost } from "../services/post.service";
+import { SendPost } from "../types/post.interface";
 
 const NotificationPostPage: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [title, setTitle] = useState<string>('');
-  const [content, setContent] = useState<string>('');
+  const [title, setTitle] = useState<string>("");
+  const [content, setContent] = useState<string>("");
 
-  const [author, setAuthor] = useState<string>(''); // TODO: 작성자 불러와서 자동으로 넣어줘야 함
+  const [author, setAuthor] = useState<string>(""); // TODO: 작성자 불러와서 자동으로 넣어줘야 함
 
   const token = useToken();
   const navigate = useNavigate();
@@ -34,25 +34,25 @@ const NotificationPostPage: React.FC = () => {
   };
 
   const handleSend = async () => {
-    if (!window.confirm('작성하시겠습니까?')) return;
+    if (!window.confirm("작성하시겠습니까?")) return;
 
     const notification: SendPost = {
       // author: author,
-      author: 'admin',
+      author: "admin",
       content: content,
       title: title,
-      type: 'notification',
+      type: "notification",
       view: 0,
     };
 
     try {
       //   await createSeminar();
       await createPost(notification);
-      alert('작성이 완료되었습니다.');
-      navigate('/notifications');
+      alert("작성이 완료되었습니다.");
+      navigate("/notifications");
     } catch (error) {
       console.error(error);
-      alert('작성에 실패하였습니다.');
+      alert("작성에 실패하였습니다.");
     }
   };
 
@@ -64,31 +64,34 @@ const NotificationPostPage: React.FC = () => {
       title: title,
       author: author,
       content: content,
-      type: 'notification',
+      type: "notification",
     };
 
     try {
-      localStorage.setItem('notification', JSON.stringify(notification));
-      alert('임시저장이 완료되었습니다.');
-      navigate('/notifications');
+      localStorage.setItem("notification", JSON.stringify(notification));
+      alert("임시저장이 완료되었습니다.");
+      navigate("/notifications");
     } catch (error) {
       console.error(error);
-      alert('임시저장에 실패하였습니다.');
+      alert("임시저장에 실패하였습니다.");
     }
   };
 
   const handleBackDraft = () => {
-    const draft = localStorage.getItem('notification') as string;
+    const draft = localStorage.getItem("notification") as string;
 
-    if (draft && !window.confirm('임시저장된 내용이 있습니다. 불러오시겠습니까?')) {
-      return localStorage.removeItem('notification');
+    if (
+      draft &&
+      !window.confirm("임시저장된 내용이 있습니다. 불러오시겠습니까?")
+    ) {
+      return localStorage.removeItem("notification");
     }
 
     const notification = JSON.parse(draft);
 
-    setTitle(notification?.title || '');
-    setContent(notification?.content || '');
-    setAuthor(notification?.author || '');
+    setTitle(notification?.title || "");
+    setContent(notification?.content || "");
+    setAuthor(notification?.author || "");
   };
 
   useEffect(() => {
@@ -117,8 +120,10 @@ const NotificationPostPage: React.FC = () => {
             type="button"
             className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
             onClick={() => {
-              handleDraft('작성중인 내용이 있습니다. 뒤로가기 전 임시저장을 하시겠습니까?');
-              navigate('/notifications');
+              handleDraft(
+                "작성중인 내용이 있습니다. 뒤로가기 전 임시저장을 하시겠습니까?"
+              );
+              navigate("/notifications");
             }}
           >
             뒤로가기
@@ -126,14 +131,23 @@ const NotificationPostPage: React.FC = () => {
           {/* 제목 */}
           <div className="w-full flex justify-start items-center pr-3">
             <div className="w-full">
-              <Input label="제목" onChange={handler.title} value={title} required />
+              <Input
+                label="제목"
+                onChange={handler.title}
+                value={title}
+                required
+              />
             </div>
           </div>
 
           <hr />
           {/* 내용 */}
           <div className="text-lg p-3 h-4/6">
-            <QuillEditor onChange={setContent} style={{ height: 700 }} value={content} />
+            <QuillEditor
+              onChange={setContent}
+              style={{ height: 700 }}
+              value={content}
+            />
           </div>
           <hr />
           {/* 버튼 */}
@@ -149,7 +163,7 @@ const NotificationPostPage: React.FC = () => {
             <button
               type="button"
               className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-              onClick={() => handleDraft('임시저장 하시겠습니까?')}
+              onClick={() => handleDraft("임시저장 하시겠습니까?")}
             >
               임시저장
             </button>

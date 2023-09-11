@@ -13,7 +13,7 @@ import Select from "react-select";
 import { ReactComponent as WriteIcon } from "../assets/icons/write.svg";
 import { User } from "../types/seminars.interface";
 import useToken from "../hooks/useToken";
-import { getCurrentUser } from "../services/seminar.service";
+import { getCurrentUser } from "../services/user.service";
 
 const options = [
   { value: "subject", label: "주제" },

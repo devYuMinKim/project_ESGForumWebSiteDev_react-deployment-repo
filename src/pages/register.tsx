@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import FormInput from "../components/layout/login";
-// import logo from "../assets/odego_logo.png";
 
 const API_URL = process.env.REACT_APP_API_URL;
 
