@@ -5,7 +5,6 @@ import Login from "./pages/login";
 import Register from "./pages/register";
 import Committee from "./pages/committee";
 import Business from "./pages/business";
-import AboutUsPage from "./pages/aboutus";
 import ObjectivePage from "./pages/aboutus/objective";
 import BoEPage from "./pages/aboutus/boe";
 import GreetingsPage from "./pages/aboutus/greetings";
@@ -54,7 +53,6 @@ const Router: React.FC = () => (
     <Route path="/aboutus/history" element={<HistoryPage />} />
     <Route path="/aboutus/rules" element={<RulesPage />} />
     <Route path="/aboutus/contact" element={<ContactPage />} />
-    {/* <Route path="/quill" element={<Editor />} /> */}
   </Routes>
 );
 
