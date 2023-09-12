@@ -11,6 +11,7 @@ module.exports = withMT({
           200: '#3CB371',
           300: '#2E8A57',
         },
+        admin: '#1e293b',
         ufesgi: {
           100: '',
         },

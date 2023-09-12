@@ -18,12 +18,13 @@ const Dashboard: React.FC = () => {
   const [memberCount, setMemberCount] = useState<number>(0);
   const [applicantsCount, setApplicantsCount] = useState<number>(0);
   const [track, setTrack] = useState<Track>("committees");
+  const myAxios = authenticatedAxios();
 
   useEffect(() => {
     axios
       .all([
-        authenticatedAxios.get("/committees/count"),
-        authenticatedAxios.get("/members/count"),
+        myAxios.get("/committees/count"),
+        myAxios.get("/members/count"),
       ])
       .then(
         axios.spread((committeeDataResponse, memberDataResponse) => {
@@ -53,21 +54,21 @@ const Dashboard: React.FC = () => {
   const statisticsCardsData: StatisticsCardData[] = [
     {
       name: "committees",
-      color: "bg-slate-700",
+      color: "bg-admin",
       icon: BookmarkSquareIcon,
       title: "위원회 수",
       value: committeeCount
     },
     {
       name: "members",
-      color: "bg-slate-700",
+      color: "bg-admin",
       icon: UserGroupIcon,
       title: "포럼 회원 수",
       value: memberCount
     },
     {
       name: "applicants",
-      color: "bg-slate-700",
+      color: "bg-admin",
       icon: QueueListIcon,
       title: "사이트 가입 신청자 수",
       value: applicantsCount

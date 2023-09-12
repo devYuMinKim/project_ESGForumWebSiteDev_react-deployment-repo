@@ -40,9 +40,10 @@ const SubNav: React.FC = () => {
 
   return (
     <SubNavContainer>
-      <SubHome onClick={() => navigate('/aboutus/objective')}>
+      {/* 제거   */}
+      {/* <SubHome onClick={() => navigate('/aboutus')}>
         <SubHomeIcon />
-      </SubHome>
+      </SubHome> */}
       {menuList.map((menu, i) => (
         <SubNavItem
           key={i}
@@ -56,26 +57,29 @@ const SubNav: React.FC = () => {
   );
 };
 
-const SubHome = styled.div`
-  display: flex;
-  width: 83.822px;
-  padding: 0px 19.607px 0px 19.588px;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  align-self: stretch;
+// const SubHome = styled.div`
+//   display: flex;
+//   width: 83.822px;
+//   padding: 0px 19.607px 0px 19.588px;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: center;
+//   align-self: stretch;
 
-  background: #a29790;
-  cursor: pointer;
-`;
+//   background: #a29790;
+//   cursor: pointer;
+// `;
 
+
+/* 포럼소개  */
 const SubNavContainer = styled.div`
   display: flex;
   width: 100%;
   align-items: center;
   align-self: stretch;
-
-  background: #41578a;
+  
+  // background: #41578a;     /* 집 모양 라인 색깔 */
+  background: white;
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -89,25 +93,28 @@ const SubNavItem = styled.a<{ $current: boolean }>`
   padding: 30.433px 23.321px 31.16px 23.489px;
   justify-content: center;
   align-items: center;
-  background: #41578a;
-
+  // background: #41578a;
+  
   font-size: 1.25rem;
-  color: rgba(255, 255, 255, 0.3);
+  // color: rgba(255, 255, 255, 0.3);
+  color: black;
   cursor: pointer;
   ${(props) =>
     props.$current &&
     `
     font-size: 1.25rem;
     font-weight: 700;
-    color: rgba(255, 255, 255, 1);
-    background: #F7901E;
+    color: rgb(20 184 166);    /* 🟢 nav 글자색 hover */
+    background: white;
+    border-bottom: 10px solid rgb(20 184 166);
+
   `}
 
   @media (max-width: 1150px) {
     font-size: 1rem;
     ${(props) =>
-      props.$current &&
-      `
+    props.$current &&
+    `
       font-size: 1rem;
       font-weight: 700;
       color: rgba(255, 255, 255, 1);
