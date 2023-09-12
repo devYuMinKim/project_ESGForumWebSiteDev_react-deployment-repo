@@ -1,7 +1,7 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const ActionListItem = (props: { icon?: React.ReactNode; children?: string }) => {
-  const [head, body] = props.children?.split('::') ?? ['', ''];
+  const [head, body] = props.children?.split("::") ?? ["", ""];
 
   return (
     <div className="flex justify-center items-center gap-1">
@@ -15,7 +15,7 @@ export const ActionListItem = (props: { icon?: React.ReactNode; children?: strin
 };
 
 export const BoEItem = (props: { children?: string }) => {
-  const [head, body] = props.children?.split('::') ?? ['', ''];
+  const [head, body] = props.children?.split("::") ?? ["", ""];
 
   return (
     <div className="flex justify-center items-center gap-4">
@@ -32,21 +32,21 @@ export const DesContent = styled.div`
   justify-content: center;
 
   h2 {
-    font-family: 'KOTRA_BOLD-Bold';
+    font-family: "KOTRA_BOLD-Bold";
     font-size: 32px;
     font-weight: 700;
     line-height: normal;
     color: rgba(0, 0, 0, 1);
   }
   h3 {
-    font-family: 'KOTRA_BOLD-Bold';
+    font-family: "KOTRA_BOLD-Bold";
     font-size: 24px;
     font-weight: 600;
     line-height: normal;
     color: rgba(27, 59, 134, 1);
   }
   > div {
-    font-family: 'IBMPlexSansKR-Regular';
+    font-family: "IBMPlexSansKR-Regular";
     padding: 12px 0;
     display: flex;
     flex-direction: column;
@@ -58,20 +58,6 @@ export const DesContent = styled.div`
     color: rgba(0, 0, 0, 1);
     gap: 1rem;
   }
-`;
-export const Title = styled.p``;
-export const Subtitle = styled.p``;
-export const Content = styled.div`
-  padding: 12px 0;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  font-size: 20px;
-  font-weight: 500;
-  line-height: normal;
-  color: rgba(0, 0, 0, 1);
-  gap: 1rem;
 `;
 export const ActionList = styled.div`
   display: flex;
