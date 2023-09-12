@@ -18,12 +18,13 @@ const Dashboard: React.FC = () => {
   const [memberCount, setMemberCount] = useState<number>(0);
   const [applicantsCount, setApplicantsCount] = useState<number>(0);
   const [track, setTrack] = useState<Track>("committees");
+  const myAxios = authenticatedAxios();
 
   useEffect(() => {
     axios
       .all([
-        authenticatedAxios.get("/committees/count"),
-        authenticatedAxios.get("/members/count"),
+        myAxios.get("/committees/count"),
+        myAxios.get("/members/count"),
       ])
       .then(
         axios.spread((committeeDataResponse, memberDataResponse) => {
@@ -40,36 +41,34 @@ const Dashboard: React.FC = () => {
       });
     setReady(true);
   }, []);
-  console.log("dashboard")
 
   const setCounts = (
     count: number,
     newCount: number,
     setFunction: React.Dispatch<React.SetStateAction<number>>) => {
-
     if (count !== newCount) {
       setFunction(newCount);
-    } 
+    }
   }
 
   const statisticsCardsData: StatisticsCardData[] = [
     {
       name: "committees",
-      color: "bg-slate-700",
+      color: "bg-admin",
       icon: BookmarkSquareIcon,
       title: "위원회 수",
       value: committeeCount
     },
     {
       name: "members",
-      color: "bg-slate-700",
+      color: "bg-admin",
       icon: UserGroupIcon,
       title: "포럼 회원 수",
       value: memberCount
     },
     {
       name: "applicants",
-      color: "bg-slate-700",
+      color: "bg-admin",
       icon: QueueListIcon,
       title: "사이트 가입 신청자 수",
       value: applicantsCount
@@ -82,37 +81,33 @@ const Dashboard: React.FC = () => {
     "applicants",
   ];
 
-  const trackedData = (track: Track) => {
+  const trackedData = () => {
     switch (track) {
       case "members":
-        return <Members
-          memberCount={memberCount}
-          setMemberCount={setMemberCount}
-        />
-
+        return <Members setMemberCount={setMemberCount} />;
       case "applicants":
-        return <Applicants
-          setApplicantsCount={setApplicantsCount}
-        />
-
+        return <Applicants setApplicantsCount={setApplicantsCount} />;
       default:
-        return <CommitteeTableSection
-          committeeCount={committeeCount}
-          setCommitteeCount={setCommitteeCount} />
+        return (
+          <CommitteeTableSection
+            committeeCount={committeeCount}
+            setCommitteeCount={setCommitteeCount}
+          />
+        );
     }
-  }
+  };
 
   return (
     <div>
       <Spinner flag={ready} />
-      <div className={`${ready ? "mx-24 my-12" : "opacity-0"} transition-opacity`}>
+      <div className={`${ready ? "mx-36 my-12" : "opacity-0"} transition-opacity`}>
         <StatisticsCardsSection
           statisticsCardsData={statisticsCardsData}
           onClick={link}
           track={track}
           setTrack={setTrack}
         />
-        {trackedData(track)}
+        {trackedData()}
       </div>
     </div>
   );

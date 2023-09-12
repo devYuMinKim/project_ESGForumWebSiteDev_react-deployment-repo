@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { Post } from "../types/post.interface";
-import { getPostById } from "../services/post.service";
+import { deletePost, getPostById } from "../services/post.service";
 import { User } from "../types/seminars.interface";
 import ReadContents from "../components/editor/ReadContents";
 import useToken from "../hooks/useToken";
-import { deleteSeminar, getCurrentUser } from "../services/seminar.service";
+import { getCurrentUser } from "../services/user.service";
 
 const ReferenceDetailPage: React.FC = () => {
   const [post, setPost] = useState<Post | null>(null);
@@ -44,7 +44,7 @@ const ReferenceDetailPage: React.FC = () => {
 
   async function handleDelete() {
     try {
-      await deleteSeminar(id);
+      await deletePost(id);
       alert("게시글이 삭제되었습니다.");
       navigate("/references");
     } catch (error) {
@@ -102,7 +102,6 @@ const ReferenceDetailPage: React.FC = () => {
               </svg>
               첨부파일
             </p>
-            {/* TODO: 첨부파일 기능 정상 동작하는지 확인 요함 */}
             <div className="w-full flex items-center pl-3 space-x-4">
               {post.files &&
                 post.files.map((file, index) => (

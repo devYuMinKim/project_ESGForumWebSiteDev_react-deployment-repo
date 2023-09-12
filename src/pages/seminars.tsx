@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import {
   getSeminars,
   getOngoingSeminars,
   getPastSeminars,
   searchSeminars,
-  getCurrentUser,
 } from "../services/seminar.service";
+import { getCurrentUser } from "../services/user.service";
 import { Seminar, User } from "../types/seminars.interface";
 import Pagination from "rc-pagination";
 import Select from "react-select";
@@ -62,7 +61,6 @@ const SeminarPage = () => {
 
       try {
         const user = await getCurrentUser(token);
-        console.log(user);
         setCurrentUser(user);
       } catch (error) {
         setCurrentUser(null);

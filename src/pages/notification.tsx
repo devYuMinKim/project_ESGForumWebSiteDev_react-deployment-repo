@@ -13,7 +13,7 @@ import Body from "../components/layout/body";
 import { ReactComponent as WriteIcon } from "../assets/icons/write.svg";
 import useToken from "../hooks/useToken";
 import { User } from "../types/seminars.interface";
-import { getCurrentUser } from "../services/seminar.service";
+import { getCurrentUser } from "../services/user.service";
 
 const options = [
   { value: "subject", label: "주제" },
@@ -56,7 +56,6 @@ const NotificationPage = () => {
 
       try {
         const user = await getCurrentUser(token);
-        console.log(user);
         setCurrentUser(user);
       } catch (error) {
         setCurrentUser(null);

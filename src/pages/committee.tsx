@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import CommitteeTableRow from "../components/layout/table";
-import { CommitteeMember, CommitteeData } from "../types/committee.interface";
+import { CommitteeData } from "../types/committee.interface";
 
 const API_URL = process.env.REACT_APP_API_URL;
 

@@ -16,13 +16,13 @@ const Applicant: React.FC<ApplicantsProps> = ({
 
   const [applicants, setApplicants] = useState<Member[]>([]);
   const [ready, setReady] = useState<boolean>(false);
-  const [manage, setManage] = useState<boolean>(false);
   const [selected, setSelected] = useState<number[]>([]);
+  const myAxios = authenticatedAxios();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await authenticatedAxios.get<Member[]>("/applicants");
+        const response = await myAxios.get<Member[]>("/applicants");
 
         if (response.status === 200) {
           const applicants: Member[] = response.data;
@@ -56,7 +56,7 @@ const Applicant: React.FC<ApplicantsProps> = ({
     }
 
     try {
-      const { status } = await authenticatedAxios.put(`/members/${managementValue}`, {
+      const { status } = await myAxios.put(`/members/${managementValue}`, {
         ids
       });
 
@@ -94,7 +94,7 @@ const Applicant: React.FC<ApplicantsProps> = ({
             <div className="absolute bottom-5 right-10 flex items-center">
               <div className={`space-x-5 ${selected?.length ? "" : "opacity-0"} transition-opacity`}>
                 <button
-                  className={"w-15 bg-slate-600 text-white font-bold uppercase text-sm px-1 py-1 rounded shadow hover:shadow-lg my-1"}
+                  className={"w-15 bg-admin text-white font-bold uppercase text-sm px-1 py-1 rounded shadow hover:shadow-lg my-1"}
                   onClick={async () => {
                     const isApprovaled = await managementHandler(selected);
                     if (isApprovaled) {
@@ -119,8 +119,8 @@ const Applicant: React.FC<ApplicantsProps> = ({
               </div>
             </div>
           </CardHeader>
-          <CardBody className="p-0 overflow-y-scroll">
-            <table className="w-full min-w-[840px] table-auto">
+          <CardBody className="p-0 overflow-y-scroll max-h-[400px]">
+            <table className="w-full min-w-[600px] table-auto">
               <TableHead topics={["", "이름", "이메일", "소속", "포럼 직위"]} px="px-1" />
               <tbody>
                 {applicants.map(
@@ -136,16 +136,15 @@ const Applicant: React.FC<ApplicantsProps> = ({
                         className={`transition-shadow ${selected.includes(id)
                           ? "bg-slate-50"
                           : ""}`}
-                        onClick={() => selectMember(id, manage, selected, setManage, setSelected)}
+                        onClick={() => selectMember(id, selected, setSelected)}
                       >
                         <td className={`${className} flex justify-center items-center`}>
-                          <div
-                            className="h-full"
-                            onChange={() => selectMember(id, manage, selected, setManage, setSelected)}>
+                          <div className="h-full">
                             <input
                               type="checkbox"
                               checked={selected.includes(id)}
                               className="rounded"
+                              onChange={() => selectMember(id, selected, setSelected)}
                             />
                           </div>
                         </td>
@@ -181,30 +180,6 @@ const Applicant: React.FC<ApplicantsProps> = ({
                             {note}
                           </Typography>
                         </td>
-                        {/* <td className={`${className} flex justify-center space-x-2 h-full py-3`}> */}
-                        {/* <button
-                            className={"w-15 bg-slate-600 text-white font-bold uppercase text-sm px-1 py-1 rounded shadow hover:shadow-lg my-1"}
-                            onClick={async () => {
-                              const isApprovaled = await managementHandler(id);
-                              if (isApprovaled) {
-                                setApplicants([...applicants].filter((applicant) => applicant.id !== id));
-                              }
-                            }}
-                          >
-                            허가
-                          </button>
-                          <button
-                            className={"w-15 bg-red-500 text-white font-bold uppercase text-sm px-1 py-1 rounded shadow hover:shadow-lg my-1"}
-                            onClick={async () => {
-                              const isApprovaled = await managementHandler(id, "rejection");
-                              if (isApprovaled) {
-                                setApplicants([...applicants].filter((applicant) => applicant.id !== id));
-                              }
-                            }}
-                          >
-                            반려
-                          </button> */}
-                        {/* </td> */}
                       </tr>
                     );
                   }
