@@ -25,8 +25,8 @@ const TitleContent = styled.div<{ $dark?: boolean }>`
 
 const PageTitleContainer = styled.div<{ $background?: string }>`
   display: flex;
-  height: 21rem;
-  padding: 104px 63px;
+  height: 18rem;
+  padding: 114px 63px;  
   align-items: center;
   gap: 10px;
   align-self: stretch;
@@ -39,6 +39,8 @@ const PageTitleContainer = styled.div<{ $background?: string }>`
       return "#fff";
     }
   }};
+  background-repeat: no-repeat;
+  background-size: cover;
   opacity: 0.75;
 `;
 

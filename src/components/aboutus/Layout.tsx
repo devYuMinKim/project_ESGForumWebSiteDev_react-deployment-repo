@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Body = styled.div`
   display: flex;
-  max-width: 1200px;
+  max-width: 1400px;
   // padding: 10px 140px;
   margin: 0 auto;
   flex-direction: column;
