@@ -9,10 +9,12 @@ import { ReactComponent as NetworkIcon } from '../../assets/icons/aboutus-networ
 import { ReactComponent as SupportIcon } from '../../assets/icons/aboutus-support.svg';
 import { ReactComponent as ValueIcon } from '../../assets/icons/aboutus-value.svg';
 
+import bgHistory from '../../assets/img/history-bg.png';
+
 const ObjectivePage = () => {
   return (
     <Body>
-      <PageTitle background="#ADCF9F">
+      <PageTitle background={bgHistory}>
         UFESGI-100 Movement
         <br />를 통한 ESG 실천
       </PageTitle>

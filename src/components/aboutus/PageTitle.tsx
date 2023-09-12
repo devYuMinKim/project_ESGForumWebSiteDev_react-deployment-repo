@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import bgHistory from './bg_history.png'
+
 interface PageTitleProps {
   background?: string;
   children?: React.ReactNode;
@@ -30,8 +30,7 @@ const PageTitleContainer = styled.div<{ $background?: string }>`
   align-items: center;
   gap: 10px;
   align-self: stretch;
-  // background: ${(props) => props.$background || '#fff'};
-  background-image: url(${bgHistory});
+  background: ${(props) => 'url(' + props.$background + ')' || '#fff'};
   opacity: 0.75;
 
 `;
