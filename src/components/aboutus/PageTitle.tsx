@@ -14,7 +14,8 @@ const PageTitle = (props: PageTitleProps) => {
 };
 
 const TitleContent = styled.div<{ $dark?: boolean }>`
-  color: ${(props) => (props.$dark ? '#374151' : '#f5f5f5')};
+/* UFESGI-100 Movement를 통한 ESG 실천  */
+  color: ${(props) => (props.$dark ? '#374151' : '#f5f5f5')}; 
   font-family: Noto Sans;
   font-size: 54px;
   font-style: normal;
@@ -29,7 +30,9 @@ const PageTitleContainer = styled.div<{ $background?: string }>`
   align-items: center;
   gap: 10px;
   align-self: stretch;
-  background: ${(props) => props.$background || '#fff'};
+  background: ${(props) => 'url(' + props.$background + ')' || '#fff'};
+  opacity: 0.75;
+
 `;
 
 export default PageTitle;

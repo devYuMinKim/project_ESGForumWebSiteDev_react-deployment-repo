@@ -17,9 +17,8 @@ const Card: React.FC<CardProps> = ({
 }) => {
   return (
     <div
-      className={`p-10 flex flex-col items-center text-center group ${
-        border ? "md-lg-xl:border-r" : ""
-      } md-lg-xl:border-b hover:bg-slate-50 cursor-pointer`}
+      className={`p-10 flex flex-col items-center text-center group ${border ? "md-lg-xl:border-r" : ""
+        } md-lg-xl:border-b hover:bg-slate-50 cursor-pointer`}
     >
       <span
         className={`p-5 rounded-full ${bgColor} text-white shadow-lg shadow-${bgColor}-200`}
