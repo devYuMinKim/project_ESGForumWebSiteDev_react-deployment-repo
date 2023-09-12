@@ -1,7 +1,7 @@
-import { Body, ContentContainer } from '../../components/aboutus/Layout';
-import PageTitle from '../../components/aboutus/PageTitle';
-import QuillEditor from '../../components/editor/quill-editor';
-import SubNav from '../../components/layout/subnav';
+import { DesContent } from "../../components/aboutus/DesContent";
+import { Body, ContentContainer } from "../../components/aboutus/Layout";
+import PageTitle from "../../components/aboutus/PageTitle";
+import SubNav from "../../components/layout/subnav";
 
 const RulesPage = () => {
   console.log(process.env.REACT_APP_API_URL);
@@ -10,7 +10,11 @@ const RulesPage = () => {
       <PageTitle background="#ADCF9F">운영규율</PageTitle>
       <SubNav />
       <ContentContainer>
-        <QuillEditor />
+        {/* FIXME: No data yet */}
+        <DesContent>
+          <h2>운영규율은</h2>
+          <h3>☞ 현재준비중입니다</h3>
+        </DesContent>
       </ContentContainer>
     </Body>
   );

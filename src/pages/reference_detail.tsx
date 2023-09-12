@@ -59,6 +59,15 @@ const ReferenceDetailPage: React.FC = () => {
           <div className="rounded overflow-hidden w-full bg-white mx-3 md:mx-0 lg:mx-0 p-4">
             <h2 className="text-4xl font-bold p-3">{post.title}</h2>
 
+            <div className="w-full flex justify-end items-center pr-3 space-x-4">
+              <p className="text-base text-gray-500">작성자:</p>
+              <p className="text-bold">{post.author}</p>
+            </div>
+            <div className="w-full flex justify-end items-center pr-3 space-x-4">
+              <p className="text-base text-gray-500">생성일:</p>
+              <p className="text-bold">{post.created_at}</p>
+            </div>
+
             <hr />
             <div className="text-lg p-3">
               <ReadContents value={post.content} />
@@ -105,9 +114,7 @@ const ReferenceDetailPage: React.FC = () => {
             <div className="w-full flex items-center pl-3 space-x-4">
               {post.files &&
                 post.files.map((file, index) => (
-                  <a key={index} href={file.url} download>{`File ${
-                    index + 1
-                  }`}</a>
+                  <a key={index} href={file.url} download>{`File ${index + 1}`}</a>
                 ))}
             </div>
           </div>

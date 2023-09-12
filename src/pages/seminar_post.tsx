@@ -101,10 +101,7 @@ const SeminarPostPage: React.FC = () => {
   const handleBackDraft = () => {
     const draft = localStorage.getItem("seminar") as string;
 
-    if (
-      draft &&
-      !window.confirm("임시저장된 세미나가 있습니다. 불러오시겠습니까?")
-    ) {
+    if (draft && !window.confirm("임시저장된 세미나가 있습니다. 불러오시겠습니까?")) {
       return localStorage.removeItem("seminar");
     }
 
@@ -144,9 +141,7 @@ const SeminarPostPage: React.FC = () => {
             type="button"
             className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
             onClick={() => {
-              handleDraft(
-                "작성중인 세미나가 있습니다. 뒤로가기 전 임시저장을 하시겠습니까?"
-              );
+              handleDraft("작성중인 세미나가 있습니다. 뒤로가기 전 임시저장을 하시겠습니까?");
               navigate("/seminars");
             }}
           >
@@ -155,47 +150,22 @@ const SeminarPostPage: React.FC = () => {
           {/* 제목 */}
           <div className="w-full flex justify-start items-center pr-3">
             <div className="w-full">
-              <Input
-                label="주제"
-                onChange={handler.subject}
-                value={subject}
-                required
-              />
+              <Input label="주제" onChange={handler.subject} value={subject} required />
             </div>
           </div>
 
-          <div className="grid grid-cols-4 justify-start items-center pr-3 space-x-3">
-            <div className="col-span-1 text-base text-gray-600">
-              <Input
-                label="주최"
-                onChange={handler.host}
-                value={host}
-                required
-              />
+          <div className="flex flex-wrap justify-start items-center pr-3 gap-3">
+            <div className="text-base text-gray-600">
+              <Input label="주최" onChange={handler.host} value={host} required />
             </div>
-            <div className="col-span-1 text-base text-gray-600">
-              <Input
-                label="주관"
-                onChange={handler.supervision}
-                value={supervision}
-                required
-              />
+            <div className="text-base text-gray-600">
+              <Input label="주관" onChange={handler.supervision} value={supervision} required />
             </div>
-            <div className="col-span-1 text-base text-gray-600">
-              <Input
-                label="참여"
-                onChange={handler.participation}
-                value={participation}
-                required
-              />
+            <div className="text-base text-gray-600">
+              <Input label="참여" onChange={handler.participation} value={participation} required />
             </div>
-            <div className="col-span-1 text-base text-gray-600">
-              <Input
-                label="장소"
-                onChange={handler.location}
-                value={location}
-                required
-              />
+            <div className="text-base text-gray-600">
+              <Input label="장소" onChange={handler.location} value={location} required />
             </div>
           </div>
           {/* 날짜 */}
@@ -203,19 +173,11 @@ const SeminarPostPage: React.FC = () => {
             <div className="flex justify-start flex-col gap-3 pl-4">
               <div className="text-base text-gray-600">
                 <span className="pr-3">시작 날짜</span>
-                <DateTimePicker
-                  onChange={setStartDateTime}
-                  value={startDateTime}
-                  required
-                />
+                <DateTimePicker onChange={setStartDateTime} value={startDateTime} required />
               </div>
               <div className="text-base text-gray-600">
                 <span className="pr-3">종료 날짜</span>
-                <DateTimePicker
-                  onChange={setEndDateTime}
-                  value={endDateTime}
-                  required
-                />
+                <DateTimePicker onChange={setEndDateTime} value={endDateTime} required />
               </div>
             </div>
           </div>
@@ -223,11 +185,7 @@ const SeminarPostPage: React.FC = () => {
           <hr />
           {/* 내용 */}
           <div className="text-lg p-3 h-4/6">
-            <QuillEditor
-              onChange={setContent}
-              style={{ height: 700 }}
-              value={content}
-            />
+            <QuillEditor onChange={setContent} style={{ height: 700 }} value={content} />
           </div>
           <hr />
           {/* 버튼 */}

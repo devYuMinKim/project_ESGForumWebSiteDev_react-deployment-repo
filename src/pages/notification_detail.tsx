@@ -62,7 +62,7 @@ const NotificationDetailPage: React.FC = () => {
             <h2 className="text-4xl font-bold p-3">{post.title}</h2>
 
             <div className="w-full flex justify-end items-center pr-3 space-x-4">
-              <p className="text-base text-gray-500">주최:</p>
+              <p className="text-base text-gray-500">작성자:</p>
               <p className="text-bold">{post.author}</p>
             </div>
             <div className="w-full flex justify-end items-center pr-3 space-x-4">
@@ -116,9 +116,7 @@ const NotificationDetailPage: React.FC = () => {
             <div className="w-full flex items-center pl-3 space-x-4">
               {post.files &&
                 post.files.map((file, index) => (
-                  <a key={index} href={file.url} download>{`File ${
-                    index + 1
-                  }`}</a>
+                  <a key={index} href={file.url} download>{`File ${index + 1}`}</a>
                 ))}
             </div>
           </div>
