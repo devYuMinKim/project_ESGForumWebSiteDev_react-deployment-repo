@@ -158,7 +158,7 @@ const CommitteeMembers: React.FC<CommitteeMembersProps> = ({
           </div>
         </CardHeader>
         {/* 회원 데이터 */}
-        <CardBody className="overflow-y-scroll px-0 pt-0 pb-2 max-h-[380px]">
+        <CardBody className="overflow-y-scroll px-0 pt-0 pb-2 h-[380px]">
           <table className="w-full min-w-[640px] table-auto">
             <TableHead topics={["", "이름", "소속", "위원회 직위"]} px="px-5" />
             <tbody>
@@ -172,8 +172,8 @@ const CommitteeMembers: React.FC<CommitteeMembersProps> = ({
                   return (
                     <tr
                       key={pivot.id2}
-                      className={`transition-shadow ${selected.includes(pivot.id2)
-                        ? "bg-slate-50"
+                      className={`transition-shadow hover:shadow-inner ${selected.includes(pivot.id2)
+                        ? "bg-gray-50"
                         : ""}`}
                       onClick={() => selectMember(pivot.id2, selected, setSelected)}
                     >
