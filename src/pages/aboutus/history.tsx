@@ -7,6 +7,8 @@ import SubNav from "../../components/layout/subnav";
 import { History } from "../../types/aboutus.interface";
 import { getHistories } from "../../services/aboutus.service";
 
+import bgHistory from "../../assets/img/history-bg.png";
+
 const HistoryPage = () => {
   const [histories, setHistories] = useState<History[]>([]);
 
@@ -19,7 +21,7 @@ const HistoryPage = () => {
 
   return (
     <Body>
-      <PageTitle background="#ADCF9F">연혁</PageTitle>
+      <PageTitle background={bgHistory}>연혁</PageTitle>
       <SubNav />
       <ContentContainer>
         <DesContent>

@@ -1,12 +1,14 @@
-import { BoEItem, DesContent } from '../../components/aboutus/DesContent';
-import { Body, ContentContainer } from '../../components/aboutus/Layout';
-import PageTitle from '../../components/aboutus/PageTitle';
-import SubNav from '../../components/layout/subnav';
+import { BoEItem, DesContent } from "../../components/aboutus/DesContent";
+import { Body, ContentContainer } from "../../components/aboutus/Layout";
+import PageTitle from "../../components/aboutus/PageTitle";
+import SubNav from "../../components/layout/subnav";
+
+import bgHistory from "../../assets/img/history-bg.png";
 
 // Background of Establishment
 const BoEPage = () => (
   <Body>
-    <PageTitle background="#ADCF9F">설립배경 및 취지</PageTitle>
+    <PageTitle background={bgHistory}>설립배경 및 취지</PageTitle>
     <SubNav />
     <ContentContainer>
       <DesContent>

@@ -1,20 +1,22 @@
-import { useEffect, useState } from 'react';
-import { DesContent } from '../../components/aboutus/DesContent';
-import { Body, ContentContainer } from '../../components/aboutus/Layout';
-import PageTitle from '../../components/aboutus/PageTitle';
-import SubNav from '../../components/layout/subnav';
-import parse from 'html-react-parser';
-import { getGreetings } from '../../services/aboutus.service';
-import SignatureCard from '../../components/aboutus/SignatureCard';
-import { Greetings } from '../../types/aboutus.interface';
+import { useEffect, useState } from "react";
+import { DesContent } from "../../components/aboutus/DesContent";
+import { Body, ContentContainer } from "../../components/aboutus/Layout";
+import PageTitle from "../../components/aboutus/PageTitle";
+import SubNav from "../../components/layout/subnav";
+import parse from "html-react-parser";
+import { getGreetings } from "../../services/aboutus.service";
+import SignatureCard from "../../components/aboutus/SignatureCard";
+import { Greetings } from "../../types/aboutus.interface";
+
+import bgHistory from "../../assets/img/history-bg.png";
 
 const GreetingsPage = () => {
   const [greetings, setGreetings] = useState<Greetings>({
-    greetings: '',
+    greetings: "",
     chairman: {
-      name: '',
-      position: '',
-      image: '',
+      name: "",
+      position: "",
+      image: "",
     },
   });
 
@@ -26,7 +28,7 @@ const GreetingsPage = () => {
 
   return (
     <Body>
-      <PageTitle background="#ADCF9F">인사말</PageTitle>
+      <PageTitle background={bgHistory}>인사말</PageTitle>
       <SubNav />
       <ContentContainer>
         <DesContent>
