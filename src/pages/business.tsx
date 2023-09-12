@@ -8,18 +8,19 @@ import { ReactComponent as Practice } from "../assets/icons/business-practice.sv
 import { ReactComponent as Research } from "../assets/icons/business-research.svg";
 import { ReactComponent as Support } from "../assets/icons/business-support.svg";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 interface BusinessData {
   kind: string;
   content: string;
 }
 
 const Business: React.FC = () => {
-  const apiUrl = "http://127.0.0.1:8000/api";
   const [businessData, setBusinessData] = useState<BusinessData[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(`${apiUrl}/business`);
+      const response = await axios.get(`${API_URL}/business`);
       setBusinessData(response.data);
     };
 
