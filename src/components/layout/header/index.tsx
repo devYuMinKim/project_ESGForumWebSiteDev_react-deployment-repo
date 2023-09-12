@@ -36,7 +36,7 @@ const Header: React.FC = () => {
   }
 
   return (
-    <header className="w-full mt-5 text-gray-700 bg-white border-t border-gray-100 shadow-sm body-font">
+    <header className="w-1500px mt-5 text-gray-700 bg-white border-t border-gray-100 shadow-sm body-font">
       <div className="container flex flex-col items-start justify-between p-4 mx-auto md:flex-row">
         <NavLink
           to="/"

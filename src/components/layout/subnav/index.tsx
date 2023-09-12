@@ -89,7 +89,7 @@ const SubNavContainer = styled.div`
 
 const SubNavItem = styled.a<{ $current: boolean }>`
   display: flex;
-  width: 200px;
+  width: 240px;
   padding: 30.433px 23.321px 31.16px 23.489px;
   justify-content: center;
   align-items: center;
