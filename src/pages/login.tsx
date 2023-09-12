@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import FormInput from "../components/layout/login";
+import { ReactComponent as ESGLogo } from "../assets/icons/esg-logo.svg";
 
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -57,6 +58,7 @@ const Login: React.FC = () => {
     <>
       <div className="flex min-h-screen items-center justify-center">
         <div className="flex min-h-full items-center flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+          <ESGLogo />
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <h2 className="mt-10 text-center text-1xl font-bold leading-9 tracking-tight text-gray-900">
               ESG 실천을 위해, 이제 대학이 나서겠습니다
