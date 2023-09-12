@@ -198,7 +198,7 @@ const CommitteeInfo: React.FC = ({
                     onChange={(e) => setExplanation(e.target.value)}
                   />
                   <button
-                    className="w-full bg-slate-700 text-white font-bold uppercase text-m px-3 py-2 rounded shadow hover:shadow-lg mb-5"
+                    className="w-full bg-admin text-white font-bold uppercase text-m px-3 py-2 rounded shadow hover:shadow-lg mb-5"
                     type="submit"
                   >
                     수정

@@ -133,8 +133,8 @@ const Applicant: React.FC<ApplicantsProps> = ({
                     return (
                       <tr
                         key={id}
-                        className={`transition-shadow ${selected.includes(id)
-                          ? "bg-slate-50"
+                        className={`transition-shadow hover:shadow-inner ${selected.includes(id)
+                          ? "bg-gray-50"
                           : ""}`}
                         onClick={() => selectMember(id, selected, setSelected)}
                       >
