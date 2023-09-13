@@ -7,8 +7,10 @@ import Footer from "./footer/Footer";
 const Layout = ({ children }: IProps) => {
   return (
     <Router>
-      <Header />
-      <Body>{children}</Body>
+      <div className="min-h-screen">
+        <Header />
+        <Body>{children}</Body>
+      </div>
       <Footer />
     </Router>
   );

@@ -96,7 +96,7 @@ const NotificationDetailPage: React.FC = () => {
 
             <hr />
 
-            <p className="block text-base text-blue-500 px-e3 py-f2 flex items-center space-x-g1 mt-2">
+            {/* <p className="block text-base text-blue-500 px-e3 py-f2 flex items-center space-x-g1 mt-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -118,7 +118,7 @@ const NotificationDetailPage: React.FC = () => {
                 post.files.map((file, index) => (
                   <a key={index} href={file.url} download>{`File ${index + 1}`}</a>
                 ))}
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
