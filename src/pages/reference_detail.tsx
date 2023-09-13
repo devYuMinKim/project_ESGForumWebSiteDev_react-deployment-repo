@@ -94,7 +94,7 @@ const ReferenceDetailPage: React.FC = () => {
 
             <hr />
 
-            <p className="block text-base text-blue-500 px-e3 py-f2 flex items-center space-x-g1 mt-2">
+            {/* <p className="block text-base text-blue-500 px-e3 py-f2 flex items-center space-x-g1 mt-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -110,13 +110,13 @@ const ReferenceDetailPage: React.FC = () => {
                 />
               </svg>
               첨부파일
-            </p>
-            <div className="w-full flex items-center pl-3 space-x-4">
+            </p> */}
+            {/* <div className="w-full flex items-center pl-3 space-x-4">
               {post.files &&
                 post.files.map((file, index) => (
                   <a key={index} href={file.url} download>{`File ${index + 1}`}</a>
                 ))}
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
